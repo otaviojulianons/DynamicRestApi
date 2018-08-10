@@ -8,4 +8,13 @@
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.codeanalysis.common\2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.codeanalysis.csharp\2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

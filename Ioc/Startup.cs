@@ -1,18 +1,20 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Domain;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
 namespace Ioc
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection servicos, IConfiguration configuracao)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            servicos.AddDbContext<AppDbContext>();
-            servicos.AddScoped(typeof(ContextRepository<>));
+            services.AddDbContext<AppDbContext>();
+            services.AddScoped(typeof(ContextRepository<>));
 
-            servicos.AddScoped(typeof(DynamicDbContext<>));
-            servicos.AddScoped(typeof(DynamicRepository<>));
+            services.AddScoped(typeof(DynamicDbContext<>));
+            services.AddScoped(typeof(DynamicRepository<>));
 
+            services.AddSingleton(typeof(DynamicRoutesCollection));
         }
 
 

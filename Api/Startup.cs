@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Api.Controllers;
+using Api.Middlewares;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,13 +38,15 @@ namespace Api
             }));
 
 
-
+            services.AddScoped(typeof(DynamicController<>));
             new Ioc.Startup().ConfigureServices(services,Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseMiddleware<DynamicRoutesMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
