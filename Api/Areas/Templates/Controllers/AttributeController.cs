@@ -5,9 +5,9 @@ using Repository;
 namespace Api.Controllers
 {
 
-    public class AttributeController : RepositoryController<AttributeDomain>
+    public class AttributeController : DomainController<AttributeDomain>
     {
-        public AttributeController(DynamicRepository<AttributeDomain> repository) : base(repository)
+        public AttributeController(ContextRepository<AttributeDomain> repository) : base(repository)
         {
         }
     }

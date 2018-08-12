@@ -1,0 +1,11 @@
+﻿using SharedKernel.Repository;
+
+namespace Domain
+{
+    public class {{Name}} : IEntity
+    {
+{{#each Attributes}}
+        public {{DataType.Name}} {{Name}} { get; set; }
+{{/each}}
+    }
+}

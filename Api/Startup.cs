@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Services;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 
@@ -43,7 +44,7 @@ namespace Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)
         {
             app.UseMiddleware<DynamicRoutesMiddleware>();
 
@@ -61,6 +62,8 @@ namespace Api
             });
 
             app.UseMvc();
+
+            app.ApplicationServices.GetService<DynamicService>().Init(serviceScopeFactory);
         }
 
     }

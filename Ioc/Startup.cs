@@ -1,7 +1,9 @@
-﻿using Domain;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Domain;
 using Repository;
+using Services;
+
 namespace Ioc
 {
     public class Startup
@@ -9,12 +11,14 @@ namespace Ioc
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>();
+            
             services.AddScoped(typeof(ContextRepository<>));
-
             services.AddScoped(typeof(DynamicDbContext<>));
             services.AddScoped(typeof(DynamicRepository<>));
+            services.AddScoped<EntityService>();
 
-            services.AddSingleton(typeof(DynamicRoutesCollection));
+            services.AddSingleton<DynamicService>();
+            services.AddSingleton<DynamicRoutesCollection>();
         }
 
 

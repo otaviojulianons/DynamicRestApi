@@ -14,6 +14,8 @@ namespace SharedKernel.Repository
 
         IQueryable<T> QueryBy(Expression<Func<T, bool>> filter);
 
+        IQueryable<T> QueryById(long id);
+
         void Insert(T entity, bool commit = true);
 
         void Update(T entity, bool commit = true);

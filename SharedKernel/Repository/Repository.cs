@@ -9,47 +9,52 @@ namespace SharedKernel.Repository
     public class Repository<T> : IRepository<T> where T :  class, IEntity
     {
         private DbContext _context;
-        private DbSet<T> _set;
+        public DbSet<T> DbSet { get; set; }
 
         public Repository(DbContext context)
         {
             _context = context;
-           _set = context.Set<T>();
+            DbSet = context.Set<T>();
         }
         public void Update(T entity, bool commit = true)
         {
-            _set.Update(entity);
+            DbSet.Update(entity);
             if (commit)
                 Commit();
         }
 
         public void Delete(long id, bool commit = true)
         {
-            _set.Remove(_set.Where(x => x.Id.Equals(id)).FirstOrDefault());
+            DbSet.Remove(DbSet.Where(x => x.Id.Equals(id)).FirstOrDefault());
             if (commit)
                 Commit();
         }
 
         public void Insert(T entity, bool commit = true)
         {
-            _set.Add(entity);
+            DbSet.Add(entity);
             if (commit)
                 Commit();
         }
 
         public IEnumerable<T> GetAll()
         {
-            return _set.OrderBy( x => x.Id).ToList();
+            return DbSet.OrderBy( x => x.Id).ToList();
         }
 
         public IQueryable<T> QueryBy(Expression<Func<T, bool>> filtro = null)
         {
-            return filtro != null ? _set.Where(filtro) : _set.AsQueryable();
+            return filtro != null ? DbSet.Where(filtro) : DbSet.AsQueryable();
+        }
+
+        public IQueryable<T> QueryById(long id)
+        {
+            return DbSet.Where( x => x.Id == id);
         }
 
         public T GetById(long id)
         {
-            return _set.Where(x => x.Id.Equals(id)).FirstOrDefault();
+            return DbSet.FirstOrDefault(x => x.Id.Equals(id));
         }
 
         public void Commit()

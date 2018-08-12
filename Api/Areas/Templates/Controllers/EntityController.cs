@@ -5,9 +5,9 @@ using Repository;
 namespace Api.Controllers
 {
 
-    public class EntityController : RepositoryController<EntityDomain>
+    public class EntityController : DomainController<EntityDomain>
     {
-        public EntityController(DynamicRepository<EntityDomain> repository) : base(repository)
+        public EntityController(ContextRepository<EntityDomain> repository) : base(repository)
         {
         }
     }

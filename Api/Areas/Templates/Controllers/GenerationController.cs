@@ -1,31 +1,28 @@
 ﻿using Api.Controllers;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Repository;
+using Services;
+using System.Linq;
 
 namespace Api.Areas.Templates.Controllers
 {
     [Route("[controller]")]
     public class GenerationController : BaseController
     {
-        private DynamicRoutesCollection _dynamicRoutes;
+        private DynamicService _dynamicService;
 
-        public GenerationController(DynamicRoutesCollection dynamicRoutes)
+        public GenerationController(DynamicService dynamicService)
         {
-            _dynamicRoutes = dynamicRoutes;
+            _dynamicService = dynamicService;
         }
 
         [HttpGet]
         public string Generate()
         {
-            string name = "book";
-            var code = DynamicService.GetCode(name);
-            var type = DynamicService.GenerateTypeFromCode(code);
-            _dynamicRoutes.AddRoute(name,type);
-            var repositoryType = typeof(DynamicDbContext<>).MakeGenericType(type);
-            dynamic context = HttpContext.RequestServices.GetService(repositoryType);
-            context.Create();
-            return code;
+            
+            return "Success";
         }
     }
 }

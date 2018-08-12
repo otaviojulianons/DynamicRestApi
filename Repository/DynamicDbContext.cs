@@ -17,7 +17,7 @@ namespace Repository
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {            
-            optionsBuilder.UseSqlServer("Server=(localdb)\\v11.0;Database=LojaDB;Trusted_Connection=true;");  
+            optionsBuilder.UseSqlServer("Server=(localdb)\\v11.0;Database=DynamicRestApi;Trusted_Connection=true;");  
         }
 
         public void Create()

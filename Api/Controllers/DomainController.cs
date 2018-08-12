@@ -7,12 +7,12 @@ using System.Collections.Generic;
 namespace Api.Controllers
 {
     [Route("[controller]")]
-    public class RepositoryController<T> : BaseController where T : class, IEntity
+    public class DomainController<T> : BaseController where T : class, IEntity
     {
-        private DynamicRepository<T> _repository;
+        private ContextRepository<T> _repository;
 
-        public RepositoryController(
-            DynamicRepository<T> repository
+        public DomainController(
+            ContextRepository<T> repository
             )
         {
             _repository = repository;

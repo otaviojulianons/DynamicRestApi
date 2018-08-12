@@ -5,9 +5,9 @@ using Repository;
 namespace Api.Controllers
 {
 
-    public class DataTypeController : RepositoryController<DataTypeDomain>
+    public class DataTypeController : DomainController<DataTypeDomain>
     {
-        public DataTypeController(DynamicRepository<DataTypeDomain> repository) : base(repository)
+        public DataTypeController(ContextRepository<DataTypeDomain> repository) : base(repository)
         {
         }
     }
