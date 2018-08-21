@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.PlatformAbstractions;
 using Services;
 using Swashbuckle.AspNetCore.Swagger;
@@ -53,6 +54,7 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseCors("CorsConfig");
             app.UseSwagger();
 

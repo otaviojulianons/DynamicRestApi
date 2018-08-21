@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Repository;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -15,8 +16,19 @@ namespace Domain
         public bool ForeignKey { get; set; }
         public string ForeignEntity { get; set; }
         public string ForeignAttribute { get; set; }
+
         public DataTypeDomain DataType { get; set; }
         public EntityDomain Entity { get; set; }
+
+        [NotMapped]
+        public bool First { get; set; }
+
+        [NotMapped]
+        public bool Last { get; set; }
+
+        [NotMapped]
+        public bool HasMore { get => !Last; }
+
 
     }
 }

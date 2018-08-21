@@ -22,4 +22,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Templates\Domain.mustache">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Swagger.mustache">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

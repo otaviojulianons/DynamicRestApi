@@ -1,0 +1,155 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "Api"
+  },
+  "paths": {
+    "/{{Name}}": {
+      "get": {
+        "tags": [ "{{Name}}" ],
+        "operationId": "{{Name}}Get",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiIEnumerable{{Name}}" }
+          }
+        }
+      },
+      "post": {
+        "tags": [ "{{Name}}" ],
+        "operationId": "{{Name}}Post",
+        "consumes": [ "application/json"],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "item",
+            "in": "body",
+            "required": false,
+            "schema": { "$ref": "#/definitions/Model{{Name}}" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      }
+    },
+    "/{{Name}}/{id}": {
+      "get": {
+        "tags": [ "Model{{Name}}" ],
+        "operationId": "{{Name}}ByIdGet",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApi{{Name}}" }
+          }
+        }
+      },
+      "put": {
+        "tags": [ "Model{{Name}}" ],
+        "operationId": "{{Name}}ByIdPut",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+{{#each Attributes}}
+          {
+            "name": "{{Name}}",
+            "in": "query",
+            "required": false,
+            "type": "{{DataType.Name}}"
+          }{{#if HasMore}}, {{/if}}
+{{/each}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      },
+      "delete": {
+        "tags": [ "Model{{Name}}" ],
+        "operationId": "{{Name}}ByIdDelete",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ResultApiBoolean": {
+        "type": "object",
+        "properties": {
+        "message": { "type": "string" },
+        "result": { "type": "boolean" }
+        }
+    },
+    "Model{{Name}}": {
+        "type": "object",
+        "properties": {
+        "id": {
+            "format": "int64",
+            "type": "integer"
+        },
+    {{#each Attributes}}
+    "{{Name}}": { "type": "{{DataType.Name}}" }{{#if HasMore}}, {{/if}}
+    {{/each}}
+        }
+    },
+    "ResultApiIEnumerable{{Name}}": {
+        "type": "object",
+        "properties": {
+        "message": { "type": "string" },
+        "result": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/Model{{Name}}" }
+        }
+        }
+    },
+    "ResultApi{{Name}}": {
+        "type": "object",
+        "properties": {
+        "message": { "type": "string" },
+        "result": { "$ref": "#/definitions/Model{{Name}}" }
+        }
+    }
+  }
+}

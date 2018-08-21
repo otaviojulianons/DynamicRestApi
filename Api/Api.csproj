@@ -1,19 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.1\Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="S2fx.LinqToQuerystring.Core" Version="0.7.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
@@ -25,11 +22,57 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Swagger-ui\favicon-16x16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\favicon-32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\oauth2-redirect.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\swagger-ui-bundle.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\swagger-ui-bundle.js.map" />
+    <None Include="wwwroot\Swagger-ui\swagger-ui-standalone-preset.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\swagger-ui-standalone-preset.js.map" />
+    <None Include="wwwroot\Swagger-ui\swagger-ui.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\swagger-ui.css.map" />
+    <None Include="wwwroot\Swagger-ui\swagger-ui.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Swagger-ui\swagger-ui.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ioc\Ioc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="QSwagGenerator">
+      <HintPath>..\QSwagGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="QSwagSchema">
+      <HintPath>..\QSwagSchema.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Swagger-ui\auth.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Swagger-ui\test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
