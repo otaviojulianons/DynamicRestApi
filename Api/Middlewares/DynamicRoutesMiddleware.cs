@@ -6,6 +6,7 @@ using Repository;
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Api.Middlewares
@@ -19,44 +20,74 @@ namespace Api.Middlewares
         {
             _dynamicRoutes = dynamicRoutes;
             _next = next;
+
         }
 
         public Task Invoke(HttpContext httpContext)
         {
             var route = httpContext.Request.Path.Value;
-            if (_dynamicRoutes.Routes.ContainsKey(route))
+            if (_dynamicRoutes.IsMatch(route))
             {
-                Type type = _dynamicRoutes.Routes[route];
-                var controllerType = typeof(DynamicController<>).MakeGenericType(type);
-                var storageType = typeof(DynamicRepository<>).MakeGenericType(type);
-                dynamic serviceController = httpContext.RequestServices.GetService(controllerType);
-                dynamic serviceStorage = httpContext.RequestServices.GetService(storageType);
-                dynamic controller = Activator.CreateInstance(controllerType, serviceStorage);
-
-                switch (httpContext.Request.Method)
+                try
                 {
-                    case "GET":
-                        var result = serviceController.List();
-                        string json = JsonConvert.SerializeObject(result);
-                        httpContext.Response.StatusCode = 200;
-                        return httpContext.Response.WriteAsync(json);
-                    case "POST":
-                        string body;
-                        using (Stream receiveStream = httpContext.Request.Body)
-                        {
-                            using (StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8))
+                    Type type = _dynamicRoutes.Get(route);
+                    var controllerType = typeof(DynamicController<>).MakeGenericType(type);
+                    var storageType = typeof(DynamicRepository<>).MakeGenericType(type);
+                    dynamic serviceController = httpContext.RequestServices.GetService(controllerType);
+                    dynamic serviceStorage = httpContext.RequestServices.GetService(storageType);
+                    dynamic controller = Activator.CreateInstance(controllerType, serviceStorage);
+                    long? id;
+                    dynamic result;
+                    switch (httpContext.Request.Method)
+                    {
+                        case "GET":
+                            id = _dynamicRoutes.GetIdRoute(route);
+                            if (!id.HasValue)
+                                result = serviceController.List();
+                            else
+                                result = serviceController.Get((long)id);
+                            break;
+                        case "POST":
+                        case "PUT":
+                            string body;
+                            using (Stream receiveStream = httpContext.Request.Body)
                             {
-                                body = readStream.ReadToEnd();
+                                using (StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8))
+                                {
+                                    body = readStream.ReadToEnd();
+                                }
                             }
-                        }
-                        var model = JsonConvert.DeserializeObject(body, type);
-                        controller.Post(model);
-                        httpContext.Response.StatusCode = 200;
-                        return httpContext.Response.WriteAsync("");
-                    default:
-                        return _next(httpContext);
-                }
+                            object model = JsonConvert.DeserializeObject(body, type);
 
+                            if (httpContext.Request.Method == "POST")
+                                result = controller.Post(model);
+                            else
+                            {
+                                id = _dynamicRoutes.GetIdRoute(route);
+                                if (!id.HasValue)
+                                    throw new Exception("Invalid url param.");
+                                result = controller.Put((long)id, model);
+                            }
+                            break;
+                        case "DELETE":
+                            id = _dynamicRoutes.GetIdRoute(route);
+                            if (!id.HasValue)
+                                throw new Exception("Invalid url param.");
+                            result = controller.Delete((long)id);
+                            break;
+                        default:
+                            return _next(httpContext);
+
+                    }
+
+                    string json = JsonConvert.SerializeObject(result);
+                    return httpContext.Response.WriteAsync(json);
+                }
+                catch (Exception ex)
+                {
+                    httpContext.Response.StatusCode = 500;
+                    return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { ex.Message }));
+                }
             }
             else
                 return _next(httpContext);

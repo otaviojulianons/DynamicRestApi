@@ -18,7 +18,7 @@ namespace SharedKernel.Repository
 
         void Insert(T entity, bool commit = true);
 
-        void Update(T entity, bool commit = true);
+        void Update(long id, T entity, bool commit = true);
 
         void Delete(long id,bool commit = true);
 

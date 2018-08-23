@@ -19,6 +19,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis.Emit;
+using Newtonsoft.Json;
 
 namespace Services
 {
@@ -63,7 +64,7 @@ namespace Services
         {
             foreach (var entity in entities)
                 GenerateControllerDynamic(serviceProvider,entity);
-            GenerateSwaggerFile(entities.FirstOrDefault());
+            GenerateSwaggerFile(entities);
         }
 
 
@@ -87,29 +88,42 @@ namespace Services
             return code;
         }
 
-        public string GenerateSwaggerFileFromEntity(EntityDomain entity)
+        public string GenerateSwaggerFileFromEntity(IEnumerable<EntityDomain> entities)
         {
-            var id = entity.Attributes.Find(x => x.Name.ToLower() == "id");
-            entity.Attributes.Remove(id);
-            entity.Attributes.FirstOrDefault().First = true;
-            entity.Attributes.LastOrDefault().Last = true;
-
+            ConfigureNavigation(entities);
+            foreach (var entity in entities)
+            {
+                entity.Attributes.Remove(entity.Attributes.Find(x => x.Name.ToLower() == "id"));
+                ConfigureNavigation(entity.Attributes);
+            }
 
             FormatCompiler compiler = new FormatCompiler();
             Generator generator = compiler.Compile(_templateSwagger);
-            var code = generator.Render(entity);
-
-            entity.Attributes.Insert(0, id);
+            var code = generator.Render(new { Entities = entities });
             return code;
         }
 
-        public void GenerateSwaggerFile(EntityDomain entity)
+        public void ConfigureNavigation(IEnumerable<INavigable> itens)
+        {
+            itens.FirstOrDefault().First = true;
+            itens.LastOrDefault().Last = true;
+        }
+
+        public void GenerateSwaggerFile(IEnumerable<EntityDomain> entities)
         {
             var path = "swaggerDynamic.json";
-            var swagger = GenerateSwaggerFileFromEntity(entity);
+            var swagger = GenerateSwaggerFileFromEntity(entities);
             File.Delete(path);
             using (StreamWriter writer = new StreamWriter(path))
                 writer.WriteLine(swagger);
+        }
+
+        public object GetJsonSwagger()
+        {
+            string json = "";
+            using (StreamReader reader = new StreamReader("swaggerDynamic.json"))
+                json = reader.ReadToEnd();
+            return JsonConvert.DeserializeObject(json);
         }
 
         public dynamic GenerateTypeFromCode(string code)

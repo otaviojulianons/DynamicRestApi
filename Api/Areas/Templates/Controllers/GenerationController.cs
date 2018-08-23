@@ -31,9 +31,9 @@ namespace Api.Areas.Templates.Controllers
         [HttpGet]
         public object Generate()
         {
-            var entity = _entityService.GetAllEntities().ToList().FirstOrDefault();
-            var file =  _dynamicService.GenerateSwaggerFileFromEntity(entity);
-           _dynamicService.GenerateSwaggerFile(entity);
+            var entities = _entityService.GetAllEntities();
+            var file =  _dynamicService.GenerateSwaggerFileFromEntity(entities);
+           _dynamicService.GenerateSwaggerFile(entities);
             return JsonConvert.DeserializeObject(file);
         }
 

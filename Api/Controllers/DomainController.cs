@@ -38,9 +38,9 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public ResultApi<bool> Put(T item)
+        public ResultApi<bool> Put(long id,T item)
         {
-            _repository.Update(item);
+            _repository.Update(id,item);
             return FormatResult(true);
         }
 

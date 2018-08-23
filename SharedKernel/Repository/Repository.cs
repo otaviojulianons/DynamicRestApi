@@ -20,8 +20,9 @@ namespace SharedKernel.Repository
             _context = context;
             DbSet = context.Set<T>();
         }
-        public void Update(T entity, bool commit = true)
+        public void Update(long id, T entity, bool commit = true)
         {
+            entity.Id = id;
             DbSet.Update(entity);
             if (commit)
                 Commit();

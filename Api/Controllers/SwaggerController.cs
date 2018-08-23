@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Services;
 
 namespace Api.Controllers
 {
@@ -12,13 +13,17 @@ namespace Api.Controllers
     [Route("/Dynamic/swagger")]
     public class SwaggerController : Controller
     {
+        private DynamicService _service;
+
+        public SwaggerController(DynamicService service)
+        {
+            _service = service;
+        }
+
         [HttpGet]
         public object Get()
         {
-            string json = "";
-            using (StreamReader reader = new StreamReader("swaggerDynamic.json"))
-                json = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject(json);
+            return _service.GetJsonSwagger();
         }
     }
 }

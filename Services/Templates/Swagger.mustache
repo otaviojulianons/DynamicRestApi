@@ -2,9 +2,9 @@
   "swagger": "2.0",
   "info": {
     "version": "v1",
-    "title": "Api"
+    "title": "DynamicApi"
   },
-  "paths": {
+  "paths": { {{#each Entities}}
     "/{{Name}}": {
       "get": {
         "tags": [ "{{Name}}" ],
@@ -42,7 +42,7 @@
     },
     "/{{Name}}/{id}": {
       "get": {
-        "tags": [ "Model{{Name}}" ],
+        "tags": [ "{{Name}}" ],
         "operationId": "{{Name}}ByIdGet",
         "consumes": [],
         "produces": [ "application/json" ],
@@ -63,7 +63,7 @@
         }
       },
       "put": {
-        "tags": [ "Model{{Name}}" ],
+        "tags": [ "{{Name}}" ],
         "operationId": "{{Name}}ByIdPut",
         "consumes": [],
         "produces": [ "application/json" ],
@@ -75,14 +75,12 @@
             "type": "integer",
             "format": "int64"
           },
-{{#each Attributes}}
           {
-            "name": "{{Name}}",
-            "in": "query",
+            "name": "item",
+            "in": "body",
             "required": false,
-            "type": "{{DataType.Name}}"
-          }{{#if HasMore}}, {{/if}}
-{{/each}}
+            "schema": { "$ref": "#/definitions/Model{{Name}}" }
+          }
         ],
         "responses": {
           "200": {
@@ -92,7 +90,7 @@
         }
       },
       "delete": {
-        "tags": [ "Model{{Name}}" ],
+        "tags": [ "{{Name}}" ],
         "operationId": "{{Name}}ByIdDelete",
         "consumes": [],
         "produces": [ "application/json" ],
@@ -112,7 +110,7 @@
           }
         }
       }
-    }
+    }{{#if HasMore}}, {{/if}}{{/each}}
   },
   "definitions": {
     "ResultApiBoolean": {
@@ -121,7 +119,7 @@
         "message": { "type": "string" },
         "result": { "type": "boolean" }
         }
-    },
+    }{{#each Entities}},
     "Model{{Name}}": {
         "type": "object",
         "properties": {
@@ -129,9 +127,9 @@
             "format": "int64",
             "type": "integer"
         },
-    {{#each Attributes}}
+{{#each Attributes}}
     "{{Name}}": { "type": "{{DataType.Name}}" }{{#if HasMore}}, {{/if}}
-    {{/each}}
+{{/each}}
         }
     },
     "ResultApiIEnumerable{{Name}}": {
@@ -150,6 +148,6 @@
         "message": { "type": "string" },
         "result": { "$ref": "#/definitions/Model{{Name}}" }
         }
-    }
+    }{{/each}}
   }
 }
