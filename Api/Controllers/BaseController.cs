@@ -17,12 +17,13 @@ namespace Api.Controllers
             };
         }
 
-        internal ResultApi<T> FormatError<T>(T result)
+        internal ResultApi<T> FormatError<T>(string message)
         {
+            Response.StatusCode = 400;
             return new ResultApi<T>()
             {
-                Result = result,
-                Message = "Method not executed."
+                Result = default(T),
+                Message = message
             };
         }
 

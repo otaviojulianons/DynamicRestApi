@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public class Navigable : INavigable
+    public class Navigable
     {
         [NotMapped]
         public bool First { get; set; }

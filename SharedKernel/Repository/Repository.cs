@@ -20,7 +20,7 @@ namespace SharedKernel.Repository
             _context = context;
             DbSet = context.Set<T>();
         }
-        public void Update(long id, T entity, bool commit = true)
+        public void Update(long id, T entity, bool commit = false)
         {
             entity.Id = id;
             DbSet.Update(entity);
@@ -28,14 +28,14 @@ namespace SharedKernel.Repository
                 Commit();
         }
 
-        public void Delete(long id, bool commit = true)
+        public void Delete(long id, bool commit = false)
         {
             DbSet.Remove(DbSet.Where(x => x.Id.Equals(id)).FirstOrDefault());
             if (commit)
                 Commit();
         }
 
-        public void Insert(T entity, bool commit = true)
+        public void Insert(T entity, bool commit = false)
         {
             DbSet.Add(entity);
             if (commit)

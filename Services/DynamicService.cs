@@ -103,10 +103,15 @@ namespace Services
             return code;
         }
 
-        public void ConfigureNavigation(IEnumerable<INavigable> itens)
+        public void ConfigureNavigation(IEnumerable<Navigable> itens)
         {
-            itens.FirstOrDefault().First = true;
-            itens.LastOrDefault().Last = true;
+            var first = itens.FirstOrDefault();
+            if(first != null)
+                first.First = true;
+            var last = itens.LastOrDefault();
+            if (last != null)
+                last.Last = true;
+
         }
 
         public void GenerateSwaggerFile(IEnumerable<EntityDomain> entities)
