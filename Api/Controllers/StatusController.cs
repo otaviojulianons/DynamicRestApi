@@ -9,6 +9,7 @@ namespace Api.Controllers
     [Route("/")]
     public class StatusController : ControllerBase
     {
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         public Dictionary<string,string> Status()
         {
