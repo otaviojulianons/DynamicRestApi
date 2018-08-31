@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("/Dynamic/[controller]")]
     public class EntityController : BaseController
     {
         private EntityService _service;

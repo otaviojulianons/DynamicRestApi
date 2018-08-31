@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 namespace Api.Controllers
 {
-
-    [Route("[controller]")]
+    [Route("/Dynamic/[controller]")]
     public class DataTypeController : BaseController
     {
         private DataTypeService _service;

@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Domain;
 using Repository;
 using Services;
+using Repository.Repositories;
+using Repository.Contexts;
 
 namespace Ioc
 {

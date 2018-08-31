@@ -5,7 +5,7 @@ using SharedKernel.Repository;
 using System;
 using System.Linq;
 
-namespace Repository
+namespace Repository.Contexts
 {
     public class DynamicDbContext<T> : DbContext where T : class, IEntity
     {

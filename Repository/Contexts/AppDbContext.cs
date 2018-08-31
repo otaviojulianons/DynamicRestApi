@@ -1,8 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
-namespace Repository
+namespace Repository.Contexts
 {
     public class AppDbContext : DbContext
     {

@@ -1,6 +1,7 @@
-﻿using SharedKernel.Repository;
+﻿using Repository.Contexts;
+using SharedKernel.Repository;
 
-namespace Repository
+namespace Repository.Repositories
 {
     public class ContextRepository<T> : Repository<T> where T : class, IEntity
     {

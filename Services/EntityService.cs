@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
-using Repository;
+using Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
