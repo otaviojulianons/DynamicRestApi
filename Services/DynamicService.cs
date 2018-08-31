@@ -31,7 +31,6 @@ namespace Services
         private string _templateSwagger;
 
         public DynamicService(
-            IServiceProvider serviceProvider,
             DynamicRoutesCollection dynamicRoutes
             )
         {

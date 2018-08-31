@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SharedKernel.Aplicacao.Api
+namespace Api.Models
 {
     public class ResultApi<T>
     {

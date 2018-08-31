@@ -10,9 +10,12 @@ namespace Api
         {
             Mapper.Initialize(cfg =>
             {
+                cfg.CreateMap<DataType, DataTypeDomain>(MemberList.Source).ReverseMap();
+
                 cfg.CreateMap<Entity, EntityDomain>(MemberList.Source)
                     .ForMember(domain => domain.Id, opt => opt.Ignore())
                     .ReverseMap();
+
                 cfg.CreateMap<Attribute, AttributeDomain>(MemberList.Source)
                     .ForMember(domain => domain.Id, opt => opt.Ignore())
                     .ForMember(domain => domain.DataTypeId, opt => opt.Ignore())

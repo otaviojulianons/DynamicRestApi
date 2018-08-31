@@ -9,19 +9,25 @@ namespace Services
 {
     public class EntityService
     {
+        private IServiceProvider _serviceProvider;
         private ContextRepository<EntityDomain> _entityRepository;
         private ContextRepository<AttributeDomain> _attributeRepository;
         private ContextRepository<DataTypeDomain> _dataTypeRepository;
+        private DynamicService _dynamicService;
 
         public EntityService(
+            IServiceProvider serviceProvider,
             ContextRepository<EntityDomain> entityRepository,
             ContextRepository<AttributeDomain> attributeRepository,
-            ContextRepository<DataTypeDomain> dataTypeRepository
+            ContextRepository<DataTypeDomain> dataTypeRepository,
+            DynamicService dynamicService
             )
         {
+            _serviceProvider = serviceProvider;
             _entityRepository = entityRepository;
             _attributeRepository = attributeRepository;
             _dataTypeRepository = dataTypeRepository;
+            _dynamicService = dynamicService;
         }
 
         public IEnumerable<EntityDomain> GetAllEntities()
@@ -47,6 +53,9 @@ namespace Services
                 _attributeRepository.Insert(attribute);
             });
             _entityRepository.Commit();
+            _dynamicService.GenerateControllerDynamic(_serviceProvider, entity);
+            var entities = GetAllEntities();
+            _dynamicService.GenerateSwaggerFile(entities);
         }
            
     }

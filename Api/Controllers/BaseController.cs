@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Aplicacao.Api;
+﻿using Api.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {

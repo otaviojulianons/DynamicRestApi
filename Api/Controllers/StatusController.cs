@@ -10,9 +10,9 @@ namespace Api.Controllers
     public class StatusController : ControllerBase
     {
         [HttpGet]
-        public object Status()
+        public Dictionary<string,string> Status()
         {
-            return new { status = "OK" };
+            return  new Dictionary<string, string>() { { "status", "OK" } };
         }
     }
 }

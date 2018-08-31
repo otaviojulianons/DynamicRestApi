@@ -1,6 +1,6 @@
+using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
-using SharedKernel.Aplicacao.Api;
 using SharedKernel.Repository;
 using System.Collections.Generic;
 

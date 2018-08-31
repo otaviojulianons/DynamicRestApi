@@ -2,9 +2,7 @@
 using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
 using Services;
-using SharedKernel.Aplicacao.Api;
 using System;
 using System.Collections.Generic;
 
@@ -33,7 +31,6 @@ namespace Api.Controllers
             {
                 return FormatError<bool>(ex.Message);
             }
-
         }
 
         [HttpGet()]

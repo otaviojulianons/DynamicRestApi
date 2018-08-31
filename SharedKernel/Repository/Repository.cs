@@ -6,10 +6,6 @@ using System.Linq.Expressions;
 
 namespace SharedKernel.Repository
 {
-    /// <summary>
-    /// Repository Implements
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class Repository<T> : IRepository<T> where T :  class, IEntity
     {
         private DbContext _context;
