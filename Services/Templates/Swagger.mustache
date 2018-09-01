@@ -128,7 +128,8 @@
             "type": "integer"
         },
 {{#each Attributes}}
-    "{{Name}}": { "type": "{{DataType.Name}}" }{{#if HasMore}}, {{/if}}
+    "{{Name}}": { "format": "{{TypeLanguage.Format}}",
+                  "type": "{{TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
 {{/each}}
         }
     },

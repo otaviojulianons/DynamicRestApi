@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SharedKernel.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SharedKernel.Repository
+namespace Repository.Base
 {
 
     public interface IRepository<T> where T : IEntity

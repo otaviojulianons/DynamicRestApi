@@ -1,4 +1,5 @@
-﻿using SharedKernel.Repository;
+﻿using Domain.Helpers;
+using SharedKernel.Repository;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +17,9 @@ namespace Domain
 
         [NotMapped]
         public string DataTypeName { get; set; }
+
+        [NotMapped]
+        public AttributeTypeLanguage TypeLanguage { get; set; }
 
         public DataTypeDomain DataType { get; set; }
         public EntityDomain Entity { get; set; }

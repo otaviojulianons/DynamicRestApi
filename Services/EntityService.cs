@@ -13,14 +13,17 @@ namespace Services
         private ContextRepository<EntityDomain> _entityRepository;
         private ContextRepository<AttributeDomain> _attributeRepository;
         private ContextRepository<DataTypeDomain> _dataTypeRepository;
+
         private DynamicService _dynamicService;
+        private LanguageService _languageService;
 
         public EntityService(
             IServiceProvider serviceProvider,
             ContextRepository<EntityDomain> entityRepository,
             ContextRepository<AttributeDomain> attributeRepository,
             ContextRepository<DataTypeDomain> dataTypeRepository,
-            DynamicService dynamicService
+            DynamicService dynamicService,
+            LanguageService languageService
             )
         {
             _serviceProvider = serviceProvider;
@@ -28,13 +31,14 @@ namespace Services
             _attributeRepository = attributeRepository;
             _dataTypeRepository = dataTypeRepository;
             _dynamicService = dynamicService;
+            _languageService = languageService;
         }
 
-        public IEnumerable<EntityDomain> GetAllEntities()
+        public List<EntityDomain> GetAllEntities()
         {
             return _entityRepository.QueryBy()
                     .Include(x => x.Attributes)
-                    .ThenInclude(x => x.DataType);
+                    .ThenInclude(x => x.DataType).ToList();
         }
 
         public void Insert(EntityDomain entity)
@@ -53,10 +57,36 @@ namespace Services
                 _attributeRepository.Insert(attribute);
             });
             _entityRepository.Commit();
-            _dynamicService.GenerateControllerDynamic(_serviceProvider, entity);
+
             var entities = GetAllEntities();
+            var languageCsharp = _languageService.GetById((long)LanguageDomain.EnumLanguages.Csharp);
+            var languageSwagger = _languageService.GetById((long)LanguageDomain.EnumLanguages.SwaggerDoc);
+
+            LoadLanguage(entity, languageCsharp);
+            _dynamicService.GenerateControllerDynamic(_serviceProvider, new List<EntityDomain>(){ entity });
+
+            LoadLanguage(entity, languageSwagger);
             _dynamicService.GenerateSwaggerFile(entities);
         }
-           
+
+        public void LoadLanguage(List<EntityDomain> entities, LanguageDomain language)
+        {
+            entities.ForEach(entity =>
+            {
+                LoadLanguage(entity, language);
+            });
+        }
+
+        public void LoadLanguage(EntityDomain entity, LanguageDomain language)
+        {
+            entity.Attributes.ForEach(attribute =>
+            {
+                attribute.TypeLanguage = _languageService.GetTypeLanguage(
+                    language,
+                    attribute.DataTypeId,
+                    attribute.AllowNull);
+            });
+        }
+
     }
 }

@@ -60,3 +60,50 @@ GO
 
 ALTER TABLE [dbo].[Attributes] CHECK CONSTRAINT [FkEntityAttribute]
 GO
+
+
+CREATE TABLE [dbo].[Languages](
+	[Id] [bigint] NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	[Name] [nvarchar](128) NOT NULL)
+
+	
+CREATE TABLE [dbo].[LanguagesDataTypes](
+	[Id] [bigint] NOT NULL IDENTITY(1,1),
+	[LanguageId] [bigint] NOT NULL,
+	[DataTypeId] [bigint] NOT NULL,
+	[Name] [nvarchar](128) NOT NULL,
+	[NameNullable] [nvarchar](128) NULL,
+	constraint PkLanguagesDataTypes primary key(Id,LanguageId,DataTypeId),
+	constraint FkLanguagesDataTypesLanguages foreign key (LanguageId) references Languages(Id),
+	constraint FkLanguagesDataTypesDataTypes foreign key (DataTypeId) references DataTypes(Id)
+	)
+
+drop table [LanguagesDataTypes]
+drop table Languages 
+
+insert into Languages values('CSharp')
+insert into Languages values('Swagger Doc')
+
+select * from Languages
+select * from DataTypes
+select * from LanguagesDataTypes
+
+insert into LanguagesDataTypes values(1,1,'int','int?')
+insert into LanguagesDataTypes values(1,2,'long','long?')
+insert into LanguagesDataTypes values(1,3,'string',null)
+insert into LanguagesDataTypes values(1,4,'bool','bool?')
+insert into LanguagesDataTypes values(1,5,'DateTime','DateTime?')
+insert into LanguagesDataTypes values(1,6,'DateTime','DateTime?')
+insert into LanguagesDataTypes values(1,7,'decimal','decimal?')
+
+insert into LanguagesDataTypes values(2,1,'int32',null)
+insert into LanguagesDataTypes values(2,2,'int64',null)
+insert into LanguagesDataTypes values(2,3,'string',null)
+insert into LanguagesDataTypes values(2,4,'boolean',null)
+insert into LanguagesDataTypes values(2,5,'date',null)
+insert into LanguagesDataTypes values(2,6,'date-time',null)
+insert into LanguagesDataTypes values(2,7,'float',null)
+
+alter table languagesdatatypes add 	[Format] [nvarchar](128) NULL
+	
+delete Languages where id = 2

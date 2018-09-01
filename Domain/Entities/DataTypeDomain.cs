@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
-    [Table("DataTypes")]
     public class DataTypeDomain : IEntity
     {
         public long Id { get; set; }

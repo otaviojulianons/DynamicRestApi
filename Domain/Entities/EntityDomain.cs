@@ -20,5 +20,6 @@ namespace Domain
             if (Attributes.Find( item => item.Name == "Id" && item.DataTypeName == "long") == null)
                 throw new Exception("Attribute Id not found!");
         }
+
     }
 }

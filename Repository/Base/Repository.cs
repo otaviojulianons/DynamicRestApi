@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SharedKernel.Repository
+namespace Repository.Base
 {
     public class Repository<T> : IRepository<T> where T :  class, IEntity
     {
