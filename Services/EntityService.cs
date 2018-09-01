@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using Repository.Contexts;
 using Repository.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,14 @@ namespace Services
 
         private DynamicService _dynamicService;
         private LanguageService _languageService;
+        private AppDbContext _dbContext;
 
         public EntityService(
             IServiceProvider serviceProvider,
             ContextRepository<EntityDomain> entityRepository,
             ContextRepository<AttributeDomain> attributeRepository,
             ContextRepository<DataTypeDomain> dataTypeRepository,
+            AppDbContext dbContext,
             DynamicService dynamicService,
             LanguageService languageService
             )
@@ -32,6 +35,7 @@ namespace Services
             _dataTypeRepository = dataTypeRepository;
             _dynamicService = dynamicService;
             _languageService = languageService;
+            _dbContext = dbContext;
         }
 
         public List<EntityDomain> GetAllEntities()
@@ -67,6 +71,21 @@ namespace Services
 
             LoadLanguage(entity, languageSwagger);
             _dynamicService.GenerateSwaggerFile(entities);
+        }
+
+        public void Delete(long id)
+        {
+            var entity = _entityRepository.QueryById(id).Include(x => x.Attributes).FirstOrDefault();
+            if (entity == null)
+                throw new Exception("Entity not found.");
+
+            entity.Attributes.ForEach(attribute =>
+            {
+                _attributeRepository.Delete(attribute.Id);
+            });
+            _entityRepository.Delete(entity.Id);
+            _entityRepository.Commit();
+            _dbContext.Drop(entity.Name);
         }
 
         public void LoadLanguage(List<EntityDomain> entities, LanguageDomain language)

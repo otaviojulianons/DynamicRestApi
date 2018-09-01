@@ -51,5 +51,10 @@ namespace Repository.Contexts
         {
             optionsBuilder.UseSqlServer("Server=ojns;Database=DynamicRestApi;Trusted_Connection=true;");
         }
+
+        public void Drop(string name)
+        {
+            Database.ExecuteSqlCommand((string)$"drop table dbo.{name}");
+        }
     }
 }

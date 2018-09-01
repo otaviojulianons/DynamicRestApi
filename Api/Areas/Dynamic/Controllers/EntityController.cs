@@ -33,6 +33,20 @@ namespace Api.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public ResultApi<bool> Delete(long id)
+        {
+            try
+            {
+                _service.Delete(id);
+                return FormatResult(true);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<bool>(ex.Message);
+            }
+        }
+
         [HttpGet()]
         public ResultApi<IEnumerable<Entity>> List()
         {
