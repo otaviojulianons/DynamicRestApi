@@ -58,15 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="QSwagGenerator">
-      <HintPath>..\QSwagGenerator.dll</HintPath>
-    </Reference>
-    <Reference Include="QSwagSchema">
-      <HintPath>..\QSwagSchema.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

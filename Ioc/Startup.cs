@@ -18,6 +18,7 @@ namespace Ioc
             services.AddScoped(typeof(DynamicDbContext<>));
             services.AddScoped(typeof(DynamicRepository<>));
             services.AddScoped<EntityService>();
+            services.AddScoped<DataTypeService>();
             services.AddScoped<LanguageService>();
             services.AddSingleton<DynamicService>();
             services.AddSingleton<DynamicRoutesCollection>();
