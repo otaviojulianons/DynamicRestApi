@@ -27,8 +27,8 @@ class DataTypeContainer extends Component {
           }];
 
         return ( 
-            <div className="container" style={styleContainer}>
-                <div className="col-md-6 col-lg-6 col-sm-10">
+            <div style={{paddingTop: 10}}>
+                <div className="col-md-offset-3 col-md-6 col-sm-12">
                  <Table
                     rowKey={record => record.id}
                     loading={this.props.isFetchingDataTypesGet}
@@ -40,12 +40,6 @@ class DataTypeContainer extends Component {
             </div> 
             )
     }
-}
-
-const styleContainer = {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: 10
 }
 
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import EntityItem from "./entity-item";
-import { Collapse, Table, Modal, Button, Tooltip, Popconfirm, Icon   } from 'antd';
-import brace from 'brace';
+import { Table, Modal, Tooltip, Popconfirm, Icon   } from 'antd';
 import AceEditor from 'react-ace';
 
 import 'brace/mode/json';
@@ -70,8 +68,8 @@ class EntityContainer extends Component {
           }];
 
         return ( 
-            <div className="container" style={styleContainer}>
-                <div className="col-md-6 col-lg-6 col-sm-10">
+            <div style={{paddingTop: 10}}>
+                <div className="col-md-offset-3 col-md-6 col-sm-12">
 
                  <Table
                     style={{ height: 200 }}
@@ -112,12 +110,6 @@ class EntityContainer extends Component {
             </div> 
             )
     }
-}
-
-const styleContainer = {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: 10
 }
 
 const styleIcons = {

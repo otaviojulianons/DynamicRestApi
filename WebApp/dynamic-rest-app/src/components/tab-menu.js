@@ -3,6 +3,7 @@ import { Menu, Icon, Avatar, Layout } from 'antd';
 import EntityContainer from './entity-container';
 import SwaggerDoc from './swagger-docs';
 import DataTypeContainer from './datatype-container';
+import CodegenContainer from './codegen-container';
 
 const { Header, Sider, Content } = Layout;
 
@@ -34,7 +35,7 @@ class TabMenu extends Component {
             case "swagger":
                 return <SwaggerDoc/>;
             case "codegen":
-                return <div/>;                
+                return <CodegenContainer/>;                
             case "about":
                 return <div/>;
             default:
@@ -73,7 +74,7 @@ class TabMenu extends Component {
                         </Menu.Item>     
                         <Menu.Item key="codegen">
                             <Icon type="code" />
-                            <span>Swagger</span>
+                            <span>Codegen</span>
                         </Menu.Item>                                            
                         <Menu.Item key="about">
                             <Icon type="info-circle" />
@@ -87,7 +88,11 @@ class TabMenu extends Component {
                             <h4>Dynamic Rest API</h4>
                         </Header>
                         <Content style={{ margin: '24px 16px', padding: 24, background: '#fff' }}>
-                            {this.getContent()}
+                            <div>
+                                <div>
+                                    {this.getContent()}
+                                </div>
+                            </div>
                         </Content>
                     </Layout>
                 </Layout>

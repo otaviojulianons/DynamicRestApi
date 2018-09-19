@@ -7,7 +7,7 @@ class SwaggerDoc extends Component {
         this.state = {  }
     }
     render() { 
-        return ( <div className="col-md-6 col-lg-6 col-sm-10" style={styleContainer}>
+        return ( <div className="col-md-offset-2 col-md-8 col-sm-12" style={styleContainer}>
               <SwaggerCard 
                 title="Swagger API"
                 description="description"
@@ -21,8 +21,6 @@ class SwaggerDoc extends Component {
 }
 
 const styleContainer = {
-    display: 'flex',
-    justifyContent: 'center',
     paddingTop: 10
 }
  

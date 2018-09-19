@@ -46,6 +46,13 @@ img.center {
   background-color: rgb(91, 170, 0);
 }
 
+.ant-radio-button-wrapper-checked::before {
+  background-color: rgb(91, 170, 0);
+  opacity: 0.1;
+}
+
+.ant-radio-button-wrapper:focus,
+.ant-radio-button-wrapper:hover,
 .ant-pagination-item-active,
 .ant-pagination-item-active:focus,
 .ant-pagination-item-active:hover,
@@ -54,6 +61,35 @@ img.center {
 .ant-pagination-item-active:hover a {
   border-color: rgb(91, 170, 0);
   color: rgb(91, 170, 0);
+}
+
+
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background: rgb(91, 170, 0);
+  border-color: rgb(91, 170, 0);
+}
+
+.ant-radio-button-wrapper-checked:hover,
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+  border-color: rgb(91, 170, 0);
+  border-top-color: rgb(91, 170, 0);
+  border-right-color: rgb(91, 170, 0);
+  border-bottom-color: rgb(91, 170, 0);
+  border-left-color: rgb(91, 170, 0);
+  background: rgb(91, 170, 0);
+  -webkit-box-shadow: -1px 0 0 0 rgb(91, 170, 0);
+  box-shadow: -1px 0 0 0 rgb(91, 170, 0);
+}
+
+.ant-radio-button-wrapper:hover, .ant-radio-button-wrapper-focused {
+  color: rgb(91, 170, 0);
+}
+
+.ant-radio-button-wrapper-checked {
+  border-color: rgb(91, 170, 0);
+  color: rgb(91, 170, 0);
+  -webkit-box-shadow: -1px 0 0 0 rgb(91, 170, 0);
+  box-shadow: -1px 0 0 0 rgb(91, 170, 0);
 }
 
 .ant-table-thead > tr.ant-table-row-hover > td, .ant-table-tbody > tr.ant-table-row-hover > td, .ant-table-thead > tr:hover > td, .ant-table-tbody > tr:hover > td {
