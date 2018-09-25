@@ -1,9 +1,13 @@
 ﻿using Domain;
+using Domain.Entities.EntityAggregate;
+using Domain.Entities.LanguageAggregate;
+using Domain.Interfaces;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Contexts
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext , IDatabaseService
     {
 
         public DbSet<EntityDomain> Entities { get; set; }
@@ -21,11 +25,14 @@ namespace Repository.Contexts
 
             modelBuilder.Entity<AttributeDomain>()
                 .ToTable("Attributes")
+                .Ignore(x => x.DataTypeName)
+                .Ignore(x => x.TypeLanguage)
                 .HasKey(x => x.Id);
 
 
             modelBuilder.Entity<EntityDomain>()
                 .ToTable("Entities")
+                .Ignore(property => property.AttributesNavigable)
                 .HasKey(x => x.Id);
 
             modelBuilder.Entity<LanguageDomain>()
@@ -52,9 +59,10 @@ namespace Repository.Contexts
             optionsBuilder.UseSqlServer("Server=ojns;Database=DynamicRestApi;Trusted_Connection=true;");
         }
 
-        public void Drop(string name)
+        public void DropEntity(string name)
         {
             Database.ExecuteSqlCommand((string)$"drop table dbo.{name}");
         }
+
     }
 }

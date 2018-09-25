@@ -1,8 +1,8 @@
 ﻿using Api.Models;
 using AutoMapper;
-using Domain;
+using Domain.Services;
+using Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
-using Services;
 using System;
 using System.Collections.Generic;
 

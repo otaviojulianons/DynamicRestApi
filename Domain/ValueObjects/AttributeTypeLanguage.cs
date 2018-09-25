@@ -1,4 +1,4 @@
-﻿namespace Domain.Helpers
+﻿namespace Domain.ValueObjects
 {
     public class AttributeTypeLanguage
     {

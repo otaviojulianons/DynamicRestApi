@@ -1,8 +1,7 @@
 using Api.Models;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
 using Repository.Repositories;
-using SharedKernel.Repository;
 using System.Collections.Generic;
 
 namespace Api.Controllers

@@ -1,10 +1,9 @@
-﻿using SharedKernel.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Repository.Base
+namespace Domain.Interfaces
 {
 
     public interface IRepository<T> where T : IEntity
@@ -13,7 +12,7 @@ namespace Repository.Base
 
         IEnumerable<T> GetAll();
 
-        IQueryable<T> QueryBy(Expression<Func<T, bool>> filter);
+        IQueryable<T> QueryBy(Expression<Func<T, bool>> filter = null);
 
         IQueryable<T> QueryById(long id);
 

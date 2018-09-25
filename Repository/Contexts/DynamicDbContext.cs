@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
-using SharedKernel.Repository;
 using System;
 using System.Linq;
 
@@ -21,7 +20,7 @@ namespace Repository.Contexts
             optionsBuilder.UseSqlServer("Server=ojns;Database=DynamicRestApi;Trusted_Connection=true;");  
         }
 
-        public void Create()
+        public void CreateEntity()
         {
             try
             {
@@ -33,6 +32,5 @@ namespace Repository.Contexts
                 databaseCreator.CreateTables();
             }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Repository
+﻿namespace Domain.Interfaces
 {
     public interface IEntity
     {

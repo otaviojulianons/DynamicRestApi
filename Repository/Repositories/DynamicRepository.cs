@@ -1,6 +1,6 @@
-﻿using Repository.Base;
+﻿using Domain.Interfaces;
+using Repository.Base;
 using Repository.Contexts;
-using SharedKernel.Repository;
 
 namespace Repository.Repositories
 {

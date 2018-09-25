@@ -1,14 +1,14 @@
-﻿using Domain;
-using Repository.Repositories;
+﻿using Domain.Interfaces;
+using Domain.ValueObjects;
 using System.Collections.Generic;
 
-namespace Services
+namespace Domain.Services
 {
     public class DataTypeService
     {
-        private ContextRepository<DataTypeDomain> _dataTypeRepository;
+        private IRepository<DataTypeDomain> _dataTypeRepository;
 
-        public DataTypeService(ContextRepository<DataTypeDomain> dataTypeRepository)
+        public DataTypeService(IRepository<DataTypeDomain> dataTypeRepository)
             => _dataTypeRepository = dataTypeRepository;
 
         public void Insert(DataTypeDomain dataType)

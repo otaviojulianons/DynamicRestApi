@@ -1,8 +1,7 @@
-﻿using SharedKernel.Repository;
+﻿using Domain.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Domain
+namespace Domain.Entities.LanguageAggregate
 {
     public class LanguageDomain : IEntity
     {
@@ -13,6 +12,7 @@ namespace Domain
         }
 
         public long Id { get; set; }
+
         public string Name { get; set; }
 
         public List<LanguageDataTypeDomain> DataTypes { get; set; }

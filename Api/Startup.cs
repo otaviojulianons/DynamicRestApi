@@ -1,5 +1,6 @@
 ﻿using Api.Controllers;
 using Api.Middlewares;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -66,7 +67,7 @@ namespace Api
 
             app.UseMvc();
 
-            app.ApplicationServices.GetService<DynamicService>().Init(serviceScopeFactory);
+            app.ApplicationServices.GetService<IDynamicService>().Init(serviceScopeFactory);
         }
 
     }

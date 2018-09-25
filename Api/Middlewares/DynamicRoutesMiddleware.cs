@@ -1,5 +1,6 @@
 ﻿using Api.Controllers;
 using Domain;
+using Domain.Helpers.Collections;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Repository;

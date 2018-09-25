@@ -5,23 +5,23 @@
     "title": "DynamicSwagger"
   },
   "paths": { {{#each Entities}}
-    "/{{Name}}": {
+    "/{{Item.Name}}": {
       "get": {
-        "tags": [ "{{Name}}" ],
-        "operationId": "{{Name}}Get",
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}Get",
         "consumes": [],
         "produces": [ "application/json" ],
         "parameters": [],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/ResultApiIEnumerable{{Name}}" }
+            "schema": { "$ref": "#/definitions/ResultApiIEnumerable{{Item.Name}}" }
           }
         }
       },
       "post": {
-        "tags": [ "{{Name}}" ],
-        "operationId": "{{Name}}Post",
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}Post",
         "consumes": [ "application/json"],
         "produces": [ "application/json" ],
         "parameters": [
@@ -29,7 +29,7 @@
             "name": "item",
             "in": "body",
             "required": false,
-            "schema": { "$ref": "#/definitions/Model{{Name}}" }
+            "schema": { "$ref": "#/definitions/Model{{Item.Name}}" }
           }
         ],
         "responses": {
@@ -40,10 +40,10 @@
         }
       }
     },
-    "/{{Name}}/{id}": {
+    "/{{Item.Name}}/{id}": {
       "get": {
-        "tags": [ "{{Name}}" ],
-        "operationId": "{{Name}}ByIdGet",
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}ByIdGet",
         "consumes": [],
         "produces": [ "application/json" ],
         "parameters": [
@@ -58,13 +58,13 @@
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/ResultApi{{Name}}" }
+            "schema": { "$ref": "#/definitions/ResultApi{{Item.Name}}" }
           }
         }
       },
       "put": {
-        "tags": [ "{{Name}}" ],
-        "operationId": "{{Name}}ByIdPut",
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}ByIdPut",
         "consumes": [],
         "produces": [ "application/json" ],
         "parameters": [
@@ -79,7 +79,7 @@
             "name": "item",
             "in": "body",
             "required": false,
-            "schema": { "$ref": "#/definitions/Model{{Name}}" }
+            "schema": { "$ref": "#/definitions/Model{{Item.Name}}" }
           }
         ],
         "responses": {
@@ -90,8 +90,8 @@
         }
       },
       "delete": {
-        "tags": [ "{{Name}}" ],
-        "operationId": "{{Name}}ByIdDelete",
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}ByIdDelete",
         "consumes": [],
         "produces": [ "application/json" ],
         "parameters": [
@@ -120,34 +120,34 @@
         "result": { "type": "boolean" }
         }
     }{{#each Entities}},
-    "Model{{Name}}": {
+    "Model{{Item.Name}}": {
         "type": "object",
         "properties": {
         "id": {
             "format": "int64",
             "type": "integer"
         },
-{{#each Attributes}}
-    "{{Name}}": { "format": "{{TypeLanguage.Format}}",
-                  "type": "{{TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
+{{#each Item.AttributesNavigable}}
+    "{{Item.Name}}": { "format": "{{Item.TypeLanguage.Format}}",
+                  "type": "{{Item.TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
 {{/each}}
         }
     },
-    "ResultApiIEnumerable{{Name}}": {
+    "ResultApiIEnumerable{{Item.Name}}": {
         "type": "object",
         "properties": {
         "message": { "type": "string" },
         "result": {
             "type": "array",
-            "items": { "$ref": "#/definitions/Model{{Name}}" }
+            "items": { "$ref": "#/definitions/Model{{Item.Name}}" }
         }
         }
     },
-    "ResultApi{{Name}}": {
+    "ResultApi{{Item.Name}}": {
         "type": "object",
         "properties": {
         "message": { "type": "string" },
-        "result": { "$ref": "#/definitions/Model{{Name}}" }
+        "result": { "$ref": "#/definitions/Model{{Item.Name}}" }
         }
     }{{/each}}
   }

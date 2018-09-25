@@ -1,31 +1,32 @@
-﻿using Domain;
+﻿using Domain.Entities.EntityAggregate;
+using Domain.Entities.LanguageAggregate;
+using Domain.Interfaces;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using Repository.Contexts;
-using Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Services
+namespace Domain.Services
 {
     public class EntityService
     {
         private IServiceProvider _serviceProvider;
-        private ContextRepository<EntityDomain> _entityRepository;
-        private ContextRepository<AttributeDomain> _attributeRepository;
-        private ContextRepository<DataTypeDomain> _dataTypeRepository;
+        private IRepository<EntityDomain> _entityRepository;
+        private IRepository<AttributeDomain> _attributeRepository;
+        private IRepository<DataTypeDomain> _dataTypeRepository;
 
-        private DynamicService _dynamicService;
+        private IDynamicService _dynamicService;
+        private IDatabaseService _databaseService;
         private LanguageService _languageService;
-        private AppDbContext _dbContext;
 
         public EntityService(
             IServiceProvider serviceProvider,
-            ContextRepository<EntityDomain> entityRepository,
-            ContextRepository<AttributeDomain> attributeRepository,
-            ContextRepository<DataTypeDomain> dataTypeRepository,
-            AppDbContext dbContext,
-            DynamicService dynamicService,
+            IRepository<EntityDomain> entityRepository,
+            IRepository<AttributeDomain> attributeRepository,
+            IRepository<DataTypeDomain> dataTypeRepository,
+            IDatabaseService databaseService,
+            IDynamicService dynamicService,
             LanguageService languageService
             )
         {
@@ -33,9 +34,9 @@ namespace Services
             _entityRepository = entityRepository;
             _attributeRepository = attributeRepository;
             _dataTypeRepository = dataTypeRepository;
+            _databaseService = databaseService;
             _dynamicService = dynamicService;
             _languageService = languageService;
-            _dbContext = dbContext;
         }
 
         public List<EntityDomain> GetAllEntities()
@@ -47,16 +48,25 @@ namespace Services
 
         public void Insert(EntityDomain entity)
         {
-            entity.Validate();
+            var validationEntity = new EntityValidation().Validate(entity);
+
+            if (!validationEntity.IsValid)
+                throw new Exception(validationEntity.Errors.First().ErrorMessage);
+
             var dataTypes = _dataTypeRepository.GetAll();
             entity.Attributes.ForEach(attribute =>
             {
                 attribute.DataTypeId = dataTypes.FirstOrDefault(type => type.Name == attribute.DataTypeName)?.Id ?? 0;
             });
             _entityRepository.Insert(entity);
+
+            var attributeValidator = new AttributeValidation();
             entity.Attributes.ForEach(attribute =>
             {
-                attribute.Validate();
+                var validationAttribute = attributeValidator.Validate(attribute);
+                if (!validationAttribute.IsValid)
+                    throw new Exception(validationAttribute.Errors.First().ErrorMessage);
+
                 attribute.EntityId = entity.Id;
                 _attributeRepository.Insert(attribute);
             });
@@ -85,7 +95,7 @@ namespace Services
             });
             _entityRepository.Delete(entity.Id);
             _entityRepository.Commit();
-            _dbContext.Drop(entity.Name);
+            _databaseService.DropEntity(entity.Name);
         }
 
         public void LoadLanguage(List<EntityDomain> entities, LanguageDomain language)

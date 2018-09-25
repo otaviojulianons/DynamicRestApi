@@ -1,22 +1,22 @@
-﻿using Domain;
-using Domain.Helpers;
+﻿using Domain.Entities.LanguageAggregate;
+using Domain.Interfaces;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using Repository.Repositories;
 using System.Linq;
 
-namespace Services
+namespace Domain.Services
 {
     public class LanguageService
     {
-        private ContextRepository<LanguageDomain> _languagesRepository;
-        private ContextRepository<LanguageDataTypeDomain> _languagesDataTypesRepository;
+        private IRepository<LanguageDomain> _languagesRepository;
+        private IRepository<LanguageDataTypeDomain> _languagesDataTypesRepository;
 
-        private DynamicService _dynamicService;
+        private IDynamicService _dynamicService;
 
         public LanguageService(
-            ContextRepository<LanguageDomain> languagesRepository,
-            ContextRepository<LanguageDataTypeDomain> languagesDataTypesRepository,
-            DynamicService dynamicService
+            IRepository<LanguageDomain> languagesRepository,
+            IRepository<LanguageDataTypeDomain> languagesDataTypesRepository,
+            IDynamicService dynamicService
             )
         {
             _dynamicService = dynamicService;

@@ -1,6 +1,8 @@
 ﻿using Api.Models;
 using AutoMapper;
 using Domain;
+using Domain.Entities.EntityAggregate;
+using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using System;

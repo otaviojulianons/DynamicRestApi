@@ -1,12 +1,12 @@
 ﻿using System;
-using SharedKernel.Repository;
+using Domain.Interfaces;
 
 namespace DynamicAssembly
 {
     public class {{Name}} : IEntity
     {
-{{#each Attributes}}
-        public {{TypeLanguage.Type}} {{Name}} { get; set; }
+{{#each AttributesNavigable}}
+        public {{Item.TypeLanguage.Type}} {{Item.Name}} { get; set; }
 {{/each}}
     }
 }

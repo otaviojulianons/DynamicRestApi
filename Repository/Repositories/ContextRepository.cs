@@ -1,10 +1,10 @@
-﻿using Repository.Base;
+﻿using Domain.Interfaces;
+using Repository.Base;
 using Repository.Contexts;
-using SharedKernel.Repository;
 
 namespace Repository.Repositories
 {
-    public class ContextRepository<T> : Repository<T> where T : class, IEntity
+    public class ContextRepository<T> : Repository<T>, IRepository<T> where T : class, IEntity
     {
         public ContextRepository(AppDbContext contexto) : base(contexto)
         {

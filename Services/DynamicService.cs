@@ -1,5 +1,8 @@
-﻿
-using Domain;
+﻿using Domain.Entities.EntityAggregate;
+using Domain.Entities.LanguageAggregate;
+using Domain.Helpers.Collections;
+using Domain.Interfaces;
+using Domain.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -15,7 +18,7 @@ using System.Reflection;
 
 namespace Services
 {
-    public class DynamicService
+    public class DynamicService : IDynamicService
     {
 
         private DynamicRoutesCollection _dynamicRoutes;
@@ -63,10 +66,7 @@ namespace Services
 
         public void GenerateControllerDynamic(IServiceProvider serviceProvider, List<EntityDomain> entities)
             => entities.ForEach( e => GenerateControllerDynamic(serviceProvider, e));
-        //{
-        //    foreach (var entity in entities)
-        //        GenerateControllerDynamic(entity);
-        //}
+
 
         public void GenerateControllerDynamic(IServiceProvider serviceProvider, EntityDomain entity)
         {
@@ -75,7 +75,7 @@ namespace Services
             _dynamicRoutes.AddRoute(entity.Name, type);
             var repositoryType = typeof(DynamicDbContext<>).MakeGenericType(type);
             dynamic dynamicRepository = serviceProvider.GetService(repositoryType);
-            dynamicRepository.Create();
+            dynamicRepository.CreateEntity();
         }
 
 
@@ -99,7 +99,7 @@ namespace Services
             var compilation = CSharpCompilation.Create("DynamicAssembly", new[] { tree },
                               new[] {
                                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                                MetadataReference.CreateFromFile(typeof(SharedKernel.Repository.IEntity).Assembly.Location),
+                                MetadataReference.CreateFromFile(typeof(IEntity).Assembly.Location),
                               },
                               new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
             using (var ms = new MemoryStream())
@@ -117,29 +117,17 @@ namespace Services
 
         public string GenerateSwaggerFileFromEntity(List<EntityDomain> entities)
         {
-            ConfigureNavigation(entities);
             foreach (var entity in entities)
-            {
                 entity.Attributes.Remove(entity.Attributes.Find(x => x.Name.ToLower() == "id"));
-                ConfigureNavigation(entity.Attributes);
-            }
+
 
             FormatCompiler compiler = new FormatCompiler();
             Generator generator = compiler.Compile(_templateSwagger);
-            var code = generator.Render(new { Entities = entities });
+            var @params = new { Entities = new NavigableList<EntityDomain>(entities) };
+            var code = generator.Render(@params);
             return code;
         }
 
-        public void ConfigureNavigation(IEnumerable<Navigable> itens)
-        {
-            var first = itens.FirstOrDefault();
-            if(first != null)
-                first.First = true;
-            var last = itens.LastOrDefault();
-            if (last != null)
-                last.Last = true;
-
-        }
 
         public void GenerateSwaggerFile(List<EntityDomain> entities)
         {

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Repository;
+﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
