@@ -1,16 +1,18 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Domain;
-using Repository;
-using Services;
-using Repository.Repositories;
-using Repository.Contexts;
-using Domain.Helpers.Collections;
-using Domain.Interfaces;
+﻿using Domain.Commands;
 using Domain.Entities.EntityAggregate;
-using Domain.ValueObjects;
 using Domain.Entities.LanguageAggregate;
+using Domain.Helpers.Collections;
+using Domain.Interfaces.Infrastructure;
+using Domain.Interfaces.Structure;
 using Domain.Services;
+using Domain.ValueObjects;
+using MediatR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Repository.Contexts;
+using Repository.Repositories;
+using Services;
+using SharedKernel.Notifications;
 
 namespace Ioc
 {
@@ -31,9 +33,12 @@ namespace Ioc
             services.AddScoped<IRepository<LanguageDomain>, ContextRepository<LanguageDomain>>();
             services.AddScoped<IRepository<LanguageDataTypeDomain>, ContextRepository<LanguageDataTypeDomain>>();
 
-            //SERVICES
+            //SERVICES    
             services.AddSingleton<IDynamicService,DynamicService>();
-            services.AddSingleton<DynamicRoutesCollection>();
+            services.AddSingleton<INotificationHandler<GenerateDynamicDocumentationCommand>, DynamicService>();
+            services.AddSingleton<IDynamicRoutesService,DynamicRoutesService>();
+
+            services.AddScoped<IMsgManager, MsgManager>();
             services.AddScoped<DataTypeService>();
             services.AddScoped<LanguageService>();
             services.AddScoped<EntityService>();

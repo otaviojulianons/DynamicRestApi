@@ -6,11 +6,13 @@ namespace Domain.Helpers.Collections
 {
     public class NavigableList<T> : List<NavigableItem<T>>
     {
-        public NavigableList(List<T> itens)
+        public NavigableList(IEnumerable<T> items)
         {
-            itens.ForEach( item => this.Add(new NavigableItem<T>(item)));
-            this.FirstOrDefault()?.Set(x => x.IsFirst = true);
-            this.LastOrDefault()?.Set(x => x.IsLast = true);
+            foreach (var item in items)
+                this.Add(new NavigableItem<T>(item));
+
+            this.FirstOrDefault().Do(x => x.IsFirst = true);
+            this.LastOrDefault().Do(x => x.IsLast = true);
         }
     }
 
@@ -36,6 +38,6 @@ namespace Domain.Helpers.Collections
 
     public static class NavigableListExtensions
     {
-        public static NavigableList<T> ToNavigableList<T>(this List<T> itens) => new NavigableList<T>(itens);
+        public static NavigableList<T> ToNavigableList<T>(this IEnumerable<T> items) => new NavigableList<T>(items);
     }
 }

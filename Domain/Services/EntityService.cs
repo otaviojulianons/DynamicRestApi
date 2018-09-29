@@ -1,7 +1,10 @@
-﻿using Domain.Entities.EntityAggregate;
+﻿using Domain.Commands;
+using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
-using Domain.Interfaces;
+using Domain.Interfaces.Infrastructure;
+using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +15,7 @@ namespace Domain.Services
     public class EntityService
     {
         private IServiceProvider _serviceProvider;
+        private IMediator _mediator;
         private IRepository<EntityDomain> _entityRepository;
         private IRepository<AttributeDomain> _attributeRepository;
         private IRepository<DataTypeDomain> _dataTypeRepository;
@@ -27,10 +31,12 @@ namespace Domain.Services
             IRepository<DataTypeDomain> dataTypeRepository,
             IDatabaseService databaseService,
             IDynamicService dynamicService,
+            IMediator mediator,
             LanguageService languageService
             )
         {
             _serviceProvider = serviceProvider;
+            _mediator = mediator;
             _entityRepository = entityRepository;
             _attributeRepository = attributeRepository;
             _dataTypeRepository = dataTypeRepository;
@@ -48,39 +54,41 @@ namespace Domain.Services
 
         public void Insert(EntityDomain entity)
         {
-            var validationEntity = new EntityValidation().Validate(entity);
-
+            var validationEntity = entity.Validator.Validate(entity);
             if (!validationEntity.IsValid)
                 throw new Exception(validationEntity.Errors.First().ErrorMessage);
 
             var dataTypes = _dataTypeRepository.GetAll();
-            entity.Attributes.ForEach(attribute =>
-            {
+            foreach (var attribute in entity.Attributes)
                 attribute.DataTypeId = dataTypes.FirstOrDefault(type => type.Name == attribute.DataTypeName)?.Id ?? 0;
-            });
+
             _entityRepository.Insert(entity);
 
-            var attributeValidator = new AttributeValidation();
-            entity.Attributes.ForEach(attribute =>
+            foreach (var attribute in entity.Attributes)
             {
-                var validationAttribute = attributeValidator.Validate(attribute);
+                var validationAttribute = attribute.Validator.Validate(attribute);
                 if (!validationAttribute.IsValid)
                     throw new Exception(validationAttribute.Errors.First().ErrorMessage);
 
                 attribute.EntityId = entity.Id;
                 _attributeRepository.Insert(attribute);
-            });
+            }
+
             _entityRepository.Commit();
 
-            var entities = GetAllEntities();
+
             var languageCsharp = _languageService.GetById((long)LanguageDomain.EnumLanguages.Csharp);
             var languageSwagger = _languageService.GetById((long)LanguageDomain.EnumLanguages.SwaggerDoc);
 
             LoadLanguage(entity, languageCsharp);
-            _dynamicService.GenerateControllerDynamic(_serviceProvider, new List<EntityDomain>(){ entity });
+            _dynamicService.GenerateControllerDynamic(_serviceProvider, entity );
 
             LoadLanguage(entity, languageSwagger);
-            _dynamicService.GenerateSwaggerFile(entities);
+            _dynamicService.GenerateSwaggerJsonFile(GetAllEntities().ToArray());
+
+            _mediator.Publish(
+                new GenerateDynamicDocumentationCommand(GetAllEntities())
+            );
         }
 
         public void Delete(long id)
@@ -89,10 +97,10 @@ namespace Domain.Services
             if (entity == null)
                 throw new Exception("Entity not found.");
 
-            entity.Attributes.ForEach(attribute =>
-            {
+
+            foreach (var attribute in entity.Attributes)
                 _attributeRepository.Delete(attribute.Id);
-            });
+
             _entityRepository.Delete(entity.Id);
             _entityRepository.Commit();
             _databaseService.DropEntity(entity.Name);
@@ -108,14 +116,13 @@ namespace Domain.Services
 
         public void LoadLanguage(EntityDomain entity, LanguageDomain language)
         {
-            entity.Attributes.ForEach(attribute =>
+            foreach (var attribute in entity.Attributes)
             {
                 attribute.TypeLanguage = _languageService.GetTypeLanguage(
-                    language,
-                    attribute.DataTypeId,
-                    attribute.AllowNull);
-            });
+                        language,
+                        attribute.DataTypeId,
+                        attribute.AllowNull);
+            }
         }
-
     }
 }

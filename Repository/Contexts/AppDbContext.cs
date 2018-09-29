@@ -1,7 +1,6 @@
-﻿using Domain;
-using Domain.Entities.EntityAggregate;
+﻿using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
-using Domain.Interfaces;
+using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 

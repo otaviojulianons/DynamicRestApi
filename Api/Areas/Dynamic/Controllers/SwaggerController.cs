@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Interfaces.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 
 namespace Api.Controllers
@@ -7,9 +8,9 @@ namespace Api.Controllers
     [Route("/Dynamic/swagger")]
     public class SwaggerController : Controller
     {
-        private DynamicService _service;
+        private IDynamicService _service;
 
-        public SwaggerController(DynamicService service)
+        public SwaggerController(IDynamicService service)
         {
             _service = service;
         }
@@ -17,7 +18,7 @@ namespace Api.Controllers
         [HttpGet]
         public object Get()
         {
-            return _service.GetJsonSwagger();
+            return _service.GetSwaggerJson();
         }
     }
 }

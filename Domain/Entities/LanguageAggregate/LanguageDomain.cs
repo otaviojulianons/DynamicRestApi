@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Interfaces.Structure;
 using System.Collections.Generic;
 
 namespace Domain.Entities.LanguageAggregate

@@ -1,7 +1,8 @@
 using Api.Models;
-using Domain.Interfaces;
+using Domain.Interfaces.Structure;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repositories;
+using SharedKernel.Notifications;
 using System.Collections.Generic;
 
 namespace Api.Controllers
@@ -12,8 +13,9 @@ namespace Api.Controllers
         private DynamicRepository<T> _repository;
 
         public DynamicController(
-            DynamicRepository<T> repository
-            )
+            DynamicRepository<T> repository,
+            IMsgManager msgs
+        ) : base(msgs)
         {
             _repository = repository;
         }
@@ -40,7 +42,7 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public ResultApi<bool> Put(long id,[FromBody]dynamic item)
         {
-            _repository.Update(id,(T)item);
+            _repository.Update((T)item);
             return FormatResult(true);
         }
 

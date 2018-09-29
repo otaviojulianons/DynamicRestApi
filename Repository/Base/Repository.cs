@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Interfaces.Structure;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +17,8 @@ namespace Repository.Base
             _context = context;
             DbSet = context.Set<T>();
         }
-        public void Update(long id, T entity, bool commit = false)
+        public void Update( T entity, bool commit = false)
         {
-            entity.Id = id;
             DbSet.Update(entity);
             if (commit)
                 Commit();

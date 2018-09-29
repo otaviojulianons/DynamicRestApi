@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Domain.Interfaces.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Helpers.Collections
+namespace Services
 {
-    public class DynamicRoutesCollection
+    public class DynamicRoutesService : IDynamicRoutesService
     {
         
         private Dictionary<string, Type> _routes = new Dictionary<string, Type>();  

@@ -1,24 +1,21 @@
 ﻿using Api.Controllers;
-using Domain;
-using Domain.Helpers.Collections;
+using Domain.Interfaces.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Repository;
 using Repository.Repositories;
 using System;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Api.Middlewares
 {
     class DynamicRoutesMiddleware
     {
-        private DynamicRoutesCollection _dynamicRoutes;
+        private IDynamicRoutesService _dynamicRoutes;
         private RequestDelegate _next;
 
-        public DynamicRoutesMiddleware(RequestDelegate next, DynamicRoutesCollection dynamicRoutes)
+        public DynamicRoutesMiddleware(RequestDelegate next, IDynamicRoutesService dynamicRoutes)
         {
             _dynamicRoutes = dynamicRoutes;
             _next = next;

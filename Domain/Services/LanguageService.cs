@@ -1,12 +1,13 @@
 ﻿using Domain.Entities.LanguageAggregate;
-using Domain.Interfaces;
+using Domain.Interfaces.Infrastructure;
+using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Domain.Services
 {
-    public class LanguageService
+    public class LanguageService 
     {
         private IRepository<LanguageDomain> _languagesRepository;
         private IRepository<LanguageDataTypeDomain> _languagesDataTypesRepository;

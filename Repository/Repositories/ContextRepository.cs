@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Interfaces.Structure;
 using Repository.Base;
 using Repository.Contexts;
 

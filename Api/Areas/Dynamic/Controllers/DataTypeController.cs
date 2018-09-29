@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain.Services;
 using Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.Notifications;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,10 @@ namespace Api.Controllers
     {
         private DataTypeService _service;
 
-        public DataTypeController(DataTypeService service)
+        public DataTypeController(
+            DataTypeService service,
+            IMsgManager msgs
+        ) : base(msgs)
         {
             _service = service;
         }
@@ -70,7 +74,7 @@ namespace Api.Controllers
             try
             {
                 var domain = Mapper.Map<DataTypeDomain>(item);
-                _service.Update(id,domain);
+                _service.Update(domain);
                 return FormatResult(true);
             }
             catch (Exception ex)

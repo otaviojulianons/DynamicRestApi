@@ -1,10 +1,13 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
+using FluentValidation;
 
 namespace Domain.Entities.EntityAggregate
 {
-    public class AttributeDomain :  IEntity
+    public class AttributeDomain : ISelfValidation<AttributeDomain>
     {
+
+        public IValidator<AttributeDomain> Validator => new AttributeValidator();
 
         public long Id { get; set; }
 
@@ -25,6 +28,9 @@ namespace Domain.Entities.EntityAggregate
         public DataTypeDomain DataType { get; set; }
 
         public EntityDomain Entity { get; set; }
+
+        public bool IsIdentifier => Name?.ToLower() == "id" && DataTypeName?.ToLower() == "long";
+
 
     }
 }

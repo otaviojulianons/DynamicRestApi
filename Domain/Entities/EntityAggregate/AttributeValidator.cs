@@ -2,14 +2,14 @@
 
 namespace Domain.Entities.EntityAggregate
 {
-    public class AttributeValidation : AbstractValidator<AttributeDomain>
+    public class AttributeValidator : AbstractValidator<AttributeDomain>
     {
-        public AttributeValidation()
+        public AttributeValidator()
         {
             RuleFor(item => item.Name).NotEmpty();
             RuleFor(item => item.DataTypeId)
                 .NotEqual(0)
-                .WithMessage((item,value) => $"DataType '{item.DataTypeName}' not found!");
+                .WithMessage((item, value) => $"DataType '{item.DataTypeName}' not found!");
         }
     }
 }

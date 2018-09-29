@@ -5,6 +5,7 @@ using Domain.Entities.EntityAggregate;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using SharedKernel.Notifications;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,10 @@ namespace Api.Controllers
     {
         private EntityService _service;
 
-        public EntityController(EntityService service)
+        public EntityController(
+            EntityService service,
+            IMsgManager msgs
+           ) : base(msgs)
         {
             _service = service;
         }

@@ -1,5 +1,7 @@
 ﻿using Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.Notifications;
+using System.Linq;
 
 namespace Api.Controllers
 {
@@ -7,9 +9,20 @@ namespace Api.Controllers
     [Route("/")]
     public class BaseController : ControllerBase
     {
+        private IMsgManager _msgs;
+
+        public BaseController(
+            IMsgManager msgs
+            )
+        {
+            _msgs = msgs;
+        }
 
         internal ResultApi<T> FormatResult<T>(T result)
         {
+            if (_msgs.HasError)
+                return FormatError<T>(_msgs.Errors.FirstOrDefault().Message);
+
             return new ResultApi<T>()
             {
                 Result = result,

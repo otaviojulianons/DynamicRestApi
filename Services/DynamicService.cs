@@ -1,60 +1,64 @@
-﻿using Domain.Entities.EntityAggregate;
+﻿using Domain.Commands;
+using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
 using Domain.Helpers.Collections;
-using Domain.Interfaces;
+using Domain.Interfaces.Infrastructure;
 using Domain.Services;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Mustache;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Repository.Contexts;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Services
 {
     public class DynamicService : IDynamicService
+        , INotificationHandler<GenerateDynamicDocumentationCommand>
     {
 
-        private DynamicRoutesCollection _dynamicRoutes;
+        private IDynamicRoutesService _dynamicRoutes;
         private string _templateDomain;
         private string _templateSwagger;
+        private readonly ILogger _logger;
 
         public DynamicService(
-            DynamicRoutesCollection dynamicRoutes
+            ILogger<DynamicService> logger,
+            IDynamicRoutesService dynamicRoutes
             )
         {
             _dynamicRoutes = dynamicRoutes;
-
-            LoadTemplate();
+            _logger = logger;
+            LoadTemplates();
         }
 
-        public void Init(IServiceScopeFactory serviceScopeFactory)
+        public async Task Init(IServiceScopeFactory serviceScopeFactory)
         {
             using (var scope = serviceScopeFactory.CreateScope())
             {
                 var provider = scope.ServiceProvider;
                 var entityService = scope.ServiceProvider.GetRequiredService<EntityService>();
                 var languageService = scope.ServiceProvider.GetRequiredService<LanguageService>();
+                var mediatr = scope.ServiceProvider.GetRequiredService<IMediator>();
 
                 var languageCharp = languageService.GetById((long)LanguageDomain.EnumLanguages.Csharp);
                 var languageSwagger = languageService.GetById((long)LanguageDomain.EnumLanguages.SwaggerDoc);
                 var entities = entityService.GetAllEntities();
 
                 entityService.LoadLanguage(entities, languageCharp);
-                GenerateControllerDynamic(provider, entities);
+                GenerateControllerDynamic(provider, entities.ToArray());
 
                 entityService.LoadLanguage(entities, languageSwagger);
-                GenerateSwaggerFile(entities);
+
+                await mediatr.Publish(new GenerateDynamicDocumentationCommand(entities));
             }
         }
 
-        private void LoadTemplate()
+        private void LoadTemplates()
         {
             var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             using (StreamReader reader = new StreamReader(Path.Combine(path, @"Templates\Domain.mustache")))
@@ -64,81 +68,41 @@ namespace Services
         }
 
 
-        public void GenerateControllerDynamic(IServiceProvider serviceProvider, List<EntityDomain> entities)
-            => entities.ForEach( e => GenerateControllerDynamic(serviceProvider, e));
-
-
-        public void GenerateControllerDynamic(IServiceProvider serviceProvider, EntityDomain entity)
+        public void GenerateControllerDynamic(IServiceProvider serviceProvider, params EntityDomain[] entities)
         {
-            var classDomain = GenerateClassDomainFromEntity(entity);
-            var type = GenerateTypeFromCode(classDomain);
-            _dynamicRoutes.AddRoute(entity.Name, type);
-            var repositoryType = typeof(DynamicDbContext<>).MakeGenericType(type);
-            dynamic dynamicRepository = serviceProvider.GetService(repositoryType);
-            dynamicRepository.CreateEntity();
-        }
-
-
-        public string GenerateClassDomainFromEntity(EntityDomain entity)
-        {
-            FormatCompiler compiler = new FormatCompiler();
-            Generator generator = compiler.Compile(_templateDomain);
-            var code = generator.Render(entity);
-            return code;
-        }
-
-        public dynamic GenerateTypeFromCode(string classCode)
-        {
-            CSharpParseOptions parseOptions = new CSharpParseOptions()
-                .WithDocumentationMode(DocumentationMode.Parse)
-                .WithKind(SourceCodeKind.Regular) // ...as representing a complete .cs file
-                .WithLanguageVersion(LanguageVersion.Latest);
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(@classCode, parseOptions);
-            EmitOptions options = new EmitOptions();
-
-            var compilation = CSharpCompilation.Create("DynamicAssembly", new[] { tree },
-                              new[] {
-                                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                                MetadataReference.CreateFromFile(typeof(IEntity).Assembly.Location),
-                              },
-                              new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-            using (var ms = new MemoryStream())
+            foreach (var entity in entities)
             {
-                var xmlStream = new MemoryStream();
-                var emitResult = compilation.Emit(ms, xmlDocumentationStream: xmlStream, options: options);
-                if (!emitResult.Success)
-                    throw new Exception("Compile code error");
-
-                ms.Seek(0, SeekOrigin.Begin);
-                var assembly = Assembly.Load(ms.ToArray());
-                return assembly.GetExportedTypes().FirstOrDefault();
+                var classDomain = new TemplateService().Generate(_templateDomain, entity);
+                var type = new CompilerService().GenerateTypeFromCode(classDomain);
+                _dynamicRoutes.AddRoute(entity.Name, type);
+                var repositoryType = typeof(DynamicDbContext<>).MakeGenericType(type);
+                dynamic dynamicRepository = serviceProvider.GetService(repositoryType);
+                dynamicRepository.CreateEntity();
+                _logger.LogInformation($"Dynamic Controller {entity.Name} generated.");
             }
         }
 
-        public string GenerateSwaggerFileFromEntity(List<EntityDomain> entities)
+        public string GenerateSwaggerJson(params EntityDomain[] entities)
         {
             foreach (var entity in entities)
                 entity.Attributes.Remove(entity.Attributes.Find(x => x.Name.ToLower() == "id"));
 
-
-            FormatCompiler compiler = new FormatCompiler();
-            Generator generator = compiler.Compile(_templateSwagger);
-            var @params = new { Entities = new NavigableList<EntityDomain>(entities) };
-            var code = generator.Render(@params);
-            return code;
+            var templateParameters = new { Entities = new NavigableList<EntityDomain>(entities) };
+            return new TemplateService().Generate(_templateSwagger, templateParameters);
         }
 
 
-        public void GenerateSwaggerFile(List<EntityDomain> entities)
+        public void GenerateSwaggerJsonFile(params EntityDomain[] entities)
         {
             var path = "swaggerDynamic.json";
-            var swagger = GenerateSwaggerFileFromEntity(entities);
+            var swagger = GenerateSwaggerJson(entities);
             File.Delete(path);
             using (StreamWriter writer = new StreamWriter(path))
                 writer.WriteLine(swagger);
+            _logger.LogInformation("Dynamic documentation generated.");
         }
 
-        public object GetJsonSwagger()
+        public object GetSwaggerJson()
         {
             string json = "";
             using (StreamReader reader = new StreamReader("swaggerDynamic.json"))
@@ -146,7 +110,10 @@ namespace Services
             return JsonConvert.DeserializeObject(json);
         }
 
-       
-
+        public Task Handle(GenerateDynamicDocumentationCommand notification, CancellationToken cancellationToken)
+        {
+            GenerateSwaggerJsonFile(notification.Entities.ToArray());
+            return Task.CompletedTask;
+        }
     }
 }
