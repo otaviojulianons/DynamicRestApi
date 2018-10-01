@@ -1,19 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Domain.Commands;
-using Domain.Entities.EntityAggregate;
+﻿using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
+using Domain.Events;
 using Domain.Interfaces.Infrastructure;
 using Domain.Interfaces.Structure;
 using MediatR;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Services
 {
     public class DynamicAppService : 
-        INotificationHandler<GenerateDynamicDocumentationCommand>,
-        INotificationHandler<GenerateDynamicControllerCommand>
+        INotificationHandler<GenerateDynamicDocumentationEvent>,
+        INotificationHandler<GenerateDynamicControllersEvent>,
+        INotificationHandler<CreateDynamicControllerEvent>
     {
         private IDynamicService _serviceDynamic;
         private IRepository<EntityDomain> _entityRepository;
@@ -33,7 +34,7 @@ namespace Application.Services
             _serviceProvider = serviceProvider;
         }
 
-        public Task Handle(GenerateDynamicDocumentationCommand notification, CancellationToken cancellationToken)
+        public Task Handle(GenerateDynamicDocumentationEvent notification, CancellationToken cancellationToken)
         {
             var entities = _entityRepository.GetAll().ToArray();
             var languageSwagger = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.SwaggerDoc);
@@ -41,13 +42,18 @@ namespace Application.Services
             return Task.CompletedTask;
         }
 
-        public Task Handle(GenerateDynamicControllerCommand notification, CancellationToken cancellationToken)
+        public Task Handle(GenerateDynamicControllersEvent notification, CancellationToken cancellationToken)
         {
-            EntityDomain[] entities = notification.Entity == null
-                                        ? _entityRepository.GetAll().ToArray()
-                                        : new EntityDomain[] { notification.Entity };
+            EntityDomain[] entities = _entityRepository.GetAll().ToArray();
             var languageCharp = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.Csharp);
             _serviceDynamic.GenerateControllerDynamic(_serviceProvider,languageCharp, entities);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(CreateDynamicControllerEvent notification, CancellationToken cancellationToken)
+        {
+            var languageCharp = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.Csharp);
+            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, languageCharp, notification.Entity);
             return Task.CompletedTask;
         }
     }

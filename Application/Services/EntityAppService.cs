@@ -1,12 +1,11 @@
 ﻿using Application.Models;
 using AutoMapper;
-using Domain.Commands;
 using Domain.Entities.EntityAggregate;
+using Domain.Events;
 using Domain.Helpers.Extensions;
 using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SharedKernel.Messaging;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,14 +51,14 @@ namespace Application.Services
 
             _entityRepository.Insert(entityDomain);
 
-            _mediator.Publish(new GenerateDynamicControllerCommand() { Entity = entityDomain });
+            _mediator.Publish(new CreateDynamicControllerEvent(entityDomain));
 
-            _mediator.Publish(new GenerateDynamicDocumentationCommand());
+            _mediator.Publish(new GenerateDynamicDocumentationEvent());
         }
 
         public void Delete(long id)
         {
-            var entity = _entityRepository.QueryById(id).Include(x => x.Attributes).FirstOrDefault();
+            var entity = _entityRepository.QueryById(id).FirstOrDefault();
             if (entity == null)
             {
                 _msgs.Errors.Add(new Msg("Entity not found."));

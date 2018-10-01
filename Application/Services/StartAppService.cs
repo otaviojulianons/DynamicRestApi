@@ -1,4 +1,4 @@
-﻿using Domain.Commands;
+﻿using Domain.Events;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
@@ -14,8 +14,8 @@ namespace Application.Services
                 var provider = scope.ServiceProvider;
                 var mediator = provider.GetService<IMediator>();
 
-                await mediator.Publish(new GenerateDynamicControllerCommand());
-                await mediator.Publish(new GenerateDynamicDocumentationCommand());
+                await mediator.Publish(new GenerateDynamicControllersEvent());
+                await mediator.Publish(new GenerateDynamicDocumentationEvent());
             }
         }
     }
