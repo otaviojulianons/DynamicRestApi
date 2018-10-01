@@ -78,8 +78,8 @@ CREATE TABLE [dbo].[LanguagesDataTypes](
 	constraint FkLanguagesDataTypesDataTypes foreign key (DataTypeId) references DataTypes(Id)
 	)
 
-drop table [LanguagesDataTypes]
-drop table Languages 
+--drop table [LanguagesDataTypes]
+--drop table Languages 
 
 insert into Languages values('CSharp')
 insert into Languages values('Swagger Doc')
@@ -104,6 +104,6 @@ insert into LanguagesDataTypes values(2,5,'date',null)
 insert into LanguagesDataTypes values(2,6,'date-time',null)
 insert into LanguagesDataTypes values(2,7,'float',null)
 
-alter table languagesdatatypes add 	[Format] [nvarchar](128) NULL
+alter table LanguagesDataTypes add 	[Format] [nvarchar](128) NULL
 	
-delete Languages where id = 2
+
