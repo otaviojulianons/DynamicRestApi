@@ -8,6 +8,8 @@ namespace Domain.Interfaces.Structure
 
     public interface IRepository<T> where T : IEntity
     {
+        IQueryable<T> Queryble();
+
         T GetById(long id);
 
         IEnumerable<T> GetAll();
@@ -23,6 +25,5 @@ namespace Domain.Interfaces.Structure
         void Delete(long id,bool commit = true);
 
         void Commit();
-
     }
 }

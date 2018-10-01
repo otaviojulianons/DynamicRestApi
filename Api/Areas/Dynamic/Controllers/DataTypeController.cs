@@ -3,23 +3,24 @@ using AutoMapper;
 using Domain.Services;
 using Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Notifications;
+using SharedKernel.Messaging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Api.Controllers
 {
     [Route("/Dynamic/[controller]")]
     public class DataTypeController : BaseController
     {
-        private DataTypeService _service;
+        private DataTypeAppService _serviceApp;
 
         public DataTypeController(
-            DataTypeService service,
+            DataTypeAppService service,
             IMsgManager msgs
         ) : base(msgs)
         {
-            _service = service;
+            _serviceApp = service;
         }
 
         [HttpGet()]
@@ -27,7 +28,7 @@ namespace Api.Controllers
         {
             try
             {
-                var list =_service.GetAll();
+                var list =_serviceApp.GetAll();
                 var models = Mapper.Map<IEnumerable<DataType>>(list);
                 return FormatResult(models);
             }
@@ -44,7 +45,7 @@ namespace Api.Controllers
             try
             {
                 var domain = Mapper.Map<DataTypeDomain>(item);
-                _service.Insert(domain);
+                _serviceApp.Insert(domain);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -58,7 +59,7 @@ namespace Api.Controllers
         {
             try
             {
-                var domain = _service.GetById(id);
+                var domain = _serviceApp.GetById(id);
                 var model = Mapper.Map<DataType>(domain);
                 return FormatResult(model);
             }
@@ -74,7 +75,7 @@ namespace Api.Controllers
             try
             {
                 var domain = Mapper.Map<DataTypeDomain>(item);
-                _service.Update(domain);
+                _serviceApp.Update(domain);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -88,7 +89,7 @@ namespace Api.Controllers
         {
             try
             {
-                _service.Delete(id);
+                _serviceApp.Delete(id);
                 return FormatResult(true);
             }
             catch (Exception ex)

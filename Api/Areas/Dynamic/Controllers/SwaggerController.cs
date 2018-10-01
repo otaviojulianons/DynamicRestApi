@@ -1,6 +1,5 @@
 ﻿using Domain.Interfaces.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Services;
 
 namespace Api.Controllers
 {

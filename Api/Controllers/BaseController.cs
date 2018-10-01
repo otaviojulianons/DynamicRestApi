@@ -1,6 +1,6 @@
 ﻿using Api.Models;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Notifications;
+using SharedKernel.Messaging;
 using System.Linq;
 
 namespace Api.Controllers

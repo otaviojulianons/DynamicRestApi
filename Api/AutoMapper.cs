@@ -1,6 +1,5 @@
-﻿using Api.Models;
+﻿using Application.Models;
 using AutoMapper;
-using Domain;
 using Domain.Entities.EntityAggregate;
 using Domain.ValueObjects;
 

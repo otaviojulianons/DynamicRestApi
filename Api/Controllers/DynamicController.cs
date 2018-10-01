@@ -1,8 +1,8 @@
 using Api.Models;
 using Domain.Interfaces.Structure;
+using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Repositories;
-using SharedKernel.Notifications;
+using SharedKernel.Messaging;
 using System.Collections.Generic;
 
 namespace Api.Controllers

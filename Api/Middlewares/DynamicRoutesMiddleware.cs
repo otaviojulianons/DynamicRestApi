@@ -1,8 +1,8 @@
 ﻿using Api.Controllers;
 using Domain.Interfaces.Infrastructure;
+using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Repository.Repositories;
 using System;
 using System.IO;
 using System.Text;

@@ -1,5 +1,5 @@
 ﻿using Domain.Interfaces.Structure;
-using SharedKernel.Notifications;
+using SharedKernel.Messaging;
 
 namespace Domain.Helpers.Extensions
 {

@@ -1,16 +1,8 @@
-﻿using Domain.Entities.EntityAggregate;
-using MediatR;
-using System.Collections.Generic;
+﻿using MediatR;
 
 namespace Domain.Commands
 {
     public class GenerateDynamicDocumentationCommand : INotification
     {
-        public GenerateDynamicDocumentationCommand(List<EntityDomain> entities)
-        {
-            Entities = entities;
-        }
-
-        public List<EntityDomain> Entities { get; private set; }
     }
 }

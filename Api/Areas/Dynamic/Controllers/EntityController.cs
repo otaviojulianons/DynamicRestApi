@@ -1,11 +1,8 @@
 ﻿using Api.Models;
-using AutoMapper;
-using Domain;
-using Domain.Entities.EntityAggregate;
-using Domain.Services;
+using Application.Models;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using Services;
-using SharedKernel.Notifications;
+using SharedKernel.Messaging;
 using System;
 using System.Collections.Generic;
 
@@ -14,14 +11,14 @@ namespace Api.Controllers
     [Route("/Dynamic/[controller]")]
     public class EntityController : BaseController
     {
-        private EntityService _service;
+        private EntityAppService _serviceApp;
 
         public EntityController(
-            EntityService service,
+            EntityAppService serviceApp,
             IMsgManager msgs
            ) : base(msgs)
         {
-            _service = service;
+            _serviceApp = serviceApp;
         }
 
         [HttpPost()]
@@ -29,8 +26,7 @@ namespace Api.Controllers
         {
             try
             {
-                var entityDomain = Mapper.Map<EntityDomain>(item);
-                _service.Insert(entityDomain);
+                _serviceApp.Insert(item);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -44,7 +40,7 @@ namespace Api.Controllers
         {
             try
             {
-                _service.Delete(id);
+                _serviceApp.Delete(id);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -56,9 +52,16 @@ namespace Api.Controllers
         [HttpGet()]
         public ResultApi<IEnumerable<Entity>> List()
         {
-            var entities = _service.GetAllEntities();
-            var entitiesModel = Mapper.Map<IEnumerable<Entity>>(entities);
-            return FormatResult(entitiesModel);
+            try
+            {
+                var entities = _serviceApp.GetAll();
+                return FormatResult(entities);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<IEnumerable<Entity>>(ex.Message);
+            }
+
         }
     }
 }

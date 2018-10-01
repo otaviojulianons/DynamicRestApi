@@ -1,6 +1,8 @@
 ﻿using Api.Controllers;
 using Api.Middlewares;
+using Application.Services;
 using Domain.Interfaces.Infrastructure;
+using Ioc;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,19 +11,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
+using System.Reflection;
 
 namespace Api
 {
     public class Startup
     {
+        private IConfiguration _configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -39,15 +41,14 @@ namespace Api
                        .AllowAnyHeader();
             }));
 
-            services.AddMediatR();
+            services.AddMediatR(Assembly.GetAssembly(typeof(DynamicAppService)));
             services.AddScoped(typeof(DynamicController<>));
 
-            new Ioc.Startup().ConfigureServices(services,Configuration);
+            IoCService.Configure(services, _configuration);
             AutoMapper.MapperRegister();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)
         {
             app.UseMiddleware<DynamicRoutesMiddleware>();
 
@@ -56,7 +57,6 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
            
-
             app.UseStaticFiles();
             app.UseCors("CorsConfig");
             app.UseSwagger();
@@ -68,7 +68,7 @@ namespace Api
 
             app.UseMvc();
 
-            app.ApplicationServices.GetService<IDynamicService>().Init(serviceScopeFactory);
+            await StartAppService.Run(serviceScopeFactory);
         }
 
     }
