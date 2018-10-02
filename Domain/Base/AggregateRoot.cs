@@ -3,7 +3,7 @@ using MediatR;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Interfaces.Domain
+namespace Domain.Base
 {
     public abstract class AggregateRoot : IAggregateRoot
     {

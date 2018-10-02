@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Domain;
+﻿using Domain.Interfaces.Events;
 using Domain.Interfaces.Structure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -37,9 +37,17 @@ namespace Infrastructure.Repository.Base
 
         public virtual void Delete(long id, bool commit = false)
         {
-            DbSet.Remove(DbSet.Where(x => x.Id.Equals(id)).FirstOrDefault());
+            var entity = DbSet.Where(x => x.Id.Equals(id)).FirstOrDefault();
+            DbSet.Remove(entity);
             if (commit)
                 Commit();
+
+            if (entity is IAggregateRoot)
+            {
+                var aggregateRoot = entity as IAggregateRoot;
+                foreach (var notification in aggregateRoot.Notifications.Where(x => x is IAfterDeleteDomainEvent<T>))
+                    _mediator.Publish(notification);
+            }
         }
 
         public virtual void Insert(T entity, bool commit = false)
@@ -54,7 +62,6 @@ namespace Infrastructure.Repository.Base
                 foreach (var notification in aggregateRoot.Notifications.Where(x => x is IAfterInsertDomainEvent<T>))
                     _mediator.Publish(notification);
             }
-
         }
 
         public virtual IEnumerable<T> GetAll()

@@ -1,5 +1,4 @@
-﻿using Domain.Interfaces.Domain;
-using Domain.Interfaces.Structure;
+﻿using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using FluentValidation;
 

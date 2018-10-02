@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Helpers.Collections
+namespace SharedKernel.Collections
 {
     public class NavigableList<T> : List<NavigableItem<T>>
     {

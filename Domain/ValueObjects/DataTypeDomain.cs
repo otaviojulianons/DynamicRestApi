@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Domain;
+﻿using Domain.Base;
 
 namespace Domain.ValueObjects
 {

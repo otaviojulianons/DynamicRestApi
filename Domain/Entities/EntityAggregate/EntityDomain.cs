@@ -1,10 +1,10 @@
-﻿using Domain.Entities.LanguageAggregate;
+﻿using Domain.Base;
+using Domain.Entities.LanguageAggregate;
 using Domain.Events;
-using Domain.Helpers.Collections;
-using Domain.Interfaces.Domain;
 using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using FluentValidation;
+using SharedKernel.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

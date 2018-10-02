@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace Application.Services
 {
     public class DynamicAppService : 
-        INotificationHandler<GenerateDynamicDocumentationEvent>,
-        INotificationHandler<GenerateDynamicControllersEvent>,
-        INotificationHandler<AfterInsertEntityEvent>
+        INotificationHandler<GenerateDynamicObjectsEvent>,
+        INotificationHandler<AfterInsertEntityEvent>,
+        INotificationHandler<AfterDeleteEntityEvent>
     {
         private IDynamicService _serviceDynamic;
         private IRepository<EntityDomain> _entityRepository;
@@ -35,41 +35,44 @@ namespace Application.Services
         }
 
 
-        public void GenerateSwaggerJsonFile()
+        private void GenerateSwaggerJsonFile()
         {
             var entities = _entityRepository.GetAll().ToArray();
             var languageSwagger = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.SwaggerDoc);
             _serviceDynamic.GenerateSwaggerJsonFile(languageSwagger, entities);
         }
 
-        public void GenerateDynamicControllers()
+        private void GenerateDynamicControllers()
         {
             EntityDomain[] entities = _entityRepository.GetAll().ToArray();
             var languageCharp = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.Csharp);
             _serviceDynamic.GenerateControllerDynamic(_serviceProvider, languageCharp, entities);
         }
 
-        public void CreateDynamicController(EntityDomain entity)
+        private void CreateDynamicController(EntityDomain entity)
         {
             var languageCharp = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.Csharp);
             _serviceDynamic.GenerateControllerDynamic(_serviceProvider, languageCharp, entity);
         }
 
-        public Task Handle(GenerateDynamicDocumentationEvent notification, CancellationToken cancellationToken)
-        {
-            GenerateSwaggerJsonFile();
-            return Task.CompletedTask;
-        }
 
-        public Task Handle(GenerateDynamicControllersEvent notification, CancellationToken cancellationToken)
+        public Task Handle(GenerateDynamicObjectsEvent notification, CancellationToken cancellationToken)
         {
             GenerateDynamicControllers();
+            GenerateSwaggerJsonFile();
             return Task.CompletedTask;
         }
 
         public Task Handle(AfterInsertEntityEvent notification, CancellationToken cancellationToken)
         {
             CreateDynamicController(notification.Entity);
+            GenerateSwaggerJsonFile();
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(AfterDeleteEntityEvent notification, CancellationToken cancellationToken)
+        {
+            GenerateDynamicControllers();
             GenerateSwaggerJsonFile();
             return Task.CompletedTask;
         }

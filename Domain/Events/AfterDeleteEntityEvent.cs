@@ -3,9 +3,9 @@ using Domain.Interfaces.Events;
 
 namespace Domain.Events
 {
-    public class AfterInsertEntityEvent : IAfterInsertDomainEvent<EntityDomain>
+    public class AfterDeleteEntityEvent : IAfterDeleteDomainEvent<EntityDomain>
     {
-        public AfterInsertEntityEvent(EntityDomain entity)
+        public AfterDeleteEntityEvent(EntityDomain entity)
         {
             Entity = entity;
         }
