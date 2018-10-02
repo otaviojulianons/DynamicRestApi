@@ -14,7 +14,6 @@ namespace Application.Services
     public class DynamicAppService : 
         INotificationHandler<GenerateDynamicDocumentationEvent>,
         INotificationHandler<GenerateDynamicControllersEvent>,
-        INotificationHandler<CreateDynamicControllerEvent>,
         INotificationHandler<AfterInsertEntityEvent>
     {
         private IDynamicService _serviceDynamic;
@@ -65,12 +64,6 @@ namespace Application.Services
         public Task Handle(GenerateDynamicControllersEvent notification, CancellationToken cancellationToken)
         {
             GenerateDynamicControllers();
-            return Task.CompletedTask;
-        }
-
-        public Task Handle(CreateDynamicControllerEvent notification, CancellationToken cancellationToken)
-        {
-            CreateDynamicController(notification.Entity);
             return Task.CompletedTask;
         }
 

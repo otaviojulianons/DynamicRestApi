@@ -15,7 +15,6 @@ namespace Application.Services
     public class EntityAppService
     {
         private IMsgManager _msgs;
-        private IMediator _mediator;
         private IRepository<EntityDomain> _entityRepository;
         private IRepository<DataTypeDomain> _dataTypesRepository;
         private IDatabaseService _databaseService;
@@ -24,12 +23,10 @@ namespace Application.Services
             IRepository<EntityDomain> entityRepository,
             IRepository<DataTypeDomain> dataTypesRepository,
             IDatabaseService databaseService,
-            IMediator mediator,
             IMsgManager msgs
             )
         {
             _msgs = msgs;
-            _mediator = mediator;
             _entityRepository = entityRepository;
             _dataTypesRepository = dataTypesRepository;
             _databaseService = databaseService;
@@ -50,10 +47,6 @@ namespace Application.Services
                 return;
 
             _entityRepository.Insert(entityDomain);
-
-            _mediator.Publish(new CreateDynamicControllerEvent(entityDomain));
-
-            _mediator.Publish(new GenerateDynamicDocumentationEvent());
         }
 
         public void Delete(long id)
