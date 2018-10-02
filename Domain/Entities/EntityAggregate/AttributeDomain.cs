@@ -1,10 +1,11 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Interfaces.Domain;
+using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using FluentValidation;
 
 namespace Domain.Entities.EntityAggregate
 {
-    public class AttributeDomain : ISelfValidation<AttributeDomain>
+    public class AttributeDomain : IEntity ,ISelfValidation<AttributeDomain>
     {
 
         public IValidator<AttributeDomain> Validator => new AttributeValidator();

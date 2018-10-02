@@ -1,8 +1,8 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Interfaces.Domain;
 
 namespace Domain.ValueObjects
 {
-    public class DataTypeDomain : IEntity
+    public class DataTypeDomain : AggregateRoot
     {
         public long Id { get; set; }
 

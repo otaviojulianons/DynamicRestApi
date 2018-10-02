@@ -1,6 +1,10 @@
-﻿namespace Domain.Interfaces.Structure
+﻿using MediatR;
+using System.Collections.Generic;
+
+namespace Domain.Interfaces.Structure
 {
-    public interface IAggregateRoot
+    public interface IAggregateRoot : IEntity
     {
+        IList<INotification> Notifications { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Interfaces.Domain;
+using Domain.Interfaces.Structure;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,11 +12,14 @@ namespace Infrastructure.Repository.Base
     public class Repository<T> : IRepository<T> where T :  class, IEntity
     {
         private DbContext _context;
+        private IMediator _mediator;
+
         public DbSet<T> DbSet { get; set; }
 
-        public Repository(DbContext context)
+        public Repository(DbContext context, IMediator mediator)
         {
             _context = context;
+            _mediator = mediator;
             DbSet = context.Set<T>();
         }
 
@@ -42,6 +47,14 @@ namespace Infrastructure.Repository.Base
             DbSet.Add(entity);
             if (commit)
                 Commit();
+
+            if(entity is IAggregateRoot)
+            {
+                var aggregateRoot = entity as IAggregateRoot;
+                foreach (var notification in aggregateRoot.Notifications.Where(x => x is IAfterInsertDomainEvent<T>))
+                    _mediator.Publish(notification);
+            }
+
         }
 
         public virtual IEnumerable<T> GetAll()

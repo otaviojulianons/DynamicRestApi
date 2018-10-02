@@ -1,5 +1,7 @@
 ﻿using Domain.Entities.LanguageAggregate;
+using Domain.Events;
 using Domain.Helpers.Collections;
+using Domain.Interfaces.Domain;
 using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using FluentValidation;
@@ -8,16 +10,18 @@ using System.Linq;
 
 namespace Domain.Entities.EntityAggregate
 {
-    public class EntityDomain : ISelfValidation<EntityDomain>
+    public class EntityDomain : AggregateRoot, ISelfValidation<EntityDomain>
     {
         public EntityDomain(string name)
         {
             Name = name;
+
+            AddNotification(new AfterInsertEntityEvent(this));
         }
 
         public IValidator<EntityDomain> Validator => new EntityValidator();
 
-        public long Id { get; private set; }
+        public new long Id { get; private set; }
 
         public string Name { get; private set; }
 

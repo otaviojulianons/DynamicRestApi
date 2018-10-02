@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Structure;
+using MediatR;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -22,10 +23,13 @@ namespace Infrastructure.Services
 
             var compilation = CSharpCompilation.Create("DynamicAssembly", new[] { tree },
                               new[] {
-                                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                                MetadataReference.CreateFromFile(typeof(IEntity).Assembly.Location),
+                                  MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                                  MetadataReference.CreateFromFile(typeof(IEntity).Assembly.Location),
                               },
                               new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            //MetadataReference.CreateFromFile(typeof(IMediator).Assembly.Location),     
+            //MetadataReference.CreateFromFile(Assembly.Load("System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").Location),
+            //MetadataReference.CreateFromFile(Assembly.Load("System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").Location),
             using (var ms = new MemoryStream())
             {
                 var xmlStream = new MemoryStream();
