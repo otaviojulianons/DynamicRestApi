@@ -3,6 +3,7 @@ using Domain.Entities.LanguageAggregate;
 using Domain.Events;
 using Domain.Interfaces.Infrastructure;
 using Domain.Interfaces.Structure;
+using Domain.Models;
 using MediatR;
 using System;
 using System.Linq;
@@ -39,20 +40,23 @@ namespace Application.Services
         {
             var entities = _entityRepository.GetAll().ToArray();
             var languageSwagger = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.SwaggerDoc);
-            _serviceDynamic.GenerateSwaggerJsonFile(languageSwagger, entities);
+            var entitiesTemplates = entities.Select(entity => new EntityTemplate(entity, languageSwagger)).ToArray();
+            _serviceDynamic.GenerateSwaggerJsonFile(entitiesTemplates);
         }
 
         private void GenerateDynamicControllers()
         {
             EntityDomain[] entities = _entityRepository.GetAll().ToArray();
             var languageCharp = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.Csharp);
-            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, languageCharp, entities);
+            var entitiesTemplates = entities.Select(entity => new EntityTemplate(entity, languageCharp)).ToArray();
+            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entitiesTemplates);
         }
 
         private void CreateDynamicController(EntityDomain entity)
         {
             var languageCharp = _languageRepository.GetById((long)LanguageDomain.EnumLanguages.Csharp);
-            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, languageCharp, entity);
+            var entityTemplate = new EntityTemplate(entity, languageCharp);
+            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entityTemplate);
         }
 
 

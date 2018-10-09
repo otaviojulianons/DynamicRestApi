@@ -25,9 +25,7 @@ namespace Domain.Entities.EntityAggregate
 
         public string Name { get; private set; }
 
-        public List<AttributeDomain> Attributes { get; private set; }
-
-        public NavigableList<AttributeDomain> AttributesNavigable => Attributes.ToNavigableList();
+        public IReadOnlyCollection<AttributeDomain> Attributes { get; private set; }
 
         public void DefineDataTypes(IEnumerable<DataTypeDomain> dataTypes)
         {
@@ -35,11 +33,7 @@ namespace Domain.Entities.EntityAggregate
                 attribute.DataTypeId = dataTypes.FirstOrDefault(type => type.Name == attribute.DataTypeName)?.Id ?? 0;
         }
 
-        public void DefineLanguage(LanguageDomain language)
-        {
-            foreach (var attribute in Attributes)
-                attribute.TypeLanguage = language.GetTypeLanguage(attribute.DataTypeId, attribute.AllowNull);
-        }
+
 
     }
 }

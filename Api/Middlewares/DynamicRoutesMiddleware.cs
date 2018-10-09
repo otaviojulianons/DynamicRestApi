@@ -3,10 +3,12 @@ using Domain.Interfaces.Infrastructure;
 using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using SharedKernel.Messaging;
 using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Middlewares
 {
@@ -33,8 +35,9 @@ namespace Api.Middlewares
                     var controllerType = typeof(DynamicController<>).MakeGenericType(type);
                     var storageType = typeof(DynamicRepository<>).MakeGenericType(type);
                     dynamic serviceController = httpContext.RequestServices.GetService(controllerType);
+                    var msgs = httpContext.RequestServices.GetService<IMsgManager>();
                     dynamic serviceStorage = httpContext.RequestServices.GetService(storageType);
-                    dynamic controller = Activator.CreateInstance(controllerType, serviceStorage);
+                    dynamic controller = Activator.CreateInstance(controllerType, serviceStorage, msgs);
                     long? id;
                     dynamic result;
                     switch (httpContext.Request.Method)
@@ -84,7 +87,7 @@ namespace Api.Middlewares
                 }
                 catch (Exception ex)
                 {
-                    httpContext.Response.StatusCode = 500;
+                    httpContext.Response.StatusCode = 400;
                     return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { ex.Message }));
                 }
             }

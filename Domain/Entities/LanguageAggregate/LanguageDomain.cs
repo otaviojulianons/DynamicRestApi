@@ -13,11 +13,11 @@ namespace Domain.Entities.LanguageAggregate
             SwaggerDoc = 2
         }
 
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public IEnumerable<LanguageDataTypeDomain> DataTypes { get; set; }
+        public IReadOnlyCollection<LanguageDataTypeDomain> DataTypes { get; set; }
 
         public AttributeTypeLanguage GetTypeLanguage(long idDataType, bool nullable)
         {

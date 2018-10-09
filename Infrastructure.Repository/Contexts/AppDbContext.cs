@@ -25,13 +25,11 @@ namespace Infrastructure.Repository.Contexts
             modelBuilder.Entity<AttributeDomain>()
                 .ToTable("Attributes")
                 .Ignore(x => x.DataTypeName)
-                .Ignore(x => x.TypeLanguage)
                 .HasKey(x => x.Id);
 
 
             modelBuilder.Entity<EntityDomain>()
                 .ToTable("Entities")
-                .Ignore(property => property.AttributesNavigable)
                 .HasKey(x => x.Id);
 
             modelBuilder.Entity<LanguageDomain>()

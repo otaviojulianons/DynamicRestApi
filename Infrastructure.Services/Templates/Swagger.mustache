@@ -127,7 +127,7 @@
             "format": "int64",
             "type": "integer"
         },
-{{#each Item.AttributesNavigable}}
+{{#each Item.Attributes}}
     "{{Item.Name}}": { "format": "{{Item.TypeLanguage.Format}}",
                   "type": "{{Item.TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
 {{/each}}

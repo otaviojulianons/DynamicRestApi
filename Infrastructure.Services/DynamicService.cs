@@ -1,12 +1,14 @@
 ﻿using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
 using Domain.Interfaces.Infrastructure;
+using Domain.Models;
 using Infrastructure.Repository.Contexts;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SharedKernel.Collections;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Infrastructure.Services
@@ -34,11 +36,10 @@ namespace Infrastructure.Services
                 _templateSwagger = reader.ReadToEnd();
         }
 
-        public void GenerateControllerDynamic(IServiceProvider serviceProvider, LanguageDomain language, params EntityDomain[] entities)
+        public void GenerateControllerDynamic(IServiceProvider serviceProvider, params EntityTemplate[] entities)
         {
             foreach (var entity in entities)
             {
-                entity.DefineLanguage(language);
                 var classDomain = TemplateService.Generate(_templateDomain, entity);
                 var type = CompilerService.GenerateTypeFromCode(classDomain);
                 _dynamicRoutes.AddRoute(entity.Name, type);
@@ -49,22 +50,17 @@ namespace Infrastructure.Services
             }
         }
 
-        private string GenerateSwaggerJson(LanguageDomain language,params EntityDomain[] entities)
+        private string GenerateSwaggerJson(params EntityTemplate[] entities)
         {
-            foreach (var entity in entities)
-            {
-                entity.DefineLanguage(language);
-                entity.Attributes.Remove(entity.Attributes.Find(x => x.Name.ToLower() == "id"));
-            }
-            var templateParameters = new { Entities = new NavigableList<EntityDomain>(entities) };
+            var templateParameters = new { Entities = new NavigableList<EntityTemplate>(entities) };
             return TemplateService.Generate(_templateSwagger, templateParameters);
         }
 
 
-        public void GenerateSwaggerJsonFile(LanguageDomain language, params EntityDomain[] entities)
+        public void GenerateSwaggerJsonFile(params EntityTemplate[] entities)
         {
+            var swagger = GenerateSwaggerJson(entities);
             var path = "swaggerDynamic.json";
-            var swagger = GenerateSwaggerJson(language,entities);
             File.Delete(path);
             using (StreamWriter writer = new StreamWriter(path))
                 writer.WriteLine(swagger);

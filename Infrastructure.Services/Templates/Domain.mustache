@@ -5,7 +5,7 @@ namespace DynamicAssembly
 {
     public class {{Name}} : IEntity
     {
-{{#each AttributesNavigable}}
+{{#each Attributes}}
         public {{Item.TypeLanguage.Type}} {{Item.Name}} { get; set; }
 {{/each}}
 

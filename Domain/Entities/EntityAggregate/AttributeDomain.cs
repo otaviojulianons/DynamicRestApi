@@ -23,8 +23,6 @@ namespace Domain.Entities.EntityAggregate
 
         public string DataTypeName { get; set; }
 
-        public AttributeTypeLanguage TypeLanguage { get; set; }
-
         public DataTypeDomain DataType { get; set; }
 
         public EntityDomain Entity { get; set; }
