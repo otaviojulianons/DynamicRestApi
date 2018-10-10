@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Events;
+using Domain.Interfaces.Infrastructure;
 using Domain.Interfaces.Structure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

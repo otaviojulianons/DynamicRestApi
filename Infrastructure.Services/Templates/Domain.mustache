@@ -5,6 +5,7 @@ namespace DynamicAssembly
 {
     public class {{Name}} : IEntity
     {
+        public long Id { get; set; }
 {{#each Attributes}}
         public {{Item.TypeLanguage.Type}} {{Item.Name}} { get; set; }
 {{/each}}

@@ -9,9 +9,7 @@ namespace Domain.Interfaces.Infrastructure
     {
         void GenerateControllerDynamic(IServiceProvider serviceProvider,params EntityTemplate[] entities);
 
-        void GenerateSwaggerJsonFile(params EntityTemplate[] entities);
-
-        object GetSwaggerJson();
+        string GenerateSwaggerJsonFile(params EntityTemplate[] entities);
 
     }
 }

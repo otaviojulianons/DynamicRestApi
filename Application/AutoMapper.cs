@@ -3,9 +3,9 @@ using AutoMapper;
 using Domain.Entities.EntityAggregate;
 using Domain.ValueObjects;
 
-namespace Api
+namespace Application
 {
-    public class AutoMapper
+    public static class AutoMapper
     {
         public static void MapperRegister()
         {

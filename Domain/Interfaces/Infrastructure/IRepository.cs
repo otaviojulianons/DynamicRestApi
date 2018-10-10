@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Domain.Interfaces.Structure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Domain.Interfaces.Structure
+namespace Domain.Interfaces.Infrastructure
 {
 
     public interface IRepository<T> where T : IEntity

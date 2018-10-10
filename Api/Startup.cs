@@ -1,7 +1,6 @@
 ﻿using Api.Controllers;
 using Api.Middlewares;
 using Application.Services;
-using Domain.Interfaces.Infrastructure;
 using Ioc;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -45,7 +44,7 @@ namespace Api
             services.AddScoped(typeof(DynamicController<>));
 
             IoCService.Configure(services, _configuration);
-            AutoMapper.MapperRegister();
+            Application.AutoMapper.MapperRegister();
         }
 
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)

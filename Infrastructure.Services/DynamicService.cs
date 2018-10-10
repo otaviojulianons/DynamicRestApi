@@ -1,14 +1,11 @@
-﻿using Domain.Entities.EntityAggregate;
-using Domain.Entities.LanguageAggregate;
-using Domain.Interfaces.Infrastructure;
+﻿using Domain.Interfaces.Infrastructure;
 using Domain.Models;
 using Infrastructure.Repository.Contexts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using SharedKernel.Collections;
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace Infrastructure.Services
@@ -20,6 +17,7 @@ namespace Infrastructure.Services
         private string _templateDomain;
         private string _templateSwagger;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
 
         public DynamicService(
             ILogger<DynamicService> logger,
@@ -40,39 +38,29 @@ namespace Infrastructure.Services
         {
             foreach (var entity in entities)
             {
+                //compile domain type
                 var classDomain = TemplateService.Generate(_templateDomain, entity);
                 var type = CompilerService.GenerateTypeFromCode(classDomain);
+
+                //generate controller route
                 _dynamicRoutes.AddRoute(entity.Name, type);
+
+                //create repository entity
                 var repositoryType = typeof(DynamicDbContext<>).MakeGenericType(type);
                 dynamic dynamicRepository = serviceProvider.GetService(repositoryType);
                 dynamicRepository.CreateEntity();
+
                 _logger.LogInformation($"Dynamic Controller {entity.Name} generated.");
             }
         }
 
-        private string GenerateSwaggerJson(params EntityTemplate[] entities)
+        public string GenerateSwaggerJsonFile(params EntityTemplate[] entities)
         {
             var templateParameters = new { Entities = new NavigableList<EntityTemplate>(entities) };
-            return TemplateService.Generate(_templateSwagger, templateParameters);
-        }
+            var json = TemplateService.Generate(_templateSwagger, templateParameters);
 
-
-        public void GenerateSwaggerJsonFile(params EntityTemplate[] entities)
-        {
-            var swagger = GenerateSwaggerJson(entities);
-            var path = "swaggerDynamic.json";
-            File.Delete(path);
-            using (StreamWriter writer = new StreamWriter(path))
-                writer.WriteLine(swagger);
             _logger.LogInformation("Dynamic documentation generated.");
-        }
-
-        public object GetSwaggerJson()
-        {
-            string json = "";
-            using (StreamReader reader = new StreamReader("swaggerDynamic.json"))
-                json = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject(json);
+            return json;
         }
 
     }

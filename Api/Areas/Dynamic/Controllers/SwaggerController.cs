@@ -1,5 +1,7 @@
-﻿using Domain.Interfaces.Infrastructure;
+﻿using Application.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -7,17 +9,17 @@ namespace Api.Controllers
     [Route("/Dynamic/swagger")]
     public class SwaggerController : Controller
     {
-        private IDynamicService _service;
+        private DynamicAppService _service;
 
-        public SwaggerController(IDynamicService service)
+        public SwaggerController(DynamicAppService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public object Get()
+        public async Task Get()
         {
-            return _service.GetSwaggerJson();
+            await HttpContext.Response.WriteAsync(await _service.GetSwaggerJson());
         }
     }
 }

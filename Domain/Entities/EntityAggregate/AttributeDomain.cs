@@ -27,7 +27,8 @@ namespace Domain.Entities.EntityAggregate
 
         public EntityDomain Entity { get; set; }
 
-        public bool IsIdentifier => Name?.ToLower() == "id" && DataTypeName?.ToLower() == "long";
+        public bool IsIdentifier => 
+            Name?.ToLower() == "id" && (DataType?.Name ?? DataTypeName)?.ToLower() == "long";
 
 
     }

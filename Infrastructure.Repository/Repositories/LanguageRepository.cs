@@ -1,5 +1,5 @@
 ﻿using Domain.Entities.LanguageAggregate;
-using Domain.Interfaces.Structure;
+using Domain.Interfaces.Infrastructure;
 using Infrastructure.Repository.Base;
 using Infrastructure.Repository.Contexts;
 using MediatR;

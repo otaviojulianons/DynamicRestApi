@@ -20,6 +20,10 @@ namespace Api
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration( config =>
+                {
+                    config.AddJsonFile("swaggerSettings.json", true, reloadOnChange: true);
+                })
                 .Build();
     }
 }

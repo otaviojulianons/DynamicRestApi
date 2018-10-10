@@ -2,9 +2,9 @@
 using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
 using Domain.Interfaces.Infrastructure;
-using Domain.Interfaces.Structure;
 using Domain.Services;
 using Domain.ValueObjects;
+using Infrastructure.Repository;
 using Infrastructure.Repository.Contexts;
 using Infrastructure.Repository.Repositories;
 using Infrastructure.Services;
@@ -30,6 +30,7 @@ namespace Ioc
             services.AddScoped<IRepository<AttributeDomain>, ContextRepository<AttributeDomain>>();
             services.AddScoped<IRepository<DataTypeDomain>, ContextRepository<DataTypeDomain>>();
             services.AddScoped<IRepository<LanguageDataTypeDomain>, ContextRepository<LanguageDataTypeDomain>>();
+            services.AddScoped<IJsonRepository, JsonRepository>();
 
             //SERVICES    
             services.AddSingleton<IDynamicService,DynamicService>();
@@ -38,6 +39,7 @@ namespace Ioc
             services.AddScoped<IMsgManager, MsgManager>();
             services.AddScoped<DataTypeAppService>();
             services.AddScoped<EntityAppService>();
+            services.AddScoped<DynamicAppService>();
         }
 
 

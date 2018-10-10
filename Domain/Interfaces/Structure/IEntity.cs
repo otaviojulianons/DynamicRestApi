@@ -1,7 +1,4 @@
-﻿using MediatR;
-using System.Collections.Generic;
-
-namespace Domain.Interfaces.Structure
+﻿namespace Domain.Interfaces.Structure
 {
     public interface IEntity
     {

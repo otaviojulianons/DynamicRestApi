@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain.Entities.EntityAggregate;
 using Domain.Events;
 using Domain.Helpers.Extensions;
+using Domain.Interfaces.Infrastructure;
 using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using MediatR;

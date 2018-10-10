@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces.Structure
+﻿namespace Domain.Interfaces.Infrastructure
 {
     public interface IDatabaseService
     {

@@ -1,10 +1,8 @@
 ﻿using Domain.Base;
-using Domain.Entities.LanguageAggregate;
 using Domain.Events;
 using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using FluentValidation;
-using SharedKernel.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +15,7 @@ namespace Domain.Entities.EntityAggregate
             Name = name;
 
             AddNotification(new AfterInsertEntityEvent(this));
+            AddNotification(new AfterDeleteEntityEvent(this));
         }
 
         public IValidator<EntityDomain> Validator => new EntityValidator();

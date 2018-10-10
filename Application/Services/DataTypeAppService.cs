@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Interfaces.Infrastructure;
+using Domain.Interfaces.Structure;
 using Domain.ValueObjects;
 using System.Collections.Generic;
 
