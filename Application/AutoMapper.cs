@@ -18,10 +18,8 @@ namespace Application
                     .ForMember(domain => domain.Attributes, opt => opt.Ignore())
                     .ReverseMap();
 
-                cfg.CreateMap<Attribute, AttributeDomain>(MemberList.Source)
-                    .ForMember(domain => domain.Id, opt => opt.Ignore())
-                    .ForMember(domain => domain.Entity, opt => opt.Ignore())
-                    .ForMember(domain => domain.DataType, opt => opt.Ignore())
+                cfg.CreateMap<AttributeDomain, Attribute>(MemberList.Source)
+                    .ForMember(model => model.DataType, opt => opt.MapFrom( x => x.DataType.Name))
                     .ReverseMap();
             });
         }
