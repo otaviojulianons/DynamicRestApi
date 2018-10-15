@@ -1,13 +1,12 @@
 ﻿using Api.Models;
+using Application.Models;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Services;
-using Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Messaging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Api.Controllers
 {

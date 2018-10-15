@@ -8,7 +8,7 @@ namespace Domain.Services
     {
         private IRepository<DataTypeDomain> _dataTypeRepository;
 
-        internal DataTypeAppService(IRepository<DataTypeDomain> dataTypeRepository)
+        public DataTypeAppService(IRepository<DataTypeDomain> dataTypeRepository)
             => _dataTypeRepository = dataTypeRepository;
 
         public void Insert(DataTypeDomain dataType)
