@@ -6,13 +6,15 @@ import AceEditor from 'react-ace';
 import 'brace/mode/json';
 import 'brace/theme/monokai';
 import { 
-    dynamicEntityGet 
+    dynamicEntityGet,
+    dynamicEntityByIdDelete 
 } from '../store/actions/Entity';
 
 class EntityContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = { objectSelect: '' }
+        this.state = { objectSelect: '' };
+        this.onDelete = this.onDelete.bind(this);
     }
 
     componentDidMount(){
@@ -20,9 +22,9 @@ class EntityContainer extends Component {
     }
 
     onDelete(id){
-        fetch(`http://localhost:5000/${this.props.controller}/Delete?id=${id}`,{
-            method: "DELETE",
-        })
+        this.props.actiondynamicEntityByIdDelete(id).then( () => {
+            this.props.actiondynamicEntityGet();
+        });
     }
 
     onEdit(entity){
@@ -56,7 +58,7 @@ class EntityContainer extends Component {
             render: (text, record) => (
                 <div>
                     <Tooltip title="Delete Entity">
-                        <Popconfirm title="Delete Entity?" placement="left" onConfirm={() => this.onDelete(record.Id)} okText="Yes" cancelText="No">
+                        <Popconfirm title="Delete Entity?" placement="left" onConfirm={() => this.onDelete(record.id)} okText="Yes" cancelText="No">
                             <Icon style={styleIcons} type="delete" className="pointer" />
                         </Popconfirm>
                     </Tooltip>                       
@@ -126,6 +128,7 @@ const mapStateToProps = state => ({
   
   const mapDispatchToProps = dispatch => ({
     actiondynamicEntityGet:() => dispatch(dynamicEntityGet()),
+    actiondynamicEntityByIdDelete: id => dispatch(dynamicEntityByIdDelete(id)),
   });
   
  export default connect(
