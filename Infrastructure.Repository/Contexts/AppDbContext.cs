@@ -13,7 +13,7 @@ namespace Infrastructure.Repository.Contexts
 
         public AppDbContext(IConfiguration configuration)
         {
-            _connectionString = configuration.GetValue<string>("Database:StringConnection");
+            _connectionString = configuration.GetValue<string>("Database:ConnectionString");
         }
 
         public DbSet<EntityDomain> Entities { get; set; }

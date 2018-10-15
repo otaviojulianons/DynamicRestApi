@@ -14,7 +14,7 @@ namespace Infrastructure.Repository.Contexts
 
         public DynamicDbContext(IConfiguration configuration)
         {
-            _connectionString = configuration.GetValue<string>("Database:StringConnection");
+            _connectionString = configuration.GetValue<string>("Database:ConnectionString");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
