@@ -1,5 +1,4 @@
-﻿using Domain.Interfaces.Structure;
-using MediatR;
+﻿using Domain.Core.Interfaces.Structure;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;

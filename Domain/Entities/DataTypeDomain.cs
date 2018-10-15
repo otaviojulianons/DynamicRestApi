@@ -1,13 +1,14 @@
-﻿using Domain.Base;
+﻿using Domain.Core.Interfaces.Structure;
 
-namespace Domain.ValueObjects
+namespace Domain.Entities
 {
-    public class DataTypeDomain : AggregateRoot
+    public class DataTypeDomain : IEntity
     {
         public long Id { get; set; }
 
         public string Name { get; set; }
 
         public bool UseLength { get; set; }
+
     }
 }

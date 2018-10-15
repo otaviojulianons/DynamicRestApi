@@ -1,12 +1,8 @@
 ﻿using Application.Models;
 using AutoMapper;
+using Domain.Core.Interfaces.Infrastructure;
+using Domain.Entities;
 using Domain.Entities.EntityAggregate;
-using Domain.Events;
-using Domain.Helpers.Extensions;
-using Domain.Interfaces.Infrastructure;
-using Domain.Interfaces.Structure;
-using Domain.ValueObjects;
-using MediatR;
 using SharedKernel.Messaging;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +14,16 @@ namespace Application.Services
         private IMsgManager _msgs;
         private IRepository<EntityDomain> _entityRepository;
         private IRepository<DataTypeDomain> _dataTypesRepository;
-        private IDatabaseService _databaseService;
 
         public EntityAppService(
             IRepository<EntityDomain> entityRepository,
             IRepository<DataTypeDomain> dataTypesRepository,
-            IDatabaseService databaseService,
             IMsgManager msgs
             )
         {
             _msgs = msgs;
             _entityRepository = entityRepository;
             _dataTypesRepository = dataTypesRepository;
-            _databaseService = databaseService;
         }
 
         public IEnumerable<Entity> GetAll()
@@ -42,26 +35,18 @@ namespace Application.Services
         {
             var entityDomain = Mapper.Map<EntityDomain>(entity);
 
-            entityDomain.DefineDataTypes(_dataTypesRepository.GetAll());
-
-            if (!entityDomain.IsValid(_msgs))
-                return;
+            entity.Attributes.ForEach(attribute =>
+            {
+                var dataType = _dataTypesRepository.QueryBy(x => x.Name == attribute.DataType).FirstOrDefault();
+                entityDomain.AddAttribute(attribute.Name, attribute.AllowNull, attribute.Length, dataType);
+            });
 
             _entityRepository.Insert(entityDomain);
         }
 
         public void Delete(long id)
         {
-            var entity = _entityRepository.QueryById(id).FirstOrDefault();
-            if (entity == null)
-            {
-                _msgs.Errors.Add(new Msg("Entity not found."));
-                return;
-            }
-
-            _entityRepository.Delete(entity.Id);
-
-            _databaseService.DropEntity(entity.Name);
+            _entityRepository.Delete(id);
         }
 
     }

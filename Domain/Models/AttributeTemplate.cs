@@ -14,7 +14,7 @@ namespace Domain.Models
             Name = attribute.Name;
             Length = attribute.Length;
             AllowNull = attribute.AllowNull;
-            TypeLanguage = language.GetTypeLanguage(attribute.DataTypeId, attribute.AllowNull);
+            TypeLanguage = language.GetTypeLanguage(attribute.DataType.Name, attribute.AllowNull);
         }
 
         public string Name { get; private set; }
@@ -23,6 +23,6 @@ namespace Domain.Models
 
         public bool AllowNull { get; private set; }
 
-        public AttributeTypeLanguage TypeLanguage { get; private set; }
+        public TypeLanguage TypeLanguage { get; private set; }
     }
 }

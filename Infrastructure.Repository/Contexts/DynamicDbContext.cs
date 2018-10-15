@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Core.Interfaces.Structure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;

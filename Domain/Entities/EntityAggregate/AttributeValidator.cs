@@ -7,9 +7,9 @@ namespace Domain.Entities.EntityAggregate
         public AttributeValidator()
         {
             RuleFor(item => item.Name).NotEmpty();
-            RuleFor(item => item.DataTypeId)
-                .NotEqual(0)
-                .WithMessage((item, value) => $"DataType '{item.DataTypeName}' not found!");
+            RuleFor(item => item.DataType)
+                .NotEmpty()
+                .WithMessage((item, value) => $"DataType for '{item.Name}' not found!");
         }
     }
 }

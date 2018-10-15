@@ -1,5 +1,6 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Core.Interfaces.Structure;
 using Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,17 +20,12 @@ namespace Domain.Entities.LanguageAggregate
 
         public IReadOnlyCollection<LanguageDataTypeDomain> DataTypes { get; set; }
 
-        public AttributeTypeLanguage GetTypeLanguage(long idDataType, bool nullable)
+        public TypeLanguage GetTypeLanguage(string dataTypeName, bool nullable)
         {
-            var dataType = DataTypes.FirstOrDefault(x => x.DataTypeId == idDataType);
-            if (dataType == null)
-                return null;
+            var languageDataType = DataTypes.FirstOrDefault(x => x.DataType.Name == dataTypeName) 
+                ?? throw new Exception($"Invalid data type  {dataTypeName}.");
 
-            return new AttributeTypeLanguage()
-            {
-                Format = dataType.Format,
-                Type = nullable ? dataType.NameNullable ?? dataType.Name : dataType.Name
-            };    
+            return new TypeLanguage(languageDataType,nullable);    
         }
     }
 }

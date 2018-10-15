@@ -1,4 +1,5 @@
-﻿using Domain.Entities.EntityAggregate;
+﻿using Domain.Core.Interfaces.Infrastructure;
+using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
 using Domain.Events;
 using Domain.Interfaces.Infrastructure;
@@ -21,13 +22,15 @@ namespace Application.Services
         private IRepository<LanguageDomain> _languageRepository;
         private IServiceProvider _serviceProvider;
         private IJsonRepository _jsonRepository;
+        private IDatabaseService _databaseService;
 
         public DynamicAppService(
             IDynamicService serviceDynamic,
             IServiceProvider serviceProvider,
             IRepository<EntityDomain> entityRepository,
             IRepository<LanguageDomain> languageRepository,
-            IJsonRepository jsonRepository
+            IJsonRepository jsonRepository, 
+            IDatabaseService databaseService
             )
         {
             _serviceDynamic = serviceDynamic;
@@ -35,6 +38,7 @@ namespace Application.Services
             _languageRepository = languageRepository;
             _serviceProvider = serviceProvider;
             _jsonRepository = jsonRepository;
+            _databaseService = databaseService;
         }
 
         public async Task<string> GetSwaggerJson() => await _jsonRepository.Get();
@@ -56,6 +60,7 @@ namespace Application.Services
 
         public Task Handle(AfterDeleteEntityEvent notification, CancellationToken cancellationToken)
         {
+            _databaseService.DropEntity(notification.Entity.Name);
             GenerateDynamicControllers();
             GenerateSwaggerJsonFile();
             return Task.CompletedTask;

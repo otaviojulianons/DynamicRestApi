@@ -1,4 +1,4 @@
-﻿using SharedKernel.Helpers.Extensions;
+﻿using SharedKernel.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 

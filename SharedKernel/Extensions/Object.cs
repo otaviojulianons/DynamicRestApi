@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SharedKernel.Helpers.Extensions
+namespace SharedKernel.Extensions
 {
-    public static class Class
+    public static class Object
     {
         public static void Do<T>(this T @object, Action<T> action) where T : class
         {

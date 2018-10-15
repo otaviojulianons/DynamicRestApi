@@ -1,14 +1,15 @@
-﻿using Domain.Interfaces.Infrastructure;
-using Domain.Interfaces.Structure;
-using Infrastructure.Repository.Base;
+﻿using Domain.Core.Interfaces.Infrastructure;
+using Domain.Core.Interfaces.Structure;
+using Infrastructure.Repositories;
 using Infrastructure.Repository.Contexts;
 using MediatR;
+using SharedKernel.Messaging;
 
 namespace Infrastructure.Repository.Repositories
 {
     public class ContextRepository<T> : Repository<T>, IRepository<T> where T : class, IEntity
     {
-        public ContextRepository(AppDbContext context, IMediator mediator) : base(context, mediator)
+        public ContextRepository(AppDbContext context, IMediator mediator, IMsgManager msg) : base(context, mediator, msg)
         {
         }
     }

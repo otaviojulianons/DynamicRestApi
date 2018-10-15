@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.Collections.Generic;
 
-namespace Domain.Interfaces.Structure
+namespace Domain.Core.Interfaces.Structure
 {
     public interface IAggregateRoot : IEntity
     {

@@ -1,5 +1,6 @@
 ﻿using Api.Models;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Services;
 using Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;

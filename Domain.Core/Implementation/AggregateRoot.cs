@@ -1,9 +1,9 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Core.Interfaces.Structure;
 using MediatR;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Base
+namespace Domain.Core.Implementation
 {
     public abstract class AggregateRoot : IAggregateRoot
     {

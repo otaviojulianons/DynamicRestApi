@@ -1,7 +1,7 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Core.Interfaces.Structure;
 using MediatR;
 
-namespace Domain.Interfaces.Events
+namespace Domain.Core.Interfaces.Events
 {
     public interface IAfterDeleteDomainEvent<TEntity> : INotification where TEntity : IEntity
     {

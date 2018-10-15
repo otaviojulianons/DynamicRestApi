@@ -1,5 +1,5 @@
 using Api.Models;
-using Domain.Interfaces.Structure;
+using Domain.Core.Interfaces.Structure;
 using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Messaging;

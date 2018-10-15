@@ -1,7 +1,7 @@
-﻿using Domain.Interfaces.Structure;
+﻿using Domain.Core.Interfaces.Structure;
 using SharedKernel.Messaging;
 
-namespace Domain.Helpers.Extensions
+namespace Domain.Core.Extensions
 {
     public static class SelfValidation
     {

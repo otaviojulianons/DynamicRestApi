@@ -1,16 +1,17 @@
-﻿using Domain.Entities.EntityAggregate;
-using Domain.Interfaces.Infrastructure;
-using Infrastructure.Repository.Base;
+﻿using Domain.Core.Interfaces.Infrastructure;
+using Domain.Entities.EntityAggregate;
+using Infrastructure.Repositories;
 using Infrastructure.Repository.Contexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Messaging;
 using System.Linq;
 
 namespace Infrastructure.Repository.Repositories
 {
     public class EntityRepository : Repository<EntityDomain>, IRepository<EntityDomain>
     {
-        public EntityRepository(AppDbContext context, IMediator mediator) : base(context,mediator)
+        public EntityRepository(AppDbContext context, IMediator mediator, IMsgManager msg) : base(context,mediator, msg)
         {
         }
 

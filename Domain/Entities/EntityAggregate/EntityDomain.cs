@@ -1,15 +1,14 @@
-﻿using Domain.Base;
+﻿using Domain.Core.Implementation;
+using Domain.Core.Interfaces.Structure;
 using Domain.Events;
-using Domain.Interfaces.Structure;
-using Domain.ValueObjects;
 using FluentValidation;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Domain.Entities.EntityAggregate
 {
     public class EntityDomain : AggregateRoot, ISelfValidation<EntityDomain>
     {
+
         public EntityDomain(string name)
         {
             Name = name;
@@ -24,15 +23,14 @@ namespace Domain.Entities.EntityAggregate
 
         public string Name { get; private set; }
 
-        public IReadOnlyCollection<AttributeDomain> Attributes { get; private set; }
+        private readonly List<AttributeDomain> _attributes = new List<AttributeDomain>();
+        public IReadOnlyCollection<AttributeDomain> Attributes => _attributes;
 
-        public void DefineDataTypes(IEnumerable<DataTypeDomain> dataTypes)
+        public void AddAttribute(string name,bool allowNull, int? length, DataTypeDomain dataType)
         {
-            foreach (var attribute in Attributes)
-                attribute.DataTypeId = dataTypes.FirstOrDefault(type => type.Name == attribute.DataTypeName)?.Id ?? 0;
+            var attribute = new AttributeDomain(name,allowNull,length, dataType);
+            _attributes.Add(attribute);
         }
-
-
 
     }
 }

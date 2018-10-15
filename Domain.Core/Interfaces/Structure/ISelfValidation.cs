@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Domain.Interfaces.Structure
+namespace Domain.Core.Interfaces.Structure
 {
     public interface ISelfValidation<TEntity> : IEntity
     {

@@ -1,6 +1,5 @@
-﻿using Domain.Interfaces.Infrastructure;
-using Domain.Interfaces.Structure;
-using Domain.ValueObjects;
+﻿using Domain.Core.Interfaces.Infrastructure;
+using Domain.Entities;
 using System.Collections.Generic;
 
 namespace Domain.Services

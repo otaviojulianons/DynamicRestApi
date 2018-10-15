@@ -1,7 +1,8 @@
-﻿using Domain.Interfaces.Structure;
-using Infrastructure.Repository.Base;
+﻿using Domain.Core.Interfaces.Structure;
+using Infrastructure.Repositories;
 using Infrastructure.Repository.Contexts;
 using MediatR;
+using SharedKernel.Messaging;
 
 namespace Infrastructure.Repository.Repositories
 {
@@ -9,7 +10,7 @@ namespace Infrastructure.Repository.Repositories
     {
         public DynamicDbContext<T> Context { get; set; }
 
-        public DynamicRepository(DynamicDbContext<T> context, IMediator mediator) : base(context, mediator)
+        public DynamicRepository(DynamicDbContext<T> context, IMediator mediator, IMsgManager msg) : base(context, mediator, msg)
         {
             Context = context;
         }

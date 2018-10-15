@@ -1,5 +1,5 @@
-﻿using Domain.Entities.EntityAggregate;
-using Domain.Interfaces.Events;
+﻿using Domain.Core.Interfaces.Events;
+using Domain.Entities.EntityAggregate;
 
 namespace Domain.Events
 {
