@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 
@@ -9,6 +10,13 @@ namespace Infrastructure.Repository.Contexts
 {
     public class DynamicDbContext<T> : DbContext where T : class, IEntity
     {
+        private readonly string _connectionString;
+
+        public DynamicDbContext(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("Database:StringConnection");
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<T>().ToTable(typeof(T).Name).HasKey( x => x.Id);
@@ -17,7 +25,7 @@ namespace Infrastructure.Repository.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {            
-            optionsBuilder.UseSqlServer("Server=ojns;Database=DynamicRestApi;Trusted_Connection=true;");  
+            optionsBuilder.UseSqlServer(_connectionString);  
         }
 
         public void CreateEntity()

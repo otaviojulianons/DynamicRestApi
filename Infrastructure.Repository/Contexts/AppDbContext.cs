@@ -3,11 +3,18 @@ using Domain.Entities.LanguageAggregate;
 using Domain.Interfaces.Infrastructure;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repository.Contexts
 {
     public class AppDbContext : DbContext , IDatabaseService
     {
+        private readonly string _connectionString;
+
+        public AppDbContext(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("Database:StringConnection");
+        }
 
         public DbSet<EntityDomain> Entities { get; set; }
         public DbSet<AttributeDomain> Attributes { get; set; }
@@ -88,7 +95,7 @@ namespace Infrastructure.Repository.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=ojns;Database=DynamicRestApi;Trusted_Connection=true;");
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         public void DropEntity(string name)
