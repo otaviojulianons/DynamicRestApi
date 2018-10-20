@@ -3,23 +3,14 @@ const API_URL = process.env.REACT_APP_DYNAMIC_REST_API_URL;
 
 const dynamicDataTypeByIdDelete = (id) => {
 
-  //####### DELETE #######
-  const options = {  
-  };  
-  return axios.delete(`${ API_URL }/Dynamic/DataType/{id}`.replace(["{","id","}"].join(),id),options);
+  return axios.delete(`${ API_URL }/Dynamic/DataType/${id}`);
 }
 
 const dynamicDataTypeByIdGet = (id) => {
-
-  //####### GET #######
-  const options = { 
-  };  
-  return axios.get(`${ API_URL }/Dynamic/DataType/{id}`.replace(["{","id","}"].join(),id),options);
+  return axios.get(`${ API_URL }/Dynamic/DataType/${id}`);
 }
 
 const dynamicDataTypeByIdPut = (Id, Name, UseLength) => {
-
-  //####### PUT #######
   const options = {
     params: { 
       Id, 
@@ -27,20 +18,15 @@ const dynamicDataTypeByIdPut = (Id, Name, UseLength) => {
       UseLength
     }
   };  
-  return axios.put(`${ API_URL }/Dynamic/DataType/{id}`.replace(["{","id","}"].join(),Id),options);
+  return axios.put(`${ API_URL }/Dynamic/DataType/${Id}`,options);
 }
 
 const dynamicDataTypeGet = () => {
-
-  //####### GET #######
-  const options = { 
-  };  
-  return axios.get(`${ API_URL }/Dynamic/DataType`,options);
+  return axios.get(`${ API_URL }/Dynamic/DataType`);
 }
 
 const dynamicDataTypePost = (item) => {
 
-  //####### POST #######
   const options = { 
     headers:{ 
       "Content-Type":"application/json"
