@@ -3,6 +3,7 @@ import { ActionsTypes } from './types';
 import { 
   codegenGetClientTypesService,
   codegenGetServerTypesService,
+  codegenPostService
 
 } from '../../../core/service/CodegenService';
 
@@ -19,8 +20,16 @@ const codegenServerGet = () => ({
   payload: {}
 });
 
+const codegenPost= (codeGenType, type) => ({
+  types: ActionsTypes.codegenPostActionsTypes,
+  callService: () => codegenPostService(codeGenType, type),
+  payload: {}
+});
+
+
 
 export {
   codegenClientGet,
   codegenServerGet,
+  codegenPost
 };

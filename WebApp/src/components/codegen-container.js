@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { 
     codegenClientGet,
     codegenServerGet,
+    codegenPost
 } from '../store/actions/Codegen';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -11,7 +12,9 @@ const Option = Select.Option;
 class CodegenContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = { itens:[], loading: false, type:'client', template:'' }
+        this.state = { itens:[], loading: false, type:'clients', template:'' }
+
+
     }
     
     componentDidMount(){
@@ -22,14 +25,15 @@ class CodegenContainer extends Component {
         this.props.actionCodegenServerGet();
     }
 
-    enterLoading = () => {
-        this.setState({ loading: true });
+    handleCodegen = () => {
+        console.log("codegen",this.state.type,this.state.template);
+        this.props.actionCodegenPost(this.state.type,this.state.template);
     }
 
     handleChangeType = (e) => {
         const type = e.target.value;
         const template = '';
-        const itens =  (this.state == 'client') 
+        const itens =  (this.state.type == 'clients') 
                         ? this.props.listClientTemplates 
                         : this.props.listServerTemplates;   
         this.setState({ type, itens, template });
@@ -45,18 +49,18 @@ class CodegenContainer extends Component {
                         <FormItem label="Template type">
                             <Radio.Group 
                                 style={{ width: 200 }}
-                                defaultValue="client" 
+                                defaultValue="clients" 
                                 buttonStyle="solid"
                                 onChange={this.handleChangeType.bind(this)}
                             >
                                 <Radio.Button 
-                                    value="client" 
+                                    value="clients" 
                                     style={{ width: 100 }}
                                 >
                                 Clients
                                 </Radio.Button>
                                 <Radio.Button 
-                                    value="server" 
+                                    value="servers" 
                                     style={{ width: 100 }}
                                 >
                                 Servers
@@ -77,11 +81,11 @@ class CodegenContainer extends Component {
                         </FormItem>    
                         <Button 
                             type="primary" 
-                            loading={this.state.loading} 
-                            onClick={this.enterLoading}
+                            loading={this.props.isExecutingCodegenPost} 
+                            onClick={this.handleCodegen.bind(this)}
                             style={{ width: 200 }}
                         >
-                        Generate Code
+                        Code Generate
                         </Button>                                          
                     </Form>
         </div> );
@@ -91,11 +95,13 @@ class CodegenContainer extends Component {
 const mapStateToProps = state => ({
     listClientTemplates: state.codegen.listClientTemplates,
     listServerTemplates: state.codegen.listServerTemplates,
+    isExecutingCodegenPost: state.codegen.isExecutingCodegenPost,
   });
   
   const mapDispatchToProps = dispatch => ({
     actionCodegenClientGet:() => dispatch(codegenClientGet()),
     actionCodegenServerGet:() => dispatch(codegenServerGet()),
+    actionCodegenPost:(codeGenType, type) => dispatch(codegenPost(codeGenType, type)),
   });
   
  export default connect(

@@ -4,6 +4,7 @@ import { ActionsTypes } from '../../actions/Codegen/types';
 const initialState = { 
     listClientTemplates: [],
     listServerTemplates: [],
+    isExecutingCodegenPost: false
 };
 
 const CodegenReducer = (state = initialState, action) => {
@@ -40,7 +41,23 @@ const CodegenReducer = (state = initialState, action) => {
         return {
             ...state,
         }; 
-       
+    case ActionsTypes.CODEGEN_POST_REQUEST:
+        return {
+          ...state,
+          isExecutingCodegenPost: true,
+        };
+  
+    case ActionsTypes.CODEGEN_POST_RESPONSE:
+        return {
+            ...state,
+            isExecutingCodegenPost: false,
+        };
+
+    case ActionsTypes.CODEGEN_POST_FAILURE:
+        return {
+            ...state,
+            isExecutingCodegenPost: false,
+        }; 
     default:
       return state;
   }
