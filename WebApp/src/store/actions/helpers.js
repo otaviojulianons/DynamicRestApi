@@ -47,15 +47,12 @@ const callServiceMiddleware = ({ dispatch, getState }) => next => async (action)
       type: successType,
     }));
   } catch (errorResponse) {
-    console.log(errorResponse);
-    // TODO: Criar serviço para extrair/gerar mensagem de erro.
-    const errorMessage = errorResponse.data.mensagem || 'Houve erro de comunicação com o servidor.';
+    const errorMessage = 'Server error.';
     dispatch(Object.assign({}, payload, {
-      errorResponse,
+      errorMessage,
       type: failureType,
     }));
     toastr.error(errorMessage);
-    throw new Error(errorResponse);
   }
 };
 
