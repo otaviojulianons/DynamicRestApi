@@ -18,7 +18,7 @@ class DataTypeContainer extends Component {
 
     render() { 
         const columns = [{
-            title: 'DataType',
+            title: 'DataTypes',
             dataIndex: 'name',
             key: 'name',
             render: (text, record) => (
@@ -30,6 +30,7 @@ class DataTypeContainer extends Component {
             <div style={{paddingTop: 10}}>
                 <div className="col-md-offset-3 col-md-6 col-sm-12">
                  <Table
+                    size='middle'
                     rowKey={record => record.id}
                     loading={this.props.isFetchingDataTypesGet}
                     columns={columns}
