@@ -8,6 +8,7 @@
     "bootstrap": "^3.3.7",
     "dotenv": "^6.0.0",
     "dotenv-expand": "^4.2.0",
+    "file-saver": "^2.0.0-rc.4",
     "react": "^16.4.2",
     "react-ace": "^6.1.4",
     "react-dom": "^16.4.2",
