@@ -29,7 +29,7 @@ namespace Api.Controllers
         [HttpPost()]
         public ResultApi<bool> Post([FromBody]dynamic item)
         {
-            _repository.Insert((T)item);
+            _repository.Insert((T)item,true);
             return FormatResult(true);
         }
 
@@ -42,14 +42,16 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public ResultApi<bool> Put(long id,[FromBody]dynamic item)
         {
-            _repository.Update((T)item);
+            item.Id = id;
+            var model = (T)item;
+            _repository.Update(model, true);
             return FormatResult(true);
         }
 
         [HttpDelete("{id}")]
         public ResultApi<bool> Delete(long id)
         {
-            _repository.Delete(id);
+            _repository.Delete(id, true);
             return FormatResult(true);
         }
 
