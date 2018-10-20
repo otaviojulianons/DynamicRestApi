@@ -1,4 +1,5 @@
 ﻿using Domain.Core.Interfaces.Structure;
+using FluentValidation;
 using SharedKernel.Messaging;
 
 namespace Domain.Core.Extensions
@@ -15,6 +16,6 @@ namespace Domain.Core.Extensions
                 notifications.Errors.Add(new MsgValidation(item.ErrorMessage, item.PropertyName));
             return result.IsValid;
         }
-            
+
     }
 }

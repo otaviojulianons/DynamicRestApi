@@ -4,6 +4,7 @@ using Domain.Interfaces.Infrastructure;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Domain.Core.ValueObjects;
 
 namespace Infrastructure.Repository.Contexts
 {
@@ -30,6 +31,10 @@ namespace Infrastructure.Repository.Contexts
                 .ToTable("DataTypes")
                 .HasKey(x => x.Id);
 
+            modelBuilder.Entity<DataTypeDomain>()
+                .Property(x => x.Name)
+                .HasConversion( name => name.Value, value => new Name(value));
+
             #endregion
 
             #region Attribute
@@ -44,6 +49,10 @@ namespace Infrastructure.Repository.Contexts
             modelBuilder.Entity<AttributeDomain>()
                 .Property<long>("DataTypeId");
 
+            modelBuilder.Entity<AttributeDomain>()
+                .Property(x => x.Name)
+                .HasConversion(name => name.Value, value => new Name(value));
+
 
             #endregion
 
@@ -56,10 +65,14 @@ namespace Infrastructure.Repository.Contexts
                 .HasKey(x => x.Id);
 
             modelBuilder.Entity<EntityDomain>()
-              .HasMany(c => c.Attributes)
-              .WithOne(e => e.Entity)
-              .HasForeignKey("EntityId")
-              .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(c => c.Attributes)
+                .WithOne(e => e.Entity)
+                .HasForeignKey("EntityId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<EntityDomain>()
+                .Property(x => x.Name)
+                .HasConversion(name => name.Value, value => new Name(value));
 
 
             #endregion
@@ -71,8 +84,12 @@ namespace Infrastructure.Repository.Contexts
                 .HasKey(x => x.Id);
 
             modelBuilder.Entity<LanguageDomain>()
-              .HasMany(c => c.DataTypes)
-              .WithOne(e => e.Language);
+                .HasMany(c => c.DataTypes)
+                .WithOne(e => e.Language);
+
+            modelBuilder.Entity<LanguageDomain>()
+                .Property(x => x.Name)
+                .HasConversion(name => name.Value, value => new Name(value));
 
             #endregion
 
@@ -87,6 +104,14 @@ namespace Infrastructure.Repository.Contexts
 
             modelBuilder.Entity<LanguageDataTypeDomain>()
                 .Property<long>("DataTypeId");
+
+            modelBuilder.Entity<LanguageDataTypeDomain>()
+                .Property(x => x.Name)
+                .HasConversion(name => name.Value, value => new Name(value));
+
+            modelBuilder.Entity<LanguageDataTypeDomain>()
+                .Property(x => x.NameNullable)
+                .HasConversion(name => name.Value, value => new Name(value));
 
             #endregion
 

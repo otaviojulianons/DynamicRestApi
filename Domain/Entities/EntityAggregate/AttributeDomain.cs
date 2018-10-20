@@ -1,5 +1,5 @@
 ﻿using Domain.Core.Interfaces.Structure;
-using Domain.Core.Interfaces.Structure;
+using Domain.Core.ValueObjects;
 using FluentValidation;
 
 namespace Domain.Entities.EntityAggregate
@@ -7,12 +7,12 @@ namespace Domain.Entities.EntityAggregate
     public class AttributeDomain : IEntity ,ISelfValidation<AttributeDomain>
     {
 
-        public AttributeDomain(string name, bool allowNull, int? length)
+        public AttributeDomain(Name name, bool allowNull, int? length)
             :this(name,allowNull,length,null)
         {
         }
 
-        public AttributeDomain(string name, bool allowNull, int? length, DataTypeDomain dataType)
+        public AttributeDomain(Name name, bool allowNull, int? length, DataTypeDomain dataType)
         {
             Name = name;
             AllowNull = allowNull;
@@ -24,7 +24,7 @@ namespace Domain.Entities.EntityAggregate
 
         public long Id { get; private set; }
 
-        public string Name { get; private set; }
+        public Name Name { get; private set; }
 
         public int? Length { get; private set; }
 
@@ -35,7 +35,7 @@ namespace Domain.Entities.EntityAggregate
         public EntityDomain Entity { get; private set; }
 
         public bool IsIdentifier => 
-            Name?.ToLower() == "id" && (DataType?.Name)?.ToLower() == "long";
+            Name?.Value.ToLower() == "id" && (DataType?.Name)?.Value.ToLower() == "long";
 
 
     }

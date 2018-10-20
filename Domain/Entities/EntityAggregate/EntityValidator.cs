@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Domain.Core.Validators;
+using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace Domain.Entities.EntityAggregate
     {
         public EntityValidator()
         {
-            RuleFor(item => item.Name).NotEmpty();
+            RuleFor(item => item.Name).Valid();
 
             RuleFor(item => item.Attributes)
                 .Must(ContainsMoreThanOneAttribute)

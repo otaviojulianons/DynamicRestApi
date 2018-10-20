@@ -1,19 +1,20 @@
 ﻿using Domain.Core.Interfaces.Structure;
+using Domain.Core.ValueObjects;
 
 namespace Domain.Entities.LanguageAggregate
 {
     public class LanguageDataTypeDomain : IEntity
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
-        public string Name { get; set; }
+        public Name Name { get; private set; }
 
-        public string NameNullable { get; set; }
+        public Name NameNullable { get; private set; }
 
-        public string Format { get; set; }
+        public string Format { get; private set; }
 
-        public LanguageDomain Language { get; set; }
+        public LanguageDomain Language { get; private set; }
 
-        public DataTypeDomain DataType { get; set; }
+        public DataTypeDomain DataType { get; private set; }
     }
 }

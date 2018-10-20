@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities;
 using Domain.Entities.EntityAggregate;
+using Domain.Core.ValueObjects;
 using SharedKernel.Messaging;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,8 @@ namespace Application.Services
 
             entity.Attributes.ForEach(attribute =>
             {
-                var dataType = _dataTypesRepository.QueryBy(x => x.Name == attribute.DataType).FirstOrDefault();
-                entityDomain.AddAttribute(attribute.Name, attribute.AllowNull, attribute.Length, dataType);
+                var dataType = _dataTypesRepository.QueryBy(x => x.Name.Value == attribute.DataType).FirstOrDefault();
+                entityDomain.AddAttribute(new Name(attribute.Name), attribute.AllowNull, attribute.Length, dataType);
             });
 
             _entityRepository.Insert(entityDomain);

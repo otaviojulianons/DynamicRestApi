@@ -1,4 +1,5 @@
 ﻿using Domain.Core.Interfaces.Structure;
+using Domain.Core.ValueObjects;
 using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,14 @@ namespace Domain.Entities.LanguageAggregate
             SwaggerDoc = 2
         }
 
+        public LanguageDomain(Name name)
+        {
+            Name = name;
+        }
+
         public long Id { get; private set; }
 
-        public string Name { get; private set; }
+        public Name Name { get; private set; }
 
         public IReadOnlyCollection<LanguageDataTypeDomain> DataTypes { get; set; }
 
