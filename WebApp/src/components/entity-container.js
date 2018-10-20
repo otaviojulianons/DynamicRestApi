@@ -47,7 +47,7 @@ class EntityContainer extends Component {
 
     render() { 
         const columns = [{
-            title: 'Entity',
+            title: 'Entities',
             dataIndex: 'name',
             key: 'name',
             render: (text, record) => (
@@ -74,6 +74,7 @@ class EntityContainer extends Component {
                 <div className="col-md-offset-3 col-md-6 col-sm-12">
 
                  <Table
+                    size='middle'
                     style={{ height: 200 }}
                     rowKey={record => record.id}
                     loading={this.props.isFetchingEntitiesGet}
@@ -124,12 +125,12 @@ const styleIcons = {
 const mapStateToProps = state => ({
     isFetchingEntitiesGet: state.entity.isFetchingEntitiesGet,
     listEntities: state.entity.listEntities,
-  });
+});
   
-  const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     actiondynamicEntityGet:() => dispatch(dynamicEntityGet()),
     actiondynamicEntityByIdDelete: id => dispatch(dynamicEntityByIdDelete(id)),
-  });
+});
   
  export default connect(
     mapStateToProps,
