@@ -36,8 +36,6 @@ class TabMenu extends Component {
                 return <SwaggerDoc/>;
             case "codegen":
                 return <CodegenContainer/>;                
-            case "about":
-                return <div/>;
             default:
                 return <div/>;
         }
@@ -54,10 +52,6 @@ class TabMenu extends Component {
                     >
                     <div className="logo" style={{ width: this.state.collapsed ? 80 : 200}}>
                         <Avatar shape="logo-avatar" size={48} src="./images/icons/icon-96x96.png" shape="square"/>
-                        {/* <div style={{float:"left",margin:10}}>
-                            <h1 style={fontTitle}>Dyra</h1>
-                            <label style={fontSubTitle}>Dynamic Rest API</label>
-                        </div> */}
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['entities']} onClick={this.handleClick}>
                         <Menu.Item key="entities">
@@ -76,10 +70,6 @@ class TabMenu extends Component {
                             <Icon type="code" />
                             <span>Codegen</span>
                         </Menu.Item>                                            
-                        <Menu.Item key="about">
-                            <Icon type="info-circle" />
-                            <span>About</span>
-                        </Menu.Item>
                     </Menu>
                     </Sider>
                     <Layout>
@@ -99,20 +89,6 @@ class TabMenu extends Component {
             </div>
         );
     }
-}
-
-const fontTitle = {
-    textAlign:"left",
-    fontWeight: 500,
-    color:'white',
-    marginBottom: 5
-
-}
-
-const fontSubTitle = {
-    textAlign:"left",
-    fontWeight: 100,
-    color:'white'
 }
  
 export default TabMenu;
