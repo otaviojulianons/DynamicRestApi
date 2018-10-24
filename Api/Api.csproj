@@ -57,7 +57,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Ioc\Ioc.csproj" />
+    <ProjectReference Include="..\IoC\Ioc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
