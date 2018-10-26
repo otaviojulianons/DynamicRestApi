@@ -11,11 +11,11 @@ class SwaggerDoc extends Component {
               <SwaggerCard 
                 title="Swagger API"
                 description="description"
-                url="http://localhost:5000/swagger"/>
+                url={ `${process.env.REACT_APP_DYNAMIC_REST_API_URL}/swagger` }/>
               <SwaggerCard 
                 title="Dynamic Swagger"
                 description="description"
-                url="http://localhost:5000/Dynamic/index.html"/>
+                url={ `${process.env.REACT_APP_DYNAMIC_REST_API_URL}/Dynamic/index.html` }/>
         </div> );
     }
 }
