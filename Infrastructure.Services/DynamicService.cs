@@ -28,9 +28,9 @@ namespace Infrastructure.Services
             _logger = logger;
 
             var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            using (StreamReader reader = new StreamReader(Path.Combine(path, @"Templates\Domain.mustache")))
+            using (StreamReader reader = new StreamReader(Path.Combine(path, $"Templates{Path.DirectorySeparatorChar}Domain.mustache")))
                 _templateDomain = reader.ReadToEnd();
-            using (StreamReader reader = new StreamReader(Path.Combine(path, @"Templates\Swagger.mustache")))
+            using (StreamReader reader = new StreamReader(Path.Combine(path, $"Templates{Path.DirectorySeparatorChar}Swagger.mustache")))
                 _templateSwagger = reader.ReadToEnd();
         }
 
