@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{5F9A18D6-23E0-4C44-B85C-1DC1E6FD2651}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC", "Ioc\IoC.csproj", "{82D93828-BC93-4F57-98D3-BDAD9FC9CDF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC", "IoC\IoC.csproj", "{82D93828-BC93-4F57-98D3-BDAD9FC9CDF4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{5E24D497-B7BC-41BE-A89C-06E6B77CCB0C}"
 EndProject
