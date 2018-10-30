@@ -3,7 +3,7 @@ Generate Rest API from Dynamic Entities
 
 ## Getting Started
 
-From the mapping of relational entities DyRA is able to generate dynamic endpoints and [OpenAPI](https://www.openapis.org) documentation.
+From the mapping of relational entities DyRA is able to generate dynamic endpoints and [OpenAPI Specification](https://www.openapis.org) documentation.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
@@ -40,4 +40,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License
