@@ -1,37 +1,43 @@
-## Welcome to GitHub Pages
+# DyRA - Dynamic Rest Api
+Generate Rest API from Dynamic Entities
 
-You can use the [editor on GitHub](https://github.com/otaviojulianons/DynamicRestApi/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Getting Started
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+From the mapping of relational entities DyRA is able to generate dynamic endpoints and [OpenAPI](https://www.openapis.org) documentation.
 
-### Markdown
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Prerequisites
+- [SQL Server 2017](https://www.microsoft.com/en-us/sql-server/sql-server-2017) database installed
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+### Installing
 
-- Bulleted
-- List
+Configure database connection in appsettings.json file
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```json
+  "Database": {
+    "ConnectionString": "(Your string connection)"
+  }
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Run the project and check its documentation at http://localhost:5000/swagger
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/otaviojulianons/DynamicRestApi/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## Built With
 
-### Support or Contact
+* [Asp.Net Core](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-2.0) - C-Sharp Web API 
+* [SQL Server 2017](https://www.microsoft.com/en-us/sql-server/sql-server-2017) - Database
+* [EntityFramework Core](https://docs.microsoft.com/pt-br/ef/core/) - Relational Object Mapper 
+* [Mustache ](http://mustache.github.io/) - Generate code templates
+* [Swagger ](https://swagger.io/) - API documentation
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Authors
+
+* **Otávio Juliano Nielsen Silva** - *Initial work* - [otaviojulianons](https://github.com/otaviojulianons)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
