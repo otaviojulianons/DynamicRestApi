@@ -1,4 +1,5 @@
-﻿using Api.Models;
+﻿using Api.Filters;
+using Api.Models;
 using Application.Models;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace Api.Controllers
             _serviceApp = serviceApp;
         }
 
+        [AllowAccess]
         [HttpPost()]
         public ResultApi<bool> Post([FromBody]Entity item)
         {
@@ -35,6 +37,7 @@ namespace Api.Controllers
             }
         }
 
+        [AllowAccess]
         [HttpDelete("{id}")]
         public ResultApi<bool> Delete(long id)
         {

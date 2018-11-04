@@ -16,6 +16,14 @@
           "200": {
             "description": "Success",
             "schema": { "$ref": "#/definitions/ResultApiIEnumerable{{Item.Name}}" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
           }
         }
       },
@@ -35,6 +43,14 @@
         "responses": {
           "200": {
             "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
             "schema": { "$ref": "#/definitions/ResultApiBoolean" }
           }
         }
@@ -59,6 +75,14 @@
           "200": {
             "description": "Success",
             "schema": { "$ref": "#/definitions/ResultApi{{Item.Name}}" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
           }
         }
       },
@@ -86,6 +110,14 @@
           "200": {
             "description": "Success",
             "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
           }
         }
       },
@@ -106,6 +138,14 @@
         "responses": {
           "200": {
             "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
             "schema": { "$ref": "#/definitions/ResultApiBoolean" }
           }
         }
@@ -150,5 +190,20 @@
         "result": { "$ref": "#/definitions/Model{{Item.Name}}" }
         }
     }{{/each}}
-  }
+  },
+  "securityDefinitions":{
+        "apikey":{
+            "name":"ApiKey",
+            "in":"header",
+            "type":"apiKey",
+            "description":"Authorization key to access Dynamic Rest API"
+        }
+  },
+  "security":[
+        {
+            "apikey":[
+
+            ]
+        }
+  ]
 }

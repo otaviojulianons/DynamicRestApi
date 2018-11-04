@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -31,6 +32,18 @@ namespace Api
                 c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v1" });
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
                 c.IncludeXmlComments(filePath);
+
+                c.AddSecurityDefinition("apikey", new ApiKeyScheme
+                {
+                    Description = "Authorization key to access Dynamic Rest API",
+                    Name = "ApiKey",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    {"apikey", new string[] { } }
+                });
             });
 
             services.AddCors(o => o.AddPolicy("CorsConfig", builder =>

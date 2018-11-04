@@ -1,4 +1,5 @@
-﻿using Api.Models;
+﻿using Api.Filters;
+using Api.Models;
 using Application.Models;
 using AutoMapper;
 using Domain.Entities;
@@ -38,7 +39,7 @@ namespace Api.Controllers
             }
         }
 
-
+        [AllowAccess]
         [HttpPost()]
         public ResultApi<bool> Post([FromBody]DataType item)
         {
@@ -69,6 +70,7 @@ namespace Api.Controllers
             }
         }
 
+        [AllowAccess]
         [HttpPut("{id}")]
         public ResultApi<bool> Put(long id, DataType item)
         {
@@ -84,6 +86,7 @@ namespace Api.Controllers
             }
         }
 
+        [AllowAccess]
         [HttpDelete("{id}")]
         public ResultApi<bool> Delete(long id)
         {
