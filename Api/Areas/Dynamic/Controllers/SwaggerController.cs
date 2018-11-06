@@ -9,9 +9,9 @@ namespace Api.Controllers
     [Route("/Dynamic/swagger")]
     public class SwaggerController : Controller
     {
-        private DynamicAppService _service;
+        private SwaggerAppService _service;
 
-        public SwaggerController(DynamicAppService service)
+        public SwaggerController(SwaggerAppService service)
         {
             _service = service;
         }

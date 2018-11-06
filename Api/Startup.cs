@@ -1,5 +1,6 @@
 ﻿using Api.Controllers;
 using Api.Middlewares;
+using Application.EventHandlers;
 using Application.Services;
 using Ioc;
 using MediatR;
@@ -53,7 +54,7 @@ namespace Api
                        .AllowAnyHeader();
             }));
 
-            services.AddMediatR(Assembly.GetAssembly(typeof(DynamicAppService)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(DynamicEventHandler)));
             services.AddScoped(typeof(DynamicController<>));
 
             IoCService.Configure(services, _configuration);
