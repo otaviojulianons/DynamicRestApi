@@ -14,7 +14,9 @@ namespace Domain.Entities.EntityAggregate
             RuleFor(item => item.Attributes)
                 .Must(ContainsMoreThanOneAttribute)
                 .Must(ContainsAttributeIdentifier)
+                .SetCollectionValidator(new AttributeValidator())
                 .WithMessage("Invalid attributes.");
+
         }
 
         private bool ContainsMoreThanOneAttribute(IReadOnlyCollection<AttributeDomain> attributes)

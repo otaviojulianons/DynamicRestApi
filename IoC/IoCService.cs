@@ -42,7 +42,8 @@ namespace Ioc
             //APP SERVICES
             services.AddScoped<DataTypeAppService>();
             services.AddScoped<EntityAppService>();
-            services.AddScoped<DynamicAppService>();
+            services.AddScoped<SwaggerAppService>();
+            services.AddScoped<SwaggerAppService>();
         }
 
 

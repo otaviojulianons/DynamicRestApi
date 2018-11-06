@@ -10,9 +10,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace Application.EventHandlers
 {
-    public class DynamicAppService : 
+    public class DynamicEventHandler : 
         INotificationHandler<GenerateDynamicObjectsEvent>,
         INotificationHandler<AfterInsertEntityEvent>,
         INotificationHandler<AfterDeleteEntityEvent>
@@ -24,7 +24,7 @@ namespace Application.Services
         private IJsonRepository _jsonRepository;
         private IDatabaseService _databaseService;
 
-        public DynamicAppService(
+        public DynamicEventHandler(
             IDynamicService serviceDynamic,
             IServiceProvider serviceProvider,
             IRepository<EntityDomain> entityRepository,
@@ -40,9 +40,6 @@ namespace Application.Services
             _jsonRepository = jsonRepository;
             _databaseService = databaseService;
         }
-
-        public async Task<string> GetSwaggerJson() => await _jsonRepository.Get();
-
 
         public Task Handle(GenerateDynamicObjectsEvent notification, CancellationToken cancellationToken)
         {
