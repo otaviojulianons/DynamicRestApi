@@ -21,24 +21,24 @@ namespace Application.EventHandlers
         private IRepository<EntityDomain> _entityRepository;
         private IRepository<LanguageDomain> _languageRepository;
         private IServiceProvider _serviceProvider;
-        private IJsonRepository _jsonRepository;
         private IDatabaseService _databaseService;
+        private ISwaggerRepository _swaggerRepository;
 
         public DynamicEventHandler(
             IDynamicService serviceDynamic,
             IServiceProvider serviceProvider,
             IRepository<EntityDomain> entityRepository,
             IRepository<LanguageDomain> languageRepository,
-            IJsonRepository jsonRepository, 
-            IDatabaseService databaseService
+            IDatabaseService databaseService,
+            ISwaggerRepository swaggerRepository
             )
         {
             _serviceDynamic = serviceDynamic;
             _entityRepository = entityRepository;
             _languageRepository = languageRepository;
             _serviceProvider = serviceProvider;
-            _jsonRepository = jsonRepository;
             _databaseService = databaseService;
+            _swaggerRepository = swaggerRepository;
         }
 
         public Task Handle(GenerateDynamicObjectsEvent notification, CancellationToken cancellationToken)
@@ -70,7 +70,7 @@ namespace Application.EventHandlers
             var entitiesTemplates = entities.Select(entity => new EntityTemplate(entity, languageSwagger)).ToArray();
 
             var json = _serviceDynamic.GenerateSwaggerJsonFile(entitiesTemplates);
-            _jsonRepository.Update(json);
+            _swaggerRepository.Update(json);
         }
 
         private void GenerateDynamicControllers()
