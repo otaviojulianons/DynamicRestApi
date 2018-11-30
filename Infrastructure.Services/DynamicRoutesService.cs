@@ -10,6 +10,9 @@ namespace Infrastructure.Services
         
         private Dictionary<string, Type> _routes = new Dictionary<string, Type>();  
 
+        private string GetRouteKey(string url)
+            => _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).FirstOrDefault();
+        
         public void AddRoute(string route,Type type)
         {
             if (!route.StartsWith("/"))
@@ -23,10 +26,10 @@ namespace Infrastructure.Services
             return _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).Count() > 0;
         }
 
-        public Type Get(string url)
+        public Type GetRouteType(string url)
         {
-            var find = _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).FirstOrDefault();
-            return find == null ? null : _routes[find];
+            var key = GetRouteKey(url);
+            return key == null ? null : _routes[key];
         }
 
         public long? GetIdRoute(string url)
@@ -36,6 +39,10 @@ namespace Infrastructure.Services
             return long.TryParse(id, out value) ? value : default(long?);
         }
 
-
+        public string ReplaceRoute(string currentRoute, string newRoute)
+        {
+            var key = GetRouteKey(currentRoute);
+            return currentRoute.Replace(key, newRoute);
+        }
     }
 }

@@ -55,7 +55,6 @@ namespace Api
             }));
 
             services.AddMediatR(Assembly.GetAssembly(typeof(DynamicEventHandler)));
-            services.AddScoped(typeof(DynamicController<>));
 
             IoCService.Configure(services, _configuration);
             Application.AutoMapper.MapperRegister();
