@@ -1,6 +1,3 @@
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Interfaces.Infrastructure;
 using Newtonsoft.Json;
 
