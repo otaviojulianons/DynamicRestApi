@@ -1,12 +1,8 @@
-using Api.Models;
-using Domain.Core.Interfaces.Infrastructure;
-using Domain.Core.Interfaces.Structure;
 using Infrastructure.Repository.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SharedKernel.Messaging;
 using System;
-using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -109,6 +105,5 @@ namespace Api.Controllers
                 return FormatError<bool>(ex.Message);
             }
         }
-
     }
 }

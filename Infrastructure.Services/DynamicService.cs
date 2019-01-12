@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces.Infrastructure;
 using Domain.Models;
 using Infrastructure.Repository.Contexts;
+using Infrastructure.Services.WebSockets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Collections;
@@ -12,7 +13,7 @@ namespace Infrastructure.Services
 {
     public class DynamicService : IDynamicService
     {
-     
+        private WebSocketService _webSocketService;
         private IDynamicRoutesService _dynamicRoutes;
         private string _templateDomain;
         private string _templateSwagger;
@@ -21,9 +22,11 @@ namespace Infrastructure.Services
 
         public DynamicService(
             ILogger<DynamicService> logger,
-            IDynamicRoutesService dynamicRoutes
+            IDynamicRoutesService dynamicRoutes,
+            WebSocketService webSocketManager
             )
         {
+            _webSocketService = webSocketManager;
             _dynamicRoutes = dynamicRoutes;
             _logger = logger;
 
@@ -44,6 +47,8 @@ namespace Infrastructure.Services
 
                 //generate controller route
                 _dynamicRoutes.AddRoute(entity.Name, type);
+
+                _webSocketService.Channels.Add($"/{entity.Name}/Subscribe",type);
 
                 //create repository entity
                 var repositoryType = typeof(DynamicDbContext<>).MakeGenericType(type);
