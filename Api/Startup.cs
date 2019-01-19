@@ -1,5 +1,4 @@
-﻿using Api.Controllers;
-using Api.Middlewares;
+﻿using Api.Middlewares;
 using Application.EventHandlers;
 using Application.Services;
 using Ioc;
@@ -54,8 +53,9 @@ namespace Api
                        .AllowAnyHeader();
             }));
 
-            services.AddMediatR(Assembly.GetAssembly(typeof(DynamicEventHandler)));
-            services.AddScoped(typeof(DynamicController<>));
+            services.AddMediatR(Assembly.GetAssembly(typeof(EntityEventHandler)));
+            services.UseWebSocketService();
+
 
             IoCService.Configure(services, _configuration);
             Application.AutoMapper.MapperRegister();
@@ -63,14 +63,22 @@ namespace Api
 
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)
         {
-            app.UseMiddleware<DynamicRoutesMiddleware>();
+
+            app.UseStaticFiles();
+
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseWebSockets();
+            //app.UseObservableControllerMiddlewareDynamic();
+            app.UseMiddleware<WebSocketStartMiddleware>();
+            app.UseMiddleware<WebSocketUpdateMiddleware>();
+            app.UseMiddleware<DynamicRoutesMiddleware>();
            
-            app.UseStaticFiles();
+
             app.UseCors("CorsConfig");
             app.UseSwagger();
 

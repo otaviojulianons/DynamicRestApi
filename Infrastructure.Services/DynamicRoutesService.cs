@@ -7,7 +7,6 @@ namespace Infrastructure.Services
 {
     public class DynamicRoutesService : IDynamicRoutesService
     {
-        
         private Dictionary<string, Type> _routes = new Dictionary<string, Type>();  
 
         public void AddRoute(string route,Type type)
@@ -18,15 +17,18 @@ namespace Infrastructure.Services
             _routes.TryAdd(route, type);
         }
 
-        public bool IsMatch(string url)
-        {
-            return _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).Count() > 0;
-        }
+        public string GetRoute(string url)
+            => _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).FirstOrDefault();
+        
+        public bool IsMatch(string url) => FindRoute(url) != null;
 
-        public Type Get(string url)
+        public string FindRoute(string url)
+            => _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).FirstOrDefault();
+
+        public Type GetRouteType(string url)
         {
-            var find = _routes.Keys.Where(key => key == url || url.StartsWith(key + "/")).FirstOrDefault();
-            return find == null ? null : _routes[find];
+            var key = GetRoute(url);
+            return key == null ? null : _routes[key];
         }
 
         public long? GetIdRoute(string url)
@@ -36,6 +38,10 @@ namespace Infrastructure.Services
             return long.TryParse(id, out value) ? value : default(long?);
         }
 
-
+        public string ReplaceRoute(string currentRoute, string newRoute)
+        {
+            var key = GetRoute(currentRoute);
+            return currentRoute.Replace(key, newRoute);
+        }
     }
 }

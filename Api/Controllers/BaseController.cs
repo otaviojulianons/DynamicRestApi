@@ -7,7 +7,7 @@ namespace Api.Controllers
 {
     [Produces("application/json")]
     [Route("/")]
-    public class BaseController : ControllerBase
+    public class BaseController : Controller
     {
         private IMsgManager _msgs;
 

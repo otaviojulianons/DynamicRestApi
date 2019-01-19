@@ -14,7 +14,8 @@ namespace Application.Services
                 var provider = scope.ServiceProvider;
                 var mediator = provider.GetService<IMediator>();
 
-                await mediator.Publish(new GenerateDynamicObjectsEvent());
+                await mediator.Publish(new GenerateDynamicControllersEvent());
+                await mediator.Publish(new GenerateSwaggerFileEvent());
             }
         }
     }

@@ -2,6 +2,9 @@
 using Api.Models;
 using Application.Models;
 using Application.Services;
+using AutoMapper;
+using Domain.Core.Interfaces.Infrastructure;
+using Domain.Entities.EntityAggregate;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Messaging;
 using System;
@@ -13,13 +16,16 @@ namespace Api.Controllers
     public class EntityController : BaseController
     {
         private EntityAppService _serviceApp;
+        private IRepository<EntityDomain> _entityRepository;
 
         public EntityController(
             EntityAppService serviceApp,
+            IRepository<EntityDomain> entityRepository,
             IMsgManager msgs
            ) : base(msgs)
         {
             _serviceApp = serviceApp;
+            _entityRepository = entityRepository;
         }
 
         [AllowAccess]
@@ -57,8 +63,9 @@ namespace Api.Controllers
         {
             try
             {
-                var entities = _serviceApp.GetAll();
-                return FormatResult(entities);
+                var entities = _entityRepository.GetAll();
+                var models = Mapper.Map<IEnumerable<Entity>>(entities);
+                return FormatResult(models);
             }
             catch (Exception ex)
             {

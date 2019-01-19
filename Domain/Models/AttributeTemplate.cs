@@ -14,6 +14,7 @@ namespace Domain.Models
             Name = attribute.Name;
             Length = attribute.Length;
             AllowNull = attribute.AllowNull;
+            GenericType = attribute.GenericType;
             TypeLanguage = language.GetTypeLanguage(attribute.DataType.Name, attribute.AllowNull);
         }
 
@@ -22,6 +23,10 @@ namespace Domain.Models
         public int? Length { get; private set; }
 
         public bool AllowNull { get; private set; }
+
+        public string GenericType { get; private set; }
+
+        public bool HasGenericType => !string.IsNullOrEmpty(GenericType);
 
         public TypeLanguage TypeLanguage { get; private set; }
     }
