@@ -27,9 +27,9 @@ namespace Domain.Entities.EntityAggregate
         private readonly List<AttributeDomain> _attributes = new List<AttributeDomain>();
         public IReadOnlyCollection<AttributeDomain> Attributes => _attributes;
 
-        public void AddAttribute(Name name,bool allowNull, int? length, DataTypeDomain dataType)
+        public void AddAttribute(Name name,bool allowNull, int? length,string genericType, DataTypeDomain dataType)
         {
-            var attribute = new AttributeDomain(name,allowNull,length, dataType);
+            var attribute = new AttributeDomain(name,allowNull,length,genericType, dataType);
             _attributes.Add(attribute);
         }
 

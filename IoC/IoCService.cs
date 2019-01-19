@@ -4,8 +4,6 @@ using Domain.Entities;
 using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
 using Domain.Interfaces.Infrastructure;
-using Domain.Models;
-using Domain.Services;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Contexts;
 using Infrastructure.Repository.Repositories;
@@ -41,7 +39,6 @@ namespace Ioc
             services.AddScoped<IMsgManager, MsgManager>();
 
             //APP SERVICES
-            services.AddScoped<DataTypeAppService>();
             services.AddScoped<EntityAppService>();
         }
 

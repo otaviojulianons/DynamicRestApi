@@ -7,17 +7,18 @@ namespace Domain.Entities.EntityAggregate
     public class AttributeDomain : IEntity ,ISelfValidation<AttributeDomain>
     {
 
-        public AttributeDomain(Name name, bool allowNull, int? length)
-            :this(name,allowNull,length,null)
+        public AttributeDomain(Name name, bool allowNull, int? length, string genericType)
+            :this(name,allowNull,length,genericType,null)
         {
         }
 
-        public AttributeDomain(Name name, bool allowNull, int? length, DataTypeDomain dataType)
+        public AttributeDomain(Name name, bool allowNull, int? length,string genericType, DataTypeDomain dataType)
         {
             Name = name;
             AllowNull = allowNull;
             Length = length;
             DataType = dataType;
+            GenericType = genericType;
         }
 
         public IValidator<AttributeDomain> Validator => new AttributeValidator();
@@ -25,6 +26,10 @@ namespace Domain.Entities.EntityAggregate
         public long Id { get; private set; }
 
         public Name Name { get; private set; }
+
+        public string GenericType { get; private set; }
+
+        public bool HasGenericType => !string.IsNullOrEmpty(GenericType);
 
         public int? Length { get; private set; }
 

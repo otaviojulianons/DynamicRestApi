@@ -1,11 +1,10 @@
 ﻿using Application.Models;
 using AutoMapper;
 using Domain.Core.Interfaces.Infrastructure;
+using Domain.Core.ValueObjects;
 using Domain.Entities;
 using Domain.Entities.EntityAggregate;
-using Domain.Core.ValueObjects;
 using SharedKernel.Messaging;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Application.Services
@@ -27,19 +26,19 @@ namespace Application.Services
             _dataTypesRepository = dataTypesRepository;
         }
 
-        public IEnumerable<Entity> GetAll()
-        {
-            return Mapper.Map<IEnumerable<Entity>>(_entityRepository.GetAll());
-        }
-
         public void Insert(Entity entity)
         {
             var entityDomain = Mapper.Map<EntityDomain>(entity);
 
             entity.Attributes.ForEach(attribute =>
             {
-                var dataType = _dataTypesRepository.QueryBy(x => x.Name.Value == attribute.DataType).FirstOrDefault();
-                entityDomain.AddAttribute(new Name(attribute.Name), attribute.AllowNull, attribute.Length, dataType);
+                var dataType = _dataTypesRepository.QueryBy(x => attribute.BaseType == x.Name.Value).FirstOrDefault();
+                entityDomain.AddAttribute(
+                        new Name(attribute.Name),
+                        attribute.AllowNull, 
+                        attribute.Length, 
+                        attribute.GenericType,
+                        dataType);
             });
 
             _entityRepository.Insert(entityDomain);

@@ -7,11 +7,9 @@ namespace Infrastructure.Repository
     {
         private object _swaggerObject;
 
-        public object GetSwaggerObject() 
-            => _swaggerObject;
+        public object GetSwaggerObject() => _swaggerObject;
 
-        public void Update(string json) 
-            => _swaggerObject = JsonConvert.DeserializeObject(json);
+        public void Update(string json) => _swaggerObject = JsonConvert.DeserializeObject(json);
 
     }
 }

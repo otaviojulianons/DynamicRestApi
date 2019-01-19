@@ -19,7 +19,13 @@ namespace Infrastructure.Repository.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            T teste = Activator.CreateInstance<T>();
             modelBuilder.Entity<T>().ToTable(typeof(T).Name).HasKey( x => x.Id);
+            
+            var properties = typeof(T).GetType().GetProperties();
+            foreach (var property in properties.Where( p => p.GetType() is IEntity))
+                modelBuilder.Entity<T>().Property<long>(property.Name + "Id");
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -37,7 +43,7 @@ namespace Infrastructure.Repository.Contexts
             catch (Exception)
             {
                 RelationalDatabaseCreator databaseCreator = (RelationalDatabaseCreator)this.Database.GetService<IDatabaseCreator>();
-                databaseCreator.CreateTables();
+                //databaseCreator.CreateTables();
             }
         }
     }

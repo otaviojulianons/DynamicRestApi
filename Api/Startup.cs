@@ -53,7 +53,7 @@ namespace Api
                        .AllowAnyHeader();
             }));
 
-            services.AddMediatR(Assembly.GetAssembly(typeof(DynamicEventHandler)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(EntityEventHandler)));
             services.UseWebSocketService();
 
 

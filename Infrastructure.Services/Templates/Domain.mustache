@@ -7,7 +7,11 @@ namespace DynamicAssembly
     {
         public long Id { get; set; }
 {{#each Attributes}}
+{{#if Item.HasGenericType}}
+        public {{Item.GenericType}} {{Item.Name}} { get; set; }
+{{#else}}
         public {{Item.TypeLanguage.Type}} {{Item.Name}} { get; set; }
+{{/if}}
 {{/each}}
 
     }
