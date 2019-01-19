@@ -43,7 +43,7 @@ namespace Infrastructure.Repository.Contexts
             catch (Exception)
             {
                 RelationalDatabaseCreator databaseCreator = (RelationalDatabaseCreator)this.Database.GetService<IDatabaseCreator>();
-                //databaseCreator.CreateTables();
+                databaseCreator.CreateTables();
             }
         }
     }
