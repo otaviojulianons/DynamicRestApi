@@ -1,4 +1,5 @@
-﻿using Api.Filters;
+﻿using Api.Examples;
+using Api.Filters;
 using Api.Models;
 using Application.Models;
 using Application.Services;
@@ -7,6 +8,7 @@ using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Messaging;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
 

@@ -1,13 +1,17 @@
-﻿using Api.Middlewares;
+﻿using Api.Examples;
+using Api.Middlewares;
 using Application.EventHandlers;
 using Application.Services;
 using Ioc;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Newtonsoft.Json.Converters;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.IO;
@@ -27,9 +31,13 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v1" });
+
+                c.ExampleFilters();
+
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
                 c.IncludeXmlComments(filePath);
 
@@ -44,7 +52,9 @@ namespace Api
                 {
                     {"apikey", new string[] { } }
                 });
+
             });
+            services.AddSwaggerExamplesFromAssemblyOf<EntityExample>();
 
             services.AddCors(o => o.AddPolicy("CorsConfig", builder =>
             {
@@ -81,11 +91,12 @@ namespace Api
 
             app.UseCors("CorsConfig");
             app.UseSwagger();
-
+            
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
+
 
             app.UseMvc();
 
