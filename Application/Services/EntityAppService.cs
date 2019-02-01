@@ -32,12 +32,12 @@ namespace Application.Services
 
             entity.Attributes.ForEach(attribute =>
             {
-                var dataType = _dataTypesRepository.QueryBy(x => attribute.BaseType == x.Name.Value).FirstOrDefault();
+                var dataType = _dataTypesRepository.QueryBy(x => attribute.BaseType() == x.Name.Value).FirstOrDefault();
                 entityDomain.AddAttribute(
                         new Name(attribute.Name),
                         attribute.AllowNull, 
                         attribute.Length, 
-                        attribute.GenericType,
+                        attribute.GenericType(),
                         dataType);
             });
 
