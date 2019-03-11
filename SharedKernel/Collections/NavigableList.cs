@@ -11,8 +11,8 @@ namespace SharedKernel.Collections
             foreach (var item in items)
                 this.Add(new NavigableItem<T>(item));
 
-            this.FirstOrDefault().Do(x => x.IsFirst = true);
-            this.LastOrDefault().Do(x => x.IsLast = true);
+            this.FirstOrDefault().IfNotNull().Then(x => x.IsFirst = true);
+            this.LastOrDefault().IfNotNull().Then(x => x.IsLast = true);
         }
     }
 

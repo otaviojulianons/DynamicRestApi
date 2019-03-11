@@ -25,7 +25,6 @@ namespace Application.EventHandlers
         public Task Handle(AfterInsertEntityEvent notification, CancellationToken cancellationToken)
         {
             _mediator.Publish(new GenerateDynamicControllersEvent(notification.Entity));
-            _mediator.Publish(new GenerateSwaggerFileEvent());
             return Task.CompletedTask;
         }
 
@@ -33,7 +32,6 @@ namespace Application.EventHandlers
         {
             _databaseService.DropEntity(notification.Entity.Name);
             _mediator.Publish(new GenerateDynamicControllersEvent());
-            _mediator.Publish(new GenerateSwaggerFileEvent());
             return Task.CompletedTask;
         }
 

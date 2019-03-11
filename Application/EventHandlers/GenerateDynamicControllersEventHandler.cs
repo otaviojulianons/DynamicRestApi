@@ -17,18 +17,21 @@ namespace Application.EventHandlers
     {
         private readonly IServiceProvider _serviceProvider;
         private IDynamicService _serviceDynamic;
+        private IMediator _mediator;
         private IRepository<EntityDomain> _entityRepository;
         private IRepository<LanguageDomain> _languageRepository;
 
         public GenerateDynamicControllersEventHandler(
             IServiceProvider serviceProvider,
             IDynamicService serviceDynamic,
+            IMediator mediator,
             IRepository<EntityDomain> entityRepository,
             IRepository<LanguageDomain> languageRepository
             )
         {
             _serviceProvider = serviceProvider;
             _serviceDynamic = serviceDynamic;
+            _mediator = mediator;
             _entityRepository = entityRepository;
             _languageRepository = languageRepository;
         }
@@ -48,7 +51,7 @@ namespace Application.EventHandlers
 
             _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entitiesTemplates.ToArray());
 
-            return Task.CompletedTask;
+            return _mediator.Publish(new GenerateSwaggerFileEvent());
         }
 
 
