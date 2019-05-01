@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
-using SharedKernel.Collections;
+using Infrastructure.CrossCutting.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

@@ -14,8 +14,10 @@ namespace Domain.Entities.EntityAggregate
             RuleFor(item => item.Attributes)
                 .Must(ContainsMoreThanOneAttribute)
                 .Must(ContainsAttributeIdentifier)
-                .SetCollectionValidator(new AttributeValidator())
                 .WithMessage("Invalid attributes.");
+
+            RuleForEach(item => item.Attributes)
+                .SetValidator(new AttributeValidator());
 
         }
 

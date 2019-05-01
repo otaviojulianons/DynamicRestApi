@@ -1,4 +1,4 @@
-﻿using Infrastructure.Services.WebSockets;
+﻿using Infrastructure.CrossCutting.WebSockets;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Middlewares

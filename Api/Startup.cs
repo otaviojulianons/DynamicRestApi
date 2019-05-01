@@ -2,17 +2,16 @@
 using Api.Middlewares;
 using Application.EventHandlers;
 using Application.Services;
-using Ioc;
+using Infrastructure.Data.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
-using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -63,7 +62,7 @@ namespace Api
                        .AllowAnyHeader();
             }));
 
-            services.AddMediatR(Assembly.GetAssembly(typeof(EntityEventHandler)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(StartupService)));
             services.UseWebSocketService();
 
 
@@ -71,7 +70,7 @@ namespace Api
             Application.AutoMapper.MapperRegister();
         }
 
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceScopeFactory serviceScopeFactory)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
 
             app.UseStaticFiles();
@@ -83,11 +82,10 @@ namespace Api
             }
 
             app.UseWebSockets();
-            //app.UseObservableControllerMiddlewareDynamic();
             app.UseMiddleware<WebSocketStartMiddleware>();
             app.UseMiddleware<WebSocketUpdateMiddleware>();
             app.UseMiddleware<DynamicRoutesMiddleware>();
-           
+
 
             app.UseCors("CorsConfig");
             app.UseSwagger();
@@ -100,7 +98,7 @@ namespace Api
 
             app.UseMvc();
 
-            await StartAppService.Run(serviceScopeFactory);
+            await new StartupService(serviceProvider).Start();
         }
 
     }

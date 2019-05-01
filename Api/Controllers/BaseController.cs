@@ -1,6 +1,6 @@
 ﻿using Api.Models;
+using Infrastructure.CrossCutting.Notifications;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Messaging;
 using System.Linq;
 
 namespace Api.Controllers
@@ -9,10 +9,10 @@ namespace Api.Controllers
     [Route("/")]
     public class BaseController : Controller
     {
-        private IMsgManager _msgs;
+        private INotificationManager _msgs;
 
         public BaseController(
-            IMsgManager msgs
+            INotificationManager msgs
             )
         {
             _msgs = msgs;

@@ -1,7 +1,7 @@
-using Infrastructure.Repository.Repositories;
+using Domain.Interfaces.Infrastructure;
+using Infrastructure.CrossCutting.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SharedKernel.Messaging;
 using System;
 
 namespace Api.Controllers
@@ -11,21 +11,26 @@ namespace Api.Controllers
     public class DynamicEntityController : BaseController
     {
 
-        public DynamicEntityController(IMsgManager msgs) : base(msgs)
+        public DynamicEntityController(INotificationManager msgs) : base(msgs)
         {
         }
 
         private dynamic GetRepository()
         {
             Type dynamicType = (Type) HttpContext.Items["DynamicType"];
-            var repositoryType = typeof(DynamicRepository<>).MakeGenericType(dynamicType);
+            var repositoryType = typeof(IDynamicRepository<>).MakeGenericType(dynamicType);
             return HttpContext.RequestServices.GetService(repositoryType);
         }
 
         private dynamic GetEntityModel(dynamic json)
         {
             Type dynamicType = (Type) HttpContext.Items["DynamicType"];
-            return JsonConvert.DeserializeObject(json.ToString(), dynamicType);
+            var result = JsonConvert.DeserializeObject(json.ToString(), dynamicType);
+
+            if (result != null)
+                result.Id = null;
+
+            return result;
         }
 
         [HttpGet()]
@@ -50,7 +55,7 @@ namespace Api.Controllers
             {
                 var repository = GetRepository();
                 var entity = GetEntityModel(json);
-                repository.Insert(entity, true);
+                repository.Insert(entity);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -60,7 +65,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public dynamic Get(long id)
+        public dynamic Get(Guid id)
         {
             try
             {
@@ -75,14 +80,14 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public dynamic Put(long id, [FromBody]dynamic json)
+        public dynamic Put(Guid id, [FromBody]dynamic json)
         {
             try
             {
                 var repository = GetRepository();
                 var entity = GetEntityModel(json);
                 entity.Id = id;
-                repository.Update(entity, true);
+                repository.Update(entity);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -92,12 +97,12 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public dynamic Delete(long id)
+        public dynamic Delete(Guid id)
         {
             try
             {
                 var repository = GetRepository();
-                repository.Delete(id, true);
+                repository.Delete(id);
                 return FormatResult(true);
             }
             catch (Exception ex)

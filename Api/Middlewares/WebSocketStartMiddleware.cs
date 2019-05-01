@@ -1,5 +1,5 @@
-﻿using Infrastructure.Repository.Repositories;
-using Infrastructure.Services.WebSockets;
+﻿using Domain.Interfaces.Infrastructure;
+using Infrastructure.CrossCutting.WebSockets;
 using Microsoft.AspNetCore.Http;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
@@ -22,19 +22,22 @@ namespace Api.Middlewares
             if (_webSocketService.Channels.ContainsKey(context.Request.Path))
             {
                 var type = _webSocketService.Channels[context.Request.Path];
-                var repositoryType = typeof(DynamicRepository<>).MakeGenericType(type);
+                var repositoryType = typeof(IDynamicRepository<>).MakeGenericType(type);
                 dynamic repository = context.RequestServices.GetService(repositoryType);
                 var initialData = repository.GetAll();
                 if (context.WebSockets.IsWebSocketRequest)
                 {
                     WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                    await new WebSocketHandler(_webSocketService, webSocket, context.Request.Path).Invoke(context, initialData);
+                    string channel = context.Request.Path;
+                    WebSocketHandler handler = _webSocketService.AddWebSocket(channel, webSocket);
+
+                    await handler.Invoke(context, initialData);
                 }
                 else
                     context.Response.StatusCode = 200;
             }
             else
-                _next(context);
+                await _next(context);
         }
 
     }

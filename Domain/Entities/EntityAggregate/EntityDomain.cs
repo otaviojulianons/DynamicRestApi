@@ -3,6 +3,7 @@ using Domain.Core.Interfaces.Structure;
 using Domain.Core.ValueObjects;
 using Domain.Events;
 using FluentValidation;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Entities.EntityAggregate
@@ -20,7 +21,7 @@ namespace Domain.Entities.EntityAggregate
 
         public IValidator<EntityDomain> Validator => new EntityValidator();
 
-        public new long Id { get; private set; }
+        public new Guid Id { get; private set; }
 
         public Name Name { get; private set; }
 

@@ -16,7 +16,7 @@ namespace Api.Examples
                     new Attribute()
                     {
                         Name = "Id",
-                        DataType = "long"
+                        DataType = "guid"
                     },
                     new Attribute()
                     {

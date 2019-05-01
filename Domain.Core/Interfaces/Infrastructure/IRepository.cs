@@ -11,20 +11,19 @@ namespace Domain.Core.Interfaces.Infrastructure
     {
         IQueryable<T> Queryble();
 
-        T GetById(long id);
+        T GetById(Guid id);
 
         IEnumerable<T> GetAll();
 
         IQueryable<T> QueryBy(Expression<Func<T, bool>> filter = null);
 
-        IQueryable<T> QueryById(long id);
+        IQueryable<T> QueryById(Guid id);
 
-        void Insert(T entity, bool commit = true);
+        void Insert(T entity);
 
-        void Update(T entity, bool commit = true);
+        void Update(T entity);
 
-        void Delete(long id,bool commit = true);
+        void Delete(Guid id);
 
-        void Commit();
     }
 }

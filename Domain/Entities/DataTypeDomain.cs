@@ -1,5 +1,6 @@
 ﻿using Domain.Core.Interfaces.Structure;
 using Domain.Core.ValueObjects;
+using System;
 
 namespace Domain.Entities
 {
@@ -11,7 +12,7 @@ namespace Domain.Entities
             UseLength = useLength;
         }
 
-        public long Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public Name Name { get; private set; }
 

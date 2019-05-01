@@ -1,7 +1,9 @@
-﻿namespace Domain.Core.Interfaces.Structure
+﻿using System;
+
+namespace Domain.Core.Interfaces.Structure
 {
     public interface IEntity
     {
-        long Id { get; }
+        Guid Id { get; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Domain.Core.Interfaces.Structure;
 using Domain.Core.ValueObjects;
 using FluentValidation;
+using System;
 
 namespace Domain.Entities.EntityAggregate
 {
@@ -23,7 +24,7 @@ namespace Domain.Entities.EntityAggregate
 
         public IValidator<AttributeDomain> Validator => new AttributeValidator();
 
-        public long Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public Name Name { get; private set; }
 
@@ -40,7 +41,7 @@ namespace Domain.Entities.EntityAggregate
         public EntityDomain Entity { get; private set; }
 
         public bool IsIdentifier => 
-            Name?.Value.ToLower() == "id" && (DataType?.Name)?.Value.ToLower() == "long";
+            Name?.Value.ToLower() == "id" && (DataType?.Name)?.Value.ToLower() == "guid";
 
 
     }

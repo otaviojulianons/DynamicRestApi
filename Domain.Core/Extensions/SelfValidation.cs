@@ -1,6 +1,5 @@
-﻿using Domain.Core.Interfaces.Structure;
-using FluentValidation;
-using SharedKernel.Messaging;
+﻿using Infrastructure.CrossCutting.Notifications;
+using Domain.Core.Interfaces.Structure;
 
 namespace Domain.Core.Extensions
 {
@@ -9,11 +8,11 @@ namespace Domain.Core.Extensions
         public static bool IsValid<T>(this ISelfValidation<T> validable)
             => validable.Validator.Validate(validable).IsValid;
 
-        public static bool IsValid<T>(this ISelfValidation<T> validable, IMsgManager notifications)
+        public static bool IsValid<T>(this ISelfValidation<T> validable, INotificationManager notifications)
         {
             var result = validable.Validator.Validate(validable);
             foreach (var item in result.Errors)
-                notifications.Errors.Add(new MsgValidation(item.ErrorMessage, item.PropertyName));
+                notifications.Errors.Add(new ValidationNotification(item.ErrorMessage, item.PropertyName));
             return result.IsValid;
         }
 

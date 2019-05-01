@@ -1,0 +1,220 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "DynamicSwagger"
+  },
+  "paths": { {{#each Entities}}
+    "/{{Item.Name}}": {
+      "get": {
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}Get",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiIEnumerable{{Item.Name}}" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      },
+      "post": {
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}Post",
+        "consumes": [ "application/json"],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "item",
+            "in": "body",
+            "required": false,
+            "schema": { "$ref": "#/definitions/Model{{Item.Name}}" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      }
+    },
+    "/{{Item.Name}}/{id}": {
+      "get": {
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}ByIdGet",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApi{{Item.Name}}" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      },
+      "put": {
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}ByIdPut",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "item",
+            "in": "body",
+            "required": false,
+            "schema": { "$ref": "#/definitions/Model{{Item.Name}}" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      },
+      "delete": {
+        "tags": [ "{{Item.Name}}" ],
+        "operationId": "{{Item.Name}}ByIdDelete",
+        "consumes": [],
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "400": {
+            "description": "BadRequest",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ResultApiBoolean" }
+          }
+        }
+      }
+    }{{#if HasMore}}, {{/if}}{{/each}}
+  },
+  "definitions": {
+    "ResultApiBoolean": {
+        "type": "object",
+        "properties": {
+        "message": { "type": "string" },
+        "result": { "type": "boolean" }
+        }
+    }{{#each Entities}},
+    "Model{{Item.Name}}Query": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "format": "uuid",
+                "type": "string"
+            },
+{{#each Item.Attributes}}
+            "{{Item.Name}}": {
+                "format": "{{Item.TypeLanguage.Format}}",
+                "type": "{{Item.TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
+{{/each}}
+        }
+    },
+    "Model{{Item.Name}}": {
+        "type": "object",
+        "properties": {
+{{#each Item.Attributes}}
+            "{{Item.Name}}": {
+                "format": "{{Item.TypeLanguage.Format}}",
+                "type": "{{Item.TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
+{{/each}}
+        }
+    },
+    "ResultApiIEnumerable{{Item.Name}}": {
+        "type": "object",
+        "properties": {
+        "message": { "type": "string" },
+        "result": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/Model{{Item.Name}}Query" }
+        }
+        }
+    },
+    "ResultApi{{Item.Name}}": {
+        "type": "object",
+        "properties": {
+        "message": { "type": "string" },
+        "result": { "$ref": "#/definitions/Model{{Item.Name}}Query" }
+        }
+    }{{/each}}
+  },
+  "securityDefinitions":{
+        "apikey":{
+            "name":"ApiKey",
+            "in":"header",
+            "type":"apiKey",
+            "description":"Authorization key to access Dynamic Rest API"
+        }
+  },
+  "security":[
+        {
+            "apikey":[
+
+            ]
+        }
+  ]
+}
