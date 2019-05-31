@@ -29,10 +29,10 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
         {
             try
             {
-                if (entity is ISelfValidation<T>)
+                if (entity is ISelfValidation)
                 {
-                    var validation = entity as ISelfValidation<T>;
-                    if (!validation.IsValid(_msg))
+                    var validable = entity as ISelfValidation;
+                    if (!validable.IsValid(_msg))
                         return;
                 }
 
@@ -81,10 +81,10 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
         {
             try
             {
-                if (entity is ISelfValidation<T>)
+                if (entity is ISelfValidation)
                 {
-                    var validation = entity as ISelfValidation<T>;
-                    if (!validation.IsValid(_msg))
+                    var validable = entity as ISelfValidation;
+                    if (!validable.IsValid(_msg))
                         return;
                 }
 

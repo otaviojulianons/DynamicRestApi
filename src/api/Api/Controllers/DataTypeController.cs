@@ -13,14 +13,11 @@ namespace Api.Controllers
     [Route("/Dynamic/[controller]")]
     public class DataTypeController : BaseController
     {
-        private IRepository<DataTypeDomain> _dataTypesRepository;
 
         public DataTypeController(
-            IRepository<DataTypeDomain> dataTypesRepository,
             INotificationManager msgs
         ) : base(msgs)
         {
-            _dataTypesRepository = dataTypesRepository;
         }
 
         [HttpGet()]
@@ -28,8 +25,7 @@ namespace Api.Controllers
         {
             try
             {
-                var list = _dataTypesRepository.GetAll();
-                var models = Mapper.Map<IEnumerable<DataType>>(list);
+                var models = Mapper.Map<IEnumerable<DataType>>(null);
                 return FormatResult(models);
             }
             catch (Exception ex)

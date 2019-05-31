@@ -10,6 +10,6 @@ namespace Domain.Core.Validators
             return ruleBuilder.Must(ValidValueObject);
         }
 
-        public static bool ValidValueObject<T>(IValueObject<T> name) => name.Validate(name).IsValid;
+        public static bool ValidValueObject<T>(IValueObject<T> name) => name?.Validate(name).IsValid ?? false;
     }
 }

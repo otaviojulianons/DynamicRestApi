@@ -34,9 +34,8 @@ namespace Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v1" });
-
                 c.ExampleFilters();
-
+                c.DescribeAllEnumsAsStrings(); 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
                 c.IncludeXmlComments(filePath);
 

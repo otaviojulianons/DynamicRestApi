@@ -13,8 +13,9 @@ namespace Domain.Entities.EntityAggregate
 
             RuleFor(item => item.Attributes)
                 .Must(ContainsMoreThanOneAttribute)
+                    .WithMessage("Invalid amount of attributes.")
                 .Must(ContainsAttributeIdentifier)
-                .WithMessage("Invalid attributes.");
+                    .WithMessage("Attribute identifier not found.");
 
             RuleForEach(item => item.Attributes)
                 .SetValidator(new AttributeValidator());

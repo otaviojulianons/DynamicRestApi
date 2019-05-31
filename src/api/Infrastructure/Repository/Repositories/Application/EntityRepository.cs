@@ -18,8 +18,7 @@ namespace Infrastructure.Data.Repository.Repositories.Application
         public override IQueryable<EntityDomain> Queryble()
         {
             return DbSet.OrderBy(x => x.Id)
-                        .Include(x => x.Attributes)
-                        .ThenInclude(x => x.DataType);
+                        .Include(x => x.Attributes);
         }
     }
 }

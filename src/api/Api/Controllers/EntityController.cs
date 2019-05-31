@@ -11,10 +11,13 @@ using System;
 using System.Collections.Generic;
 using MediatR;
 using Application.Commands;
+using System.Linq;
 
 namespace Api.Controllers
 {
     [Route("/Dynamic/[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class EntityController : BaseController
     {
         private IRepository<EntityDomain> _entityRepository;
@@ -32,27 +35,12 @@ namespace Api.Controllers
 
         [AllowAccess]
         [HttpPost()]
-        public ResultApi<bool> Post([FromBody]Entity item)
+        public ResultApi<bool> Post([FromBody]CreateEntityCommand item)
         {
             try
             {
-                _mediator.Send(new CreateEntityCommand(item));
-                return FormatResult(true);
-            }
-            catch (Exception ex)
-            {
-                return FormatError<bool>(ex.Message);
-            }
-        }
-
-        [AllowAccess]
-        [HttpDelete("{id}")]
-        public ResultApi<bool> Delete(Guid id)
-        {
-            try
-            {
-                _mediator.Send(new DeleteEntityCommand(id));
-                return FormatResult(true);
+                var result = _mediator.Send(item).Result;
+                return FormatResult(result);
             }
             catch (Exception ex)
             {
@@ -73,7 +61,37 @@ namespace Api.Controllers
             {
                 return FormatError<IEnumerable<Entity>>(ex.Message);
             }
-
         }
+
+        [HttpGet("{id}")]
+        public ResultApi<Entity> Get(Guid id)
+        {
+            try
+            {
+                var entity = _entityRepository.GetById(id);
+                var models = Mapper.Map<Entity>(entity);
+                return FormatResult(models);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<Entity>(ex.Message);
+            }
+        }              
+
+        [AllowAccess]
+        [HttpDelete("{id}")]
+        public ResultApi<bool> Delete(Guid id)
+        {
+            try
+            {
+                var result = _mediator.Send(new DeleteEntityCommand(id)).Result;
+                return FormatResult(result);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<bool>(ex.Message);
+            }
+        }
+
     }
 }

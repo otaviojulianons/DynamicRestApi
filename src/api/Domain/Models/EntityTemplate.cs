@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
+using Domain.Factories;
 using Infrastructure.CrossCutting.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,16 @@ namespace Domain.Models
     {
         public EntityTemplate(
             EntityDomain entity,
-            LanguageDomain language
+            IDataTypeFactory dataTypeFactory
             )
         {
             Name = entity.Name;
-
-            var attributesTemplate = entity.Attributes
-                .Where(item => !item.IsIdentifier)
-                .Select(item => new AttributeTemplate(item, language));
-
+            var attributesTemplate = new List<AttributeTemplate>();
+            foreach (var attribute in entity.Attributes.Where(item => !item.IsIdentifier))
+            {
+                var dataType = dataTypeFactory.Make(attribute.DataType, attribute.AllowNull);
+                attributesTemplate.Add(new AttributeTemplate(attribute, dataType));
+            }
             Attributes = new NavigableList<AttributeTemplate>(attributesTemplate);
         }
 

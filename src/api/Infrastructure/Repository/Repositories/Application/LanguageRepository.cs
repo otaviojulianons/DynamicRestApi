@@ -17,9 +17,7 @@ namespace Infrastructure.Data.Repository.Repositories.Application
 
         public override IQueryable<LanguageDomain> Queryble()
         {
-            return DbSet.OrderBy(x => x.Id)
-                        .Include(x => x.DataTypes)
-                        .ThenInclude( x => x.DataType);
+            return DbSet.OrderBy(x => x.Id);
         }
     }
 }

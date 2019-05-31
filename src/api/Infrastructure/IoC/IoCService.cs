@@ -25,7 +25,7 @@ namespace Infrastructure.Data.IoC
             services.AddScoped<IRepository<EntityDomain>, EntityRepository>();
             services.AddScoped<IRepository<LanguageDomain>, LanguageRepository>();
             services.AddScoped<IRepository<AttributeDomain>, RepositorySqlServer<AttributeDomain>>();
-            services.AddScoped<IRepository<DataTypeDomain>, RepositorySqlServer<DataTypeDomain>>();
+            //services.AddScoped<IRepository<DataTypeDomain>, RepositorySqlServer<DataTypeDomain>>();
             services.AddScoped<IRepository<LanguageDataTypeDomain>, RepositorySqlServer<LanguageDataTypeDomain>>();
 
             //INFRA SERVICES    

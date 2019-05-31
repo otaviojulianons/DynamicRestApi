@@ -1,14 +1,16 @@
-﻿using Application.Models;
+﻿using Application.Commands;
+using Application.Models;
+using Domain.ValueObjects;
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections.Generic;
 
 namespace Api.Examples
 {
-    public class EntityExample : IExamplesProvider<Entity>
+    public class EntityExample : IExamplesProvider<CreateEntityCommand>
     {
-        public Entity GetExamples()
+        public CreateEntityCommand GetExamples()
         {
-            return new Entity()
+            return new CreateEntityCommand()
             {
                 Name = "EntityName",
                 Attributes = new List<Attribute>()
@@ -16,12 +18,12 @@ namespace Api.Examples
                     new Attribute()
                     {
                         Name = "Id",
-                        DataType = "guid"
+                        DataType = EnumDataTypes.Identifier
                     },
                     new Attribute()
                     {
                         Name = "Name",
-                        DataType = "string",
+                        DataType = EnumDataTypes.String,
                         Length = 64
                     }
                 }

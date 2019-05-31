@@ -35,12 +35,12 @@ namespace Application.CommandHandlers
 
         public Task<bool> Handle(CreateDynamicDocumentationCommand request, CancellationToken cancellationToken)
         {
-            var entities = _entityRepository.GetAll();
-            var languageSwagger = _languageRepository.GetById(LanguageDomain.LANGUAGE_SWAGGER);
-            var entitiesTemplates = entities.Select(entity => new EntityTemplate(entity, languageSwagger)).ToArray();
+            // var entities = _entityRepository.GetAll();
+            // var languageSwagger = _languageRepository.GetById(LanguageDomain.LANGUAGE_SWAGGER);
+            // var entitiesTemplates = entities.Select(entity => new EntityTemplate(entity, languageSwagger)).ToArray();
 
-            var json = _serviceDynamic.GenerateSwaggerJsonFile(entitiesTemplates);
-            _swaggerRepository.Update(json);
+            // var json = _serviceDynamic.GenerateSwaggerJsonFile(entitiesTemplates);
+            // _swaggerRepository.Update(json);
             return Task.FromResult(true);
         }
     }

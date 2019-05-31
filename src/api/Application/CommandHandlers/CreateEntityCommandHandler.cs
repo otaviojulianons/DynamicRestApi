@@ -4,6 +4,8 @@ using Domain.Core.Interfaces.Infrastructure;
 using Domain.Core.ValueObjects;
 using Domain.Entities;
 using Domain.Entities.EntityAggregate;
+using Domain.ValueObjects;
+using Infrastructure.CrossCutting.Extensions;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -14,30 +16,28 @@ namespace Application.CommandHandlers
     public class CreateEntityCommandHandler : IRequestHandler<CreateEntityCommand, bool>
     {
         private IRepository<EntityDomain> _entityRepository;
-        private IRepository<DataTypeDomain> _dataTypeRepository;
 
         public CreateEntityCommandHandler(
-            IRepository<EntityDomain> entityRepository,
-            IRepository<DataTypeDomain> dataTypeRepository
+            IRepository<EntityDomain> entityRepository
             )
         {
             _entityRepository = entityRepository;
-            _dataTypeRepository = dataTypeRepository;
         }
 
         public Task<bool> Handle(CreateEntityCommand request, CancellationToken cancellationToken)
         {
-            var entityDomain = Mapper.Map<EntityDomain>(request.Entity);
+            var entityDomain = Mapper.Map<EntityDomain>(request);
 
-            request.Entity.Attributes.ForEach(attribute =>
+            request.Attributes.ForEach(attribute =>
             {
-                var dataType = _dataTypeRepository.QueryBy(x => attribute.BaseType() == x.Name.Value).FirstOrDefault();
-                entityDomain.AddAttribute(
-                        new Name(attribute.Name),
-                        attribute.AllowNull,
-                        attribute.Length,
-                        attribute.GenericType(),
-                        dataType);
+                var attributeDomain = new AttributeDomain(
+                    new Name(attribute.Name),
+                    attribute.DataType,
+                    attribute.AllowNull,
+                    attribute.Length
+                );
+                
+                entityDomain.AddAttribute(attributeDomain);
             });
 
             _entityRepository.Insert(entityDomain);

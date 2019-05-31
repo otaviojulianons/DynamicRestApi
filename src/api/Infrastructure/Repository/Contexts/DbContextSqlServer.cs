@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Entities.EntityAggregate;
 using Domain.Entities.LanguageAggregate;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,23 +20,11 @@ namespace Infrastructure.Data.Repository.Contexts
 
         public DbSet<EntityDomain> Entities { get; set; }
         public DbSet<AttributeDomain> Attributes { get; set; }
-        public DbSet<DataTypeDomain> DataTypes { get; set; }
         public DbSet<LanguageDomain> Languages { get; set; }
         public DbSet<LanguageDataTypeDomain> LanguagesDataTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region DataType
-
-            modelBuilder.Entity<DataTypeDomain>()
-                .ToTable("DataTypes")
-                .HasKey(x => x.Id);
-
-            modelBuilder.Entity<DataTypeDomain>()
-                .Property(x => x.Name)
-                .HasConversion( name => name.Value, value => new Name(value));
-
-            #endregion
 
             #region Attribute
 
@@ -47,12 +36,12 @@ namespace Infrastructure.Data.Repository.Contexts
                 .Property<Guid>("EntityId");
 
             modelBuilder.Entity<AttributeDomain>()
-                .Property<Guid>("DataTypeId");
-
-            modelBuilder.Entity<AttributeDomain>()
                 .Property(x => x.Name)
                 .HasConversion(name => name.Value, value => new Name(value));
-
+            
+            modelBuilder.Entity<AttributeDomain>()
+                .Property(x => x.DataType)
+                .HasConversion(datatype => datatype.ToString(), value => Enum.Parse<EnumDataTypes>(value));
 
             #endregion
 

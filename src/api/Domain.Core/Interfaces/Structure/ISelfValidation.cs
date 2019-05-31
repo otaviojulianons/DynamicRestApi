@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using Infrastructure.CrossCutting.Notifications;
 
 namespace Domain.Core.Interfaces.Structure
 {
-    public interface ISelfValidation<TEntity> : IEntity
+    public interface ISelfValidation : IEntity
     {
-        IValidator<TEntity> Validator { get; }
+        bool IsValid(INotificationManager notifications);
     }
 }

@@ -16,6 +16,5 @@ namespace Domain.Entities.LanguageAggregate
 
         public LanguageDomain Language { get; private set; }
 
-        public DataTypeDomain DataType { get; private set; }
     }
 }

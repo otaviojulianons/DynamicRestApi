@@ -28,13 +28,5 @@ namespace Domain.Entities.LanguageAggregate
         public Name Name { get; private set; }
 
         public IReadOnlyCollection<LanguageDataTypeDomain> DataTypes { get; set; }
-
-        public TypeLanguage GetTypeLanguage(string dataTypeName, bool nullable)
-        {
-            var languageDataType = DataTypes.FirstOrDefault(x => x.DataType.Name == dataTypeName) 
-                ?? throw new Exception($"Invalid data type  {dataTypeName}.");
-
-            return new TypeLanguage(languageDataType,nullable);    
-        }
     }
 }
