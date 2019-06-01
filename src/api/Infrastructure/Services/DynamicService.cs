@@ -66,7 +66,7 @@ namespace Infrastructure.Data.Services
 
         public string GenerateSwaggerJsonFile(params EntityTemplate[] entities)
         {
-            var templateParameters = new { Entities = new NavigableList<EntityTemplate>(entities) };
+            var templateParameters = new { Entities = new TemplateCollection<EntityTemplate>(entities) };
             var json = TemplateService.Generate(_templateSwagger, templateParameters);
 
             _logger.LogInformation("Dynamic documentation generated.");

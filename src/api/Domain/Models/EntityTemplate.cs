@@ -20,12 +20,12 @@ namespace Domain.Models
                 var dataType = dataTypeFactory.Make(attribute.DataType, attribute.AllowNull);
                 attributesTemplate.Add(new AttributeTemplate(attribute, dataType));
             }
-            Attributes = new NavigableList<AttributeTemplate>(attributesTemplate);
+            Attributes = new TemplateCollection<AttributeTemplate>(attributesTemplate);
         }
 
         public string Name { get; private set; }
 
-        public IReadOnlyCollection<NavigableItem<AttributeTemplate>> Attributes { get; private set; }
+        public IReadOnlyCollection<TemplateCollectionItem<AttributeTemplate>> Attributes { get; private set; }
 
     }
 }
