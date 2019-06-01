@@ -169,8 +169,8 @@
             },
 {{#each Item.Attributes}}
             "{{Item.Name}}": {
-                "format": "{{Item.TypeLanguage.Format}}",
-                "type": "{{Item.TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
+                "format": "{{Item.DataType.Format}}",
+                "type": "{{Item.DataType.Name}}" }{{#if HasMore}}, {{/if}}
 {{/each}}
         }
     },
@@ -179,8 +179,8 @@
         "properties": {
 {{#each Item.Attributes}}
             "{{Item.Name}}": {
-                "format": "{{Item.TypeLanguage.Format}}",
-                "type": "{{Item.TypeLanguage.Type}}" }{{#if HasMore}}, {{/if}}
+                "format": "{{Item.DataType.Format}}",
+                "type": "{{Item.DataType.Name}}" }{{#if HasMore}}, {{/if}}
 {{/each}}
         }
     },

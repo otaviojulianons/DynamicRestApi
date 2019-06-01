@@ -35,7 +35,7 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
 
         public override void DeleteEntity(T entity)
         {
-            _collection.InsertOne(entity);
+            _collection.DeleteOne(Builders<T>.Filter.Eq("_id", entity.Id));
         }
 
         public override void InsertEntity(T entity)

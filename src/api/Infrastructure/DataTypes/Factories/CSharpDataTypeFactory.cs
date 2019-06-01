@@ -2,8 +2,9 @@ using System.Data.Common;
 using System;
 using Domain.ValueObjects;
 using Domain.Factories;
+using Infrastructure.DataTypes.CSharp;
 
-namespace Infrastructure.DataTypes.CSharp
+namespace Infrastructure.DataTypes.Factories
 {
     public class CSharpDataTypeFactory : IDataTypeFactory
     {
@@ -22,6 +23,8 @@ namespace Infrastructure.DataTypes.CSharp
                     return new IdentifierDataType();
                 case EnumDataTypes.Int:
                     return new IntDataType();
+                case EnumDataTypes.Long:
+                    return new LongDataType();                      
                 case EnumDataTypes.Money:
                     return new MoneyDataType();
                 case EnumDataTypes.String:
@@ -43,6 +46,8 @@ namespace Infrastructure.DataTypes.CSharp
                     return new IdentifierDataType();
                 case EnumDataTypes.Int:
                     return new IntNullableDataType();
+                case EnumDataTypes.Long:
+                    return new LongNullableDataType();                    
                 case EnumDataTypes.Money:
                     return new MoneyNullableDataType();
                 case EnumDataTypes.String:

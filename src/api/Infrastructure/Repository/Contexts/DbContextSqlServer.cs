@@ -1,7 +1,6 @@
 ﻿using Domain.Core.ValueObjects;
 using Domain.Entities;
 using Domain.Entities.EntityAggregate;
-using Domain.Entities.LanguageAggregate;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,8 +19,6 @@ namespace Infrastructure.Data.Repository.Contexts
 
         public DbSet<EntityDomain> Entities { get; set; }
         public DbSet<AttributeDomain> Attributes { get; set; }
-        public DbSet<LanguageDomain> Languages { get; set; }
-        public DbSet<LanguageDataTypeDomain> LanguagesDataTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,44 +60,6 @@ namespace Infrastructure.Data.Repository.Contexts
                 .Property(x => x.Name)
                 .HasConversion(name => name.Value, value => new Name(value));
 
-
-            #endregion
-
-            #region Language
-
-            modelBuilder.Entity<LanguageDomain>()
-                .ToTable("Languages")
-                .HasKey(x => x.Id);
-
-            modelBuilder.Entity<LanguageDomain>()
-                .HasMany(c => c.DataTypes)
-                .WithOne(e => e.Language);
-
-            modelBuilder.Entity<LanguageDomain>()
-                .Property(x => x.Name)
-                .HasConversion(name => name.Value, value => new Name(value));
-
-            #endregion
-
-            #region Language DataType
-
-            modelBuilder.Entity<LanguageDataTypeDomain>()
-                    .ToTable("LanguagesDataTypes")
-                    .HasKey(x => x.Id);
-
-            modelBuilder.Entity<LanguageDataTypeDomain>()
-                .Property<Guid>("LanguageId");
-
-            modelBuilder.Entity<LanguageDataTypeDomain>()
-                .Property<Guid>("DataTypeId");
-
-            modelBuilder.Entity<LanguageDataTypeDomain>()
-                .Property(x => x.Name)
-                .HasConversion(name => name.Value, value => new Name(value));
-
-            modelBuilder.Entity<LanguageDataTypeDomain>()
-                .Property(x => x.NameNullable)
-                .HasConversion(name => name.Value, value => new Name(value));
 
             #endregion
 

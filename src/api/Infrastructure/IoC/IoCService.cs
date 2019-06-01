@@ -1,7 +1,6 @@
 ﻿using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities;
 using Domain.Entities.EntityAggregate;
-using Domain.Entities.LanguageAggregate;
 using Domain.Interfaces.Infrastructure;
 using Infrastructure.CrossCutting.Notifications;
 using Infrastructure.Data.Repository.Contexts;
@@ -23,10 +22,7 @@ namespace Infrastructure.Data.IoC
             services.AddScoped(typeof(IDynamicRepository<>), typeof(RepositoryMongodb<>));
 
             services.AddScoped<IRepository<EntityDomain>, EntityRepository>();
-            services.AddScoped<IRepository<LanguageDomain>, LanguageRepository>();
             services.AddScoped<IRepository<AttributeDomain>, RepositorySqlServer<AttributeDomain>>();
-            //services.AddScoped<IRepository<DataTypeDomain>, RepositorySqlServer<DataTypeDomain>>();
-            services.AddScoped<IRepository<LanguageDataTypeDomain>, RepositorySqlServer<LanguageDataTypeDomain>>();
 
             //INFRA SERVICES    
             services.AddSingleton<IDynamicService,DynamicService>();

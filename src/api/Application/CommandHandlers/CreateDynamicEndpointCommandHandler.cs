@@ -1,10 +1,10 @@
 ﻿using Application.Commands;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
-using Domain.Entities.LanguageAggregate;
 using Domain.Interfaces.Infrastructure;
 using Domain.Models;
 using Infrastructure.DataTypes.CSharp;
+using Infrastructure.DataTypes.Factories;
 using MediatR;
 using System;
 using System.Linq;
@@ -19,19 +19,16 @@ namespace Application.CommandHandlers
         private IDynamicService _serviceDynamic;
         private IMediator _mediator;
         private IRepository<EntityDomain> _entityRepository;
-        private IRepository<LanguageDomain> _languageRepository;
 
         public CreateDynamicEndpointCommandHandler(
             IServiceProvider serviceProvider,
             IDynamicService serviceDynamic,
-            IMediator mediator,
-            IRepository<LanguageDomain> languageRepository
+            IMediator mediator
             )
         {
             _serviceProvider = serviceProvider;
             _serviceDynamic = serviceDynamic;
             _mediator = mediator;
-            _languageRepository = languageRepository;
         }
 
         public Task<bool> Handle(CreateDynamicEndpointCommand request, CancellationToken cancellationToken)
@@ -41,8 +38,7 @@ namespace Application.CommandHandlers
                 request.Entities.Select(entity => new EntityTemplate(entity, factoryCSharpDataType));
 
             _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entitiesTemplates.ToArray());
-            // return _mediator.Send(new CreateDynamicDocumentationCommand());
-            return Task.FromResult(true);
+            return _mediator.Send(new CreateDynamicDocumentationCommand());
         }
 
  

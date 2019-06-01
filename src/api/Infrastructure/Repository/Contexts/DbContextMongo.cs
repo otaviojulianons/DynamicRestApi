@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Repository.Contexts
         public DbContextMongo(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("Database:Mongodb:ConnectionString");
-            var databaseName = configuration.GetValue<string>("Database:Mongodb:Database");
+            var databaseName = configuration.GetValue<string>("Database:Mongodb:DatabaseName");
             var mongoClient = new MongoClient(connectionString);
             Database = mongoClient.GetDatabase(databaseName);
         }

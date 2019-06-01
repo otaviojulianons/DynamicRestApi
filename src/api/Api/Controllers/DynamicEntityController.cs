@@ -28,7 +28,7 @@ namespace Api.Controllers
             var result = JsonConvert.DeserializeObject(json.ToString(), dynamicType);
 
             if (result != null)
-                result.Id = null;
+                result.Id = Guid.Empty;
 
             return result;
         }

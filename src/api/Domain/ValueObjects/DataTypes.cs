@@ -11,6 +11,7 @@ namespace Domain.ValueObjects
         String,
         Bool,
         Int,
+        Long,
         Money,
         DateTime
     }
