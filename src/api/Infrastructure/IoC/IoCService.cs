@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
 using Infrastructure.CrossCutting.Notifications;
+using Infrastructure.Data.Repository;
 using Infrastructure.Data.Repository.Contexts;
 using Infrastructure.Data.Repository.Repositories.Application;
 using Infrastructure.Data.Repository.Repositories.Memory;
@@ -16,13 +17,10 @@ namespace Infrastructure.Data.IoC
     {
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
-            //REPOSITORY
-            services.AddDbContext<DbContextSqlServer>();
-            services.AddScoped<DbContextMongo>();
-            services.AddScoped(typeof(IDynamicRepository<>), typeof(RepositoryMongodb<>));
 
-            services.AddScoped<IRepository<EntityDomain>, EntityRepository>();
-            services.AddScoped<IRepository<AttributeDomain>, RepositorySqlServer<AttributeDomain>>();
+            services.AddSingleton<ContextMongodb>();
+            services.AddScoped<IRepository<EntityDomain>, EntityRepositoryMongodb>();            
+            services.AddScoped(typeof(IDynamicRepository<>), typeof(RepositoryMongodb<>));
 
             //INFRA SERVICES    
             services.AddSingleton<IDynamicService,DynamicService>();

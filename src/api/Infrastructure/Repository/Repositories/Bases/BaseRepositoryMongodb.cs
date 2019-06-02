@@ -1,6 +1,6 @@
 ﻿using Infrastructure.CrossCutting.Notifications;
 using Domain.Core.Interfaces.Structure;
-using Infrastructure.Data.Repository.Contexts.Base;
+using Infrastructure.Data.Repository.Contexts;
 using MediatR;
 using MongoDB.Driver;
 using System.Linq;
@@ -12,9 +12,9 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
         private IMongoDatabase _database;
         private IMediator _mediator;
         private INotificationManager _msg;
-        private IMongoCollection<T> _collection { get; set; }
+        protected IMongoCollection<T> _collection { get; set; }
 
-        public BaseRepositoryMongodb(MongoDbContext context, IMediator mediator, INotificationManager msg)
+        public BaseRepositoryMongodb(ContextMongodb context, IMediator mediator, INotificationManager msg)
             : base(mediator, msg)
         {
             _database = context.Database;

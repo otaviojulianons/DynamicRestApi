@@ -1,13 +1,14 @@
-﻿using Domain.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using Domain.Entities.EntityAggregate;
 
 namespace Domain.Interfaces.Infrastructure
 {
     public interface IDynamicService
     {
-        void GenerateControllerDynamic(IServiceProvider serviceProvider,params EntityTemplate[] entities);
+        void GenerateControllerDynamic(IServiceProvider serviceProvider,IEnumerable<EntityDomain> entities);
 
-        string GenerateSwaggerJsonFile(params EntityTemplate[] entities);
+        string GenerateSwaggerJsonFile(IEnumerable<EntityDomain> entities);
 
     }
 }

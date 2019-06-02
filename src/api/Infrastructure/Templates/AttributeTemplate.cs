@@ -1,7 +1,7 @@
 ﻿using Domain.Entities.EntityAggregate;
 using Domain.ValueObjects;
 
-namespace Domain.Models
+namespace Infrastructure.Templates
 {
     public class AttributeTemplate
     {

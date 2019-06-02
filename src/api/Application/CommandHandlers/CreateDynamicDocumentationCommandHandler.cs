@@ -2,8 +2,8 @@
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
-using Domain.Models;
 using Infrastructure.DataTypes.Factories;
+using Infrastructure.Templates;
 using MediatR;
 using System;
 using System.Linq;
@@ -32,11 +32,9 @@ namespace Application.CommandHandlers
 
         public Task<bool> Handle(CreateDynamicDocumentationCommand request, CancellationToken cancellationToken)
         {
-            var swaggerDataTypeFactory = new SwaggerDataTypeFactory();
+           
             var entities = _entityRepository.GetAll();
-            var entitiesTemplates = entities.Select(entity => new EntityTemplate(entity, swaggerDataTypeFactory)).ToArray();
-
-            var json = _serviceDynamic.GenerateSwaggerJsonFile(entitiesTemplates);
+            var json = _serviceDynamic.GenerateSwaggerJsonFile(entities);
             _swaggerRepository.Update(json);
             return Task.FromResult(true);
         }

@@ -2,7 +2,6 @@
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
-using Domain.Models;
 using Infrastructure.DataTypes.CSharp;
 using Infrastructure.DataTypes.Factories;
 using MediatR;
@@ -33,12 +32,13 @@ namespace Application.CommandHandlers
 
         public Task<bool> Handle(CreateDynamicEndpointCommand request, CancellationToken cancellationToken)
         {
-            var factoryCSharpDataType = new CSharpDataTypeFactory();
-            var entitiesTemplates = 
-                request.Entities.Select(entity => new EntityTemplate(entity, factoryCSharpDataType));
+            // var factoryCSharpDataType = new CSharpDataTypeFactory();
+            // var entitiesTemplates = 
+            //     request.Entities.Select(entity => new EntityTemplate(entity, factoryCSharpDataType));
 
-            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entitiesTemplates.ToArray());
-            return _mediator.Send(new CreateDynamicDocumentationCommand());
+            // _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entitiesTemplates.ToArray());
+            // return _mediator.Send(new CreateDynamicDocumentationCommand());
+            return Task.FromResult(true);
         }
 
  

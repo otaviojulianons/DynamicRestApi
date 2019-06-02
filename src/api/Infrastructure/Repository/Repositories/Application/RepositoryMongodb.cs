@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Repository.Repositories.Application
     public class RepositoryMongodb<T> : BaseRepositoryMongodb<T>, IRepository<T> where T :  class, IEntity
     {
 
-        public RepositoryMongodb(DbContextMongo context, IMediator mediator, INotificationManager msg) : base(context,mediator,msg)
+        public RepositoryMongodb(ContextMongodb context, IMediator mediator, INotificationManager msg) : base(context,mediator,msg)
         {
         }
 

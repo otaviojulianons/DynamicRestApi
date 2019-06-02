@@ -4,21 +4,20 @@ using Domain.Entities.EntityAggregate;
 using Infrastructure.Data.Repository.Contexts;
 using Infrastructure.Data.Repository.Repositories.Bases;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using MongoDB.Driver;
 
 namespace Infrastructure.Data.Repository.Repositories.Application
 {
-    public class EntityRepository : BaseRepositorySqlServer<EntityDomain>, IRepository<EntityDomain>
+    public class EntityRepositoryMongodb : BaseRepositoryMongodb<EntityDomain>, IRepository<EntityDomain>
     {
-        public EntityRepository(DbContextSqlServer context, IMediator mediator, INotificationManager msg) : base(context,mediator, msg)
+        public EntityRepositoryMongodb(ContextMongodb context, IMediator mediator, INotificationManager msg) : base(context,mediator, msg)
         {
         }
 
         public override IQueryable<EntityDomain> Queryble()
         {
-            return DbSet.OrderBy(x => x.Name)
-                        .Include(x => x.Attributes);
+            return _collection.AsQueryable<EntityDomain>().OrderBy( x => x.Name);
         }
     }
 }
