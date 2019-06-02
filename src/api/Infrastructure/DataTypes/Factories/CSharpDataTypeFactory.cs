@@ -1,7 +1,6 @@
 using System.Data.Common;
 using System;
 using Domain.ValueObjects;
-using Domain.Factories;
 using Infrastructure.DataTypes.CSharp;
 
 namespace Infrastructure.DataTypes.Factories

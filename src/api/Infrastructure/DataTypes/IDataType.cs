@@ -1,6 +1,7 @@
 using Domain.Core.Interfaces.Structure;
+using Domain.ValueObjects;
 
-namespace Domain.ValueObjects
+namespace Infrastructure.DataTypes
 {
     public interface IDataType
     {        

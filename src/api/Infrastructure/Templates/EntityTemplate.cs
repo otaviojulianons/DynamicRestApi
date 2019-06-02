@@ -1,5 +1,5 @@
 ﻿using Domain.Entities.EntityAggregate;
-using Domain.Factories;
+using Infrastructure.DataTypes;
 using System.Collections.Generic;
 using System.Linq;
 

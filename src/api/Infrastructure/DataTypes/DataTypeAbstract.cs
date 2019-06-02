@@ -2,10 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Core.Interfaces.Structure;
+using Domain.ValueObjects;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace Domain.ValueObjects
+namespace Infrastructure.DataTypes
 {   
     public abstract class DataTypeAbstract : 
         AbstractValidator<DataTypeAbstract>, IValueObject<DataTypeAbstract> , IDataType

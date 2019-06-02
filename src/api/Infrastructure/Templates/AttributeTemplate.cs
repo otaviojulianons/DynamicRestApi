@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.EntityAggregate;
 using Domain.ValueObjects;
+using Infrastructure.DataTypes;
 
 namespace Infrastructure.Templates
 {
