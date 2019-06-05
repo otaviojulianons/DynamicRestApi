@@ -1,10 +1,9 @@
 ﻿using Domain.Entities.EntityAggregate;
-using Domain.Factories;
-using Infrastructure.CrossCutting.Collections;
+using Infrastructure.DataTypes;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Models
+namespace Infrastructure.Templates
 {
     public class EntityTemplate
     {
@@ -20,12 +19,12 @@ namespace Domain.Models
                 var dataType = dataTypeFactory.Make(attribute.DataType, attribute.AllowNull);
                 attributesTemplate.Add(new AttributeTemplate(attribute, dataType));
             }
-            Attributes = new TemplateCollection<AttributeTemplate>(attributesTemplate);
+            Attributes = new CollectionTemplate<AttributeTemplate>(attributesTemplate);
         }
 
         public string Name { get; private set; }
 
-        public IReadOnlyCollection<TemplateCollectionItem<AttributeTemplate>> Attributes { get; private set; }
+        public IReadOnlyCollection<ItemTemplate<AttributeTemplate>> Attributes { get; private set; }
 
     }
 }

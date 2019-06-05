@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Domain.Core.Implementation.Events;
 
 namespace Infrastructure.Data.Repository.Repositories.Bases
 {
@@ -38,12 +39,7 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
 
                 UpdateEntity(entity);
 
-                if (entity is IAggregateRoot)
-                {
-                    var aggregateRoot = entity as IAggregateRoot;
-                    foreach (var notification in aggregateRoot.Notifications.Where(x => x is IAfterUpdateDomainEvent<T>))
-                        _mediator.Publish(notification);
-                }
+                _mediator.Publish(new AfterUpdateEntityEvent<T>(entity));
             }
             catch (Exception ex)
             {
@@ -62,12 +58,7 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
 
                 DeleteEntity(entity);
 
-                if (entity is IAggregateRoot)
-                {
-                    var aggregateRoot = entity as IAggregateRoot;
-                    foreach (var notification in aggregateRoot.Notifications.Where(x => x is IAfterDeleteDomainEvent<T>))
-                        _mediator.Publish(notification);
-                }
+                _mediator.Publish(new AfterDeleteEntityEvent<T>(entity));
             }
             catch (Exception ex)
             {
@@ -90,12 +81,7 @@ namespace Infrastructure.Data.Repository.Repositories.Bases
 
                 InsertEntity(entity);
 
-                if (entity is IAggregateRoot)
-                {
-                    var aggregateRoot = entity as IAggregateRoot;
-                    foreach (var notification in aggregateRoot.Notifications.Where(x => x is IAfterInsertDomainEvent<T>))
-                        _mediator.Publish(notification);
-                }
+                _mediator.Publish(new AfterInsertEntityEvent<T>(entity));
 
             }
             catch (Exception ex)

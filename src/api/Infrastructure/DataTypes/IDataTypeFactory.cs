@@ -1,6 +1,6 @@
 using Domain.ValueObjects;
 
-namespace Domain.Factories
+namespace Infrastructure.DataTypes
 {
     public interface IDataTypeFactory
     {

@@ -1,12 +1,13 @@
 ﻿using Application.Commands;
-using Domain.Events;
+using Domain.Core.Implementation.Events;
+using Domain.Entities.EntityAggregate;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.EventHandlers
 {
-    public class AfterInsertEntityEventHandler :  INotificationHandler<AfterInsertEntityEvent>
+    public class AfterInsertEntityEventHandler :  INotificationHandler<AfterInsertEntityEvent<EntityDomain>>
     {
 
         private readonly IMediator _mediator;
@@ -16,7 +17,7 @@ namespace Application.EventHandlers
             _mediator = mediator;
         }
 
-        public Task Handle(AfterInsertEntityEvent notification, CancellationToken cancellationToken)
+        public Task Handle(AfterInsertEntityEvent<EntityDomain> notification, CancellationToken cancellationToken)
         {
             _mediator.Send(new CreateDynamicEndpointCommand(notification.Entity));
             return Task.CompletedTask;

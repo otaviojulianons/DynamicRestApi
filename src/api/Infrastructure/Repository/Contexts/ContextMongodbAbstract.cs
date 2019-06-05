@@ -1,8 +1,8 @@
 ﻿using MongoDB.Driver;
 
-namespace Infrastructure.Data.Repository.Contexts.Base
+namespace Infrastructure.Data.Repository.Contexts
 {
-    public abstract class MongoDbContext
+    public abstract class ContextMongodbAbstract
     {
         public IMongoDatabase Database { get; protected set; }
     }

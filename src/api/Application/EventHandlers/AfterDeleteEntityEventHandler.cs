@@ -1,7 +1,7 @@
 ﻿using Application.Commands;
+using Domain.Core.Implementation.Events;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
-using Domain.Events;
 using Domain.Interfaces.Infrastructure;
 using MediatR;
 using System.Threading;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.EventHandlers
 {
-    public class AfterDeleteEntityEventHandler : INotificationHandler<AfterDeleteEntityEvent>
+    public class AfterDeleteEntityEventHandler : INotificationHandler<AfterDeleteEntityEvent<EntityDomain>>
     {
         private readonly IDatabaseService _databaseService;
         private readonly IMediator _mediator;
@@ -26,7 +26,7 @@ namespace Application.EventHandlers
             _entityRepository = entityRepository;
         }
 
-        public Task Handle(AfterDeleteEntityEvent notification, CancellationToken cancellationToken)
+        public Task Handle(AfterDeleteEntityEvent<EntityDomain> notification, CancellationToken cancellationToken)
         {
             var entities = _entityRepository.GetAll();
             _databaseService.DropEntity(notification.Entity.Name);

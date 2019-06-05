@@ -23,7 +23,7 @@ namespace Domain.Entities.EntityAggregate
             : this(name,dataType, allowNull, length) 
         {
             this.Id = id;
-            this.Entity = entity;  
+            //this.Entity = entity;  
         }
         
         public Guid Id { get; private set; }
@@ -35,8 +35,6 @@ namespace Domain.Entities.EntityAggregate
         public bool AllowNull { get; private set; }
 
         public EnumDataTypes DataType { get; private set; }
-
-        public EntityDomain Entity { get; private set; }
 
         public bool IsIdentifier => DataType == EnumDataTypes.Identifier;
 

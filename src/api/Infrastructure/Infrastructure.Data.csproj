@@ -34,10 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Templates\Domain.mustache">
+    <None Update="Templates\Template.Domain.mustache">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Templates\Swagger.mustache">
+    <None Update="Templates\Template.Swagger.mustache">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
