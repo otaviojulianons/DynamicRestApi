@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/otaviojulianons/DynamicRestApi.svg?branch=master)](https://travis-ci.com/otaviojulianons/DynamicRestApi)
+[![Build Status](https://travis-ci.com/otaviojulianons/DynamicRestApi.svg?branch=master)](https://travis-ci.com/otaviojulianons/DynamicRestApi) [![Maintainability](https://api.codeclimate.com/v1/badges/99041474b10fc2e37f9d/maintainability)](https://codeclimate.com/github/otaviojulianons/DynamicRestApi/maintainability)
 
 # DyRA - Dynamic Rest Api
 Generate Rest API from Dynamic Entities
