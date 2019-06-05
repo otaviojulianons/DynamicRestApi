@@ -41,7 +41,8 @@
                 "/p:CollectCoverage=true",
                 "/p:CoverletOutputFormat=lcov",
                 "/p:CoverletOutput=../lcov",
-                "/p:Exclude=\"[xunit.*]*\""
+                "/p:Exclude=\"[xunit.*]*\"",
+                "${workspaceFolder}/src/DynamicRestApi.sln"                
             ],
             "group": "test",
             "presentation": {
