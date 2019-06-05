@@ -274,7 +274,6 @@ node_modules/
 *.vbw
 
 # Visual Studio LightSwitch build output
-.vscode
 **/*.HTMLClient/GeneratedArtifacts
 **/*.DesktopClient/GeneratedArtifacts
 **/*.DesktopClient/ModelManifest.xml
@@ -330,3 +329,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Sonarqube files
+.sonarqube

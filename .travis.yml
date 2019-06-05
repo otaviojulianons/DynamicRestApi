@@ -3,7 +3,7 @@ mono: none
 dotnet: 2.1.502
 
 install:
-- dotnet restore src/api/DynamicRestApi.sln
+- dotnet restore src/DynamicRestApi.sln
 
 script:
- - dotnet build src/api/DynamicRestApi.sln
+ - dotnet build src/DynamicRestApi.sln
