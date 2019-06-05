@@ -18,7 +18,7 @@ These instructions will get you a copy of the project up and running on your loc
 ## Built With
 
 * [Asp.Net Core](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-2.0) - C-Sharp Web API 
-* [Mongodb](https://www.microsoft.com/en-us/sql-server/sql-server-2017) - NoSQL Database
+* [Mongodb](https://www.mongodb.com/) - NoSQL Database
 * [Mustache ](http://mustache.github.io/) - Generate code templates
 * [Swagger ](https://swagger.io/) - API documentation
 
