@@ -1,0 +1,9 @@
+language: csharp
+mono: none
+dotnet: 2.1.0
+
+install:
+- dotnet restore src/api/DynamicRestApi.sln
+
+script:
+ - dotnet build src/api/DynamicRestApi.sln
