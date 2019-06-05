@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/otaviojulianons/DynamicRestApi.svg?branch=master)](https://travis-ci.com/otaviojulianons/DynamicRestApi)
+
 # DyRA - Dynamic Rest Api
 Generate Rest API from Dynamic Entities
 
