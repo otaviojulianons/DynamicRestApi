@@ -274,7 +274,6 @@ node_modules/
 *.vbw
 
 # Visual Studio LightSwitch build output
-.vscode
 **/*.HTMLClient/GeneratedArtifacts
 **/*.DesktopClient/GeneratedArtifacts
 **/*.DesktopClient/ModelManifest.xml
