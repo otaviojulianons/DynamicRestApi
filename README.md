@@ -1,4 +1,10 @@
 [![Build Status](https://travis-ci.com/otaviojulianons/DynamicRestApi.svg?branch=master)](https://travis-ci.com/otaviojulianons/DynamicRestApi) [![Maintainability](https://api.codeclimate.com/v1/badges/99041474b10fc2e37f9d/maintainability)](https://codeclimate.com/github/otaviojulianons/DynamicRestApi/maintainability)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=code_smells)](https://sonarcloud.io/project/issues?id=DynamicRestApi&resolved=false&types=CODE_SMELL)
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=alert_status)](https://sonarcloud.io/dashboard?id=DynamicRestApi) 
+[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=DynamicRestApi)
+[![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=DynamicRestApi)
+[![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=DynamicRestApi)
+
 
 # DyRA - Dynamic Rest Api
 Generate Rest API from Dynamic Entities
