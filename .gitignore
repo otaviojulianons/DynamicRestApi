@@ -332,3 +332,4 @@ ASALocalRun/
 
 # Sonarqube files
 .sonarqube
+coverage.opencover.xml
