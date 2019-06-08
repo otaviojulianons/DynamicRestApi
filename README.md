@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.com/otaviojulianons/DynamicRestApi.svg?branch=master)](https://travis-ci.com/otaviojulianons/DynamicRestApi)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=code_smells)](https://sonarcloud.io/project/issues?id=otaviojulianons_DynamicRestApi&resolved=false&types=CODE_SMELL)
-
-[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=otaviojulianons_DynamicRestApi&metric=Duplications) 
-
-
+[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=otaviojulianons_DynamicRestApi&metric=Duplications)
 [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=otaviojulianons_DynamicRestApi)
 [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=otaviojulianons_DynamicRestApi)
 [![Code Lines](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=ncloc)](https://sonarcloud.io/code?id=otaviojulianons_DynamicRestApi)
