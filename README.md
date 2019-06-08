@@ -1,9 +1,12 @@
 [![Build Status](https://travis-ci.com/otaviojulianons/DynamicRestApi.svg?branch=master)](https://travis-ci.com/otaviojulianons/DynamicRestApi)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=code_smells)](https://sonarcloud.io/project/issues?id=DynamicRestApi&resolved=false&types=CODE_SMELL)
-[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=alert_status)](https://sonarcloud.io/dashboard?id=DynamicRestApi) 
-[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=DynamicRestApi)
-[![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=DynamicRestApi)
-[![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DynamicRestApi&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=DynamicRestApi)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=code_smells)](https://sonarcloud.io/project/issues?id=otaviojulianons_DynamicRestApi&resolved=false&types=CODE_SMELL)
+
+[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=otaviojulianons_DynamicRestApi&metric=Duplications) 
+
+
+[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=otaviojulianons_DynamicRestApi)
+[![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=otaviojulianons_DynamicRestApi)
+[![Code Lines](https://sonarcloud.io/api/project_badges/measure?project=otaviojulianons_DynamicRestApi&metric=ncloc)](https://sonarcloud.io/code?id=otaviojulianons_DynamicRestApi)
 
 
 # DyRA - Dynamic Rest Api
