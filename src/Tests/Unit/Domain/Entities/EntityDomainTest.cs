@@ -80,7 +80,7 @@ namespace Tests.Unit.Domain.Entities
             new AttributeDomain(new Name("Id"), EnumDataTypes.Identifier);
 
         private AttributeDomain GetNameAttribute() =>
-            new AttributeDomain(new Name("Name"), EnumDataTypes.String);
+            new AttributeDomain(new Name("Name"), EnumDataTypes.String, false, 64);
 
     }
 }

@@ -14,8 +14,8 @@ namespace Domain.Entities.EntityAggregate
             RuleFor(item => item.Attributes)
                 .Must(ContainsMoreThanOneAttribute)
                     .WithMessage("Invalid amount of attributes.")
-                .Must(ContainsAttributeIdentifier)
-                    .WithMessage("Attribute identifier not found.");
+                .Must(ContainsOnlyOneIdentifier)
+                    .WithMessage("It is mandatory to have only one identifier attribute.");
 
             RuleForEach(item => item.Attributes)
                 .SetValidator(new AttributeValidator());
@@ -25,7 +25,7 @@ namespace Domain.Entities.EntityAggregate
         private bool ContainsMoreThanOneAttribute(IReadOnlyCollection<AttributeDomain> attributes)
             => attributes?.Count > 1;
 
-        private bool ContainsAttributeIdentifier(IReadOnlyCollection<AttributeDomain> attributes)
-            => attributes.Any(item => item.IsIdentifier);
+        private bool ContainsOnlyOneIdentifier(IReadOnlyCollection<AttributeDomain> attributes)
+            => attributes.Where(item => item.IsIdentifier)?.Count() == 1;            
     }
 }

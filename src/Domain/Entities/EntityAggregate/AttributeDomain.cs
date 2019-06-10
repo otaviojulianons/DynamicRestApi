@@ -23,7 +23,6 @@ namespace Domain.Entities.EntityAggregate
             : this(name,dataType, allowNull, length) 
         {
             this.Id = id;
-            //this.Entity = entity;  
         }
         
         public Guid Id { get; private set; }
