@@ -15,12 +15,25 @@ From the mapping of relational entities DyRA is able to generate dynamic endpoin
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+## Features
+
+* Generating Entity CRUD operations (GET \ POST \ UPDATE \ DELETE)
+* Generating Entity updates by Websocket 
+* Generating Dynamic Documentation by Swagger
+
+## Next Features
+
+* Mapping Complex Objects
+* Query Filter using [Linq to QueryString](https://www.nuget.org/packages/LinqToQuerystring.WebApi/)
+* Websocket Filter using [Linq to QueryString](https://www.nuget.org/packages/LinqToQuerystring.WebApi/)
+
 ## Built With
 
 * [Asp.Net Core](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-2.0) - C-Sharp Web API 
 * [Mongodb](https://www.mongodb.com/) - NoSQL Database
 * [Mustache ](http://mustache.github.io/) - Generate code templates
 * [Swagger ](https://swagger.io/) - API documentation
+
 
 ## Author
 
