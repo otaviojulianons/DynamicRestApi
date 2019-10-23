@@ -1,7 +1,7 @@
 ﻿using Api.Examples;
 using Api.Middlewares;
-using Application.EventHandlers;
 using Application.Services;
+using GraphiQl;
 using Infrastructure.Data.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -94,7 +94,7 @@ namespace Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
 
-
+            app.UseGraphiQl("/graphql");
             app.UseMvc();
 
             await new StartupService(serviceProvider).Start();

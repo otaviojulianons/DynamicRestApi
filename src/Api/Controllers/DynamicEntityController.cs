@@ -1,3 +1,4 @@
+using Domain.Core.Interfaces.Infrastructure;
 using Domain.Interfaces.Infrastructure;
 using Infrastructure.CrossCutting.Notifications;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Api.Controllers
         private dynamic GetRepository()
         {
             Type dynamicType = (Type) HttpContext.Items["DynamicType"];
-            var repositoryType = typeof(IDynamicRepository<>).MakeGenericType(dynamicType);
+            var repositoryType = typeof(IRepository<>).MakeGenericType(dynamicType);
             return HttpContext.RequestServices.GetService(repositoryType);
         }
 

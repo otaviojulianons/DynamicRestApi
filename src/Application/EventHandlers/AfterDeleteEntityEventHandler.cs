@@ -3,6 +3,7 @@ using Domain.Core.Implementation.Events;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
+using Infrastructure.CrossCutting.WebSockets;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,16 +15,19 @@ namespace Application.EventHandlers
         private readonly IDatabaseService _databaseService;
         private readonly IMediator _mediator;
         private readonly IRepository<EntityDomain> _entityRepository;
+        private readonly WebSocketService _webSocketManager;
 
         public AfterDeleteEntityEventHandler(
             IDatabaseService databaseService,
             IMediator mediator,
-            IRepository<EntityDomain> entityRepository
+            IRepository<EntityDomain> entityRepository,
+            WebSocketService webSocketManager
             )
         {
             _databaseService = databaseService;
             _mediator = mediator;
             _entityRepository = entityRepository;
+            _webSocketManager = webSocketManager;
         }
 
         public Task Handle(AfterDeleteEntityEvent<EntityDomain> notification, CancellationToken cancellationToken)

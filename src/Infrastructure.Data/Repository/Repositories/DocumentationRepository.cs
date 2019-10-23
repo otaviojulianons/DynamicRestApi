@@ -1,7 +1,7 @@
 using Domain.Interfaces.Infrastructure;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Data.Repository.Repositories.Memory
+namespace Infrastructure.Data.Repository.Repositoritemplate
 {
     public class DocumentationRepository : IDocumentationRepository
     {

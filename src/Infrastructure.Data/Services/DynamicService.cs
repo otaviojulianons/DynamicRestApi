@@ -17,12 +17,10 @@ namespace Infrastructure.Data.Services
     {
         private WebSocketService _webSocketService;
         private IDynamicRoutesService _dynamicRoutes;
+        private ICollection<Type> _dynamicTypes = new List<Type>();
         private string _templateDomain;
         private string _templateSwagger;
-        private List<byte[]> _assemblies = new List<byte[]>();
         private readonly ILogger _logger;
-        private readonly IConfiguration _configuration;
-
 
         public DynamicService(
             ILogger<DynamicService> logger,
@@ -41,6 +39,8 @@ namespace Infrastructure.Data.Services
                 _templateSwagger = reader.ReadToEnd();
         }
 
+        public IEnumerable<Type> DynamicTypes => _dynamicTypes;
+
         public void GenerateControllerDynamic(IServiceProvider serviceProvider, IEnumerable<EntityDomain> entities)
         {
             var factoryCSharpDataType = new CSharpDataTypeFactory();
@@ -48,17 +48,20 @@ namespace Infrastructure.Data.Services
                 entities.Select(entity => new EntityTemplate(entity, factoryCSharpDataType));
 
             var classCode = new List<string>();
-            foreach (var entity in entities)
-                classCode.Add(TemplateService.Generate(_templateDomain, entity));
+            foreach (var entityTemplate in entitiesTemplates)
+                classCode.Add(TemplateService.Generate(_templateDomain, entityTemplate));
 
             Assembly dynamicAssembly = CompilerService.GenerateAssemblyFromCode(classCode.ToArray());
             foreach (var entity in entitiesTemplates)
             {
                 var type = dynamicAssembly.GetType("DynamicAssembly." + entity.Name);
 
+                _dynamicTypes.Add(type);
+
                 GenerateEntityRoute(entity, type);
 
-                GenerateEntityWebSocket(entity, type);
+                //TODO: WebSocket    
+                //GenerateEntityWebSocket(entity, type);
 
                 _logger.LogInformation($"Dynamic Controller {entity.Name} generated.");
             }

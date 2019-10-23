@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Entities.EntityAggregate;
 using Domain.ValueObjects;
 using Infrastructure.CrossCutting.Extensions;
+using Infrastructure.CrossCutting.Notifications;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -15,19 +16,21 @@ namespace Application.CommandHandlers
 {
     public class CreateEntityCommandHandler : IRequestHandler<CreateEntityCommand, bool>
     {
+        private INotificationManager _notificationManager;
         private IRepository<EntityDomain> _entityRepository;
 
         public CreateEntityCommandHandler(
+            INotificationManager notificationManager,
             IRepository<EntityDomain> entityRepository
             )
         {
+            _notificationManager = notificationManager;
             _entityRepository = entityRepository;
         }
 
-        public Task<bool> Handle(CreateEntityCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateEntityCommand request, CancellationToken cancellationToken)
         {
             var entityDomain = Mapper.Map<EntityDomain>(request);
-
             request.Attributes.ForEach(attribute =>
             {
                 var attributeDomain = new AttributeDomain(
@@ -40,8 +43,11 @@ namespace Application.CommandHandlers
                 entityDomain.AddAttribute(attributeDomain);
             });
 
+            if (!entityDomain.IsValid(_notificationManager))
+                return false;
+
             _entityRepository.Insert(entityDomain);
-            return Task.FromResult(true);
+            return true;
         }
 
  

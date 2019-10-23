@@ -1,3 +1,4 @@
+using Domain.Core.Interfaces.Infrastructure;
 using Domain.Interfaces.Infrastructure;
 using Infrastructure.CrossCutting.WebSockets;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +39,7 @@ namespace Api.Middlewares
             if (isMatch && httpContext.Response.StatusCode == 200)
             {
                 var type = _dynamicRoutes.GetRouteType(route);
-                var repositoryType = typeof(IDynamicRepository<>).MakeGenericType(type);
+                var repositoryType = typeof(IRepository<>).MakeGenericType(type);
                 dynamic repository = httpContext.RequestServices.GetService(repositoryType);
                 _webSocketManager.SendAll(channel,(object)repository.GetAll());
             }

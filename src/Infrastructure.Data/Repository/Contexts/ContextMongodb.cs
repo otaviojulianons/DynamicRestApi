@@ -37,7 +37,7 @@ namespace Infrastructure.Data.Repository.Contexts
                     cm.AutoMap();
                     cm.MapIdMember(c => c.Id).SetIdGenerator(GuidGenerator.Instance);
                     cm.GetMemberMap(x => x.Name).SetSerializer(new NameSerializer());
-                });                
+                });              
             }
         }
 

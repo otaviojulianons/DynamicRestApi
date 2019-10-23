@@ -4,6 +4,7 @@ using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
 using Infrastructure.DataTypes.CSharp;
 using Infrastructure.DataTypes.Factories;
+using Infrastructure.Templates;
 using MediatR;
 using System;
 using System.Linq;
@@ -17,7 +18,6 @@ namespace Application.CommandHandlers
         private readonly IServiceProvider _serviceProvider;
         private IDynamicService _serviceDynamic;
         private IMediator _mediator;
-        private IRepository<EntityDomain> _entityRepository;
 
         public CreateDynamicEndpointCommandHandler(
             IServiceProvider serviceProvider,
@@ -32,13 +32,8 @@ namespace Application.CommandHandlers
 
         public Task<bool> Handle(CreateDynamicEndpointCommand request, CancellationToken cancellationToken)
         {
-            // var factoryCSharpDataType = new CSharpDataTypeFactory();
-            // var entitiesTemplates = 
-            //     request.Entities.Select(entity => new EntityTemplate(entity, factoryCSharpDataType));
-
-            // _serviceDynamic.GenerateControllerDynamic(_serviceProvider, entitiesTemplates.ToArray());
-            // return _mediator.Send(new CreateDynamicDocumentationCommand());
-            return Task.FromResult(true);
+            _serviceDynamic.GenerateControllerDynamic(_serviceProvider, request.Entities);
+            return _mediator.Send(new CreateDynamicDocumentationCommand());
         }
 
  

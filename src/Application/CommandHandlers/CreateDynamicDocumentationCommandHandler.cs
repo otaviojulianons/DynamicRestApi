@@ -32,7 +32,6 @@ namespace Application.CommandHandlers
 
         public Task<bool> Handle(CreateDynamicDocumentationCommand request, CancellationToken cancellationToken)
         {
-           
             var entities = _entityRepository.GetAll();
             var json = _serviceDynamic.GenerateSwaggerJsonFile(entities);
             _swaggerRepository.Update(json);

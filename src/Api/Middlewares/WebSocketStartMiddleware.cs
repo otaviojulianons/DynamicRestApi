@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Infrastructure;
+﻿using Domain.Core.Interfaces.Infrastructure;
+using Domain.Interfaces.Infrastructure;
 using Infrastructure.CrossCutting.WebSockets;
 using Microsoft.AspNetCore.Http;
 using System.Net.WebSockets;
@@ -22,7 +23,7 @@ namespace Api.Middlewares
             if (_webSocketService.Channels.ContainsKey(context.Request.Path))
             {
                 var type = _webSocketService.Channels[context.Request.Path];
-                var repositoryType = typeof(IDynamicRepository<>).MakeGenericType(type);
+                var repositoryType = typeof(IRepository<>).MakeGenericType(type);
                 dynamic repository = context.RequestServices.GetService(repositoryType);
                 var initialData = repository.GetAll();
                 if (context.WebSockets.IsWebSocketRequest)
