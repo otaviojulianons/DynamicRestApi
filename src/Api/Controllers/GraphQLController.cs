@@ -1,4 +1,4 @@
-﻿using Infrastructure.Data.GraphQL;
+﻿using Infrastructure.GraphQL;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

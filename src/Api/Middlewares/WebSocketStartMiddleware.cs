@@ -1,6 +1,6 @@
 ﻿using Domain.Core.Interfaces.Infrastructure;
 using Domain.Interfaces.Infrastructure;
-using Infrastructure.CrossCutting.WebSockets;
+using Infrastructure.WebSockets;
 using Microsoft.AspNetCore.Http;
 using System.Net.WebSockets;
 using System.Threading.Tasks;

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Core.Interfaces.Structure;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 
 namespace Tests.Unit.Domain.Utils
 {

@@ -6,7 +6,7 @@ using Domain.Entities.EntityAggregate;
 using Domain.Core.Extensions;
 using Domain.Entities;
 using Domain.Core.ValueObjects;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 using Domain.ValueObjects;
 
 namespace Tests.Unit.Domain.Entities

@@ -1,12 +1,10 @@
 ﻿using Application.Commands;
 using AutoMapper;
+using Common.Extensions;
+using Common.Notifications;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Core.ValueObjects;
-using Domain.Entities;
 using Domain.Entities.EntityAggregate;
-using Domain.ValueObjects;
-using Infrastructure.CrossCutting.Extensions;
-using Infrastructure.CrossCutting.Notifications;
 using MediatR;
 using System.Linq;
 using System.Threading;

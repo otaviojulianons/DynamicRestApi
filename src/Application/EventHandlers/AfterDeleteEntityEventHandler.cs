@@ -3,7 +3,7 @@ using Domain.Core.Implementation.Events;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
-using Infrastructure.CrossCutting.WebSockets;
+using Infrastructure.WebSockets;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

@@ -3,7 +3,7 @@ using Api.Models;
 using Application.Models;
 using Application.Services;
 using AutoMapper;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Microsoft.AspNetCore.Mvc;

@@ -2,7 +2,7 @@
 using Domain.Core.Interfaces.Structure;
 using Domain.Core.ValueObjects;
 using FluentValidation;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 using MediatR;
 using System;
 using System.Collections.Generic;

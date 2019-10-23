@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 
 namespace Domain.Core.Interfaces.Structure
 {

@@ -2,8 +2,8 @@
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Domain.Interfaces.Infrastructure;
-using Infrastructure.DataTypes.CSharp;
-using Infrastructure.DataTypes.Factories;
+using InfrastructureTypes.CSharp;
+using InfrastructureTypes.Factories;
 using Infrastructure.Templates;
 using MediatR;
 using System;

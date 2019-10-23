@@ -1,5 +1,5 @@
 ﻿using Api.Models;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 

@@ -2,7 +2,7 @@
 using Api.Middlewares;
 using Application.Services;
 using GraphiQl;
-using Infrastructure.Data.IoC;
+using Infrastructure.DI;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -64,9 +64,8 @@ namespace Api
             services.AddMediatR(Assembly.GetAssembly(typeof(StartupService)));
             services.UseWebSocketService();
 
-
-            IoCService.Configure(services, _configuration);
-            Application.AutoMapper.MapperRegister();
+            Bootstrap.Run(services);
+            Application.AutoMapper.Register();
         }
 
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)

@@ -1,16 +1,14 @@
-﻿using Application.Models;
+﻿using Application.Commands;
+using Application.Models;
 using AutoMapper;
-using Domain.Entities.EntityAggregate;
-using Domain.Entities;
 using Domain.Core.ValueObjects;
-using Application.Commands;
-using Domain.ValueObjects;
+using Domain.Entities.EntityAggregate;
 
 namespace Application
 {
     public static class AutoMapper
     {
-        public static void MapperRegister()
+        public static void Register()
         {
             Mapper.Initialize(cfg =>
             {

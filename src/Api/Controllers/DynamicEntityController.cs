@@ -1,6 +1,6 @@
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Interfaces.Infrastructure;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
