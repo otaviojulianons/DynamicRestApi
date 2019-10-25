@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Common.Notifications;
+﻿using Common.Notifications;
 
 namespace Domain.Core.Interfaces.Structure
 {
