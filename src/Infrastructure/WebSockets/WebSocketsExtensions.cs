@@ -35,7 +35,7 @@ namespace Infrastructure.WebSockets
 
         public static async Task SendAll(this WebSocketService webSocketManager,string channel, object data)
         {
-            foreach (var webSocket in webSocketManager.GetAll(channel))
+            foreach (var webSocket in webSocketManager.GetWebSockets(channel))
                 await webSocket.SendData(data);
         }
 

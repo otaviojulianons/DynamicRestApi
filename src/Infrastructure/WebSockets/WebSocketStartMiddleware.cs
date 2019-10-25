@@ -17,11 +17,11 @@ namespace Infrastructure.WebSockets
         }
 
         public async Task Invoke(HttpContext context)
-        {             
-            if (_webSocketService.Channels.ContainsKey(context.Request.Path))
+        {
+            var channelType = _webSocketService.GetChannelType(context.Request.Path);
+            if (channelType != null)
             {
-                var type = _webSocketService.Channels[context.Request.Path];
-                var repositoryType = typeof(IRepository<>).MakeGenericType(type);
+                var repositoryType = typeof(IRepository<>).MakeGenericType(channelType);
                 dynamic repository = context.RequestServices.GetService(repositoryType);
                 var initialData = repository.GetAll();
                 if (context.WebSockets.IsWebSocketRequest)

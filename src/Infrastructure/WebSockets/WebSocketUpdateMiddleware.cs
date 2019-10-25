@@ -30,7 +30,7 @@ namespace Infrastructure.WebSockets
         public Task Invoke(HttpContext httpContext)
         {
             var route = httpContext.Request.Path.Value;
-            var channel = _dynamicRoutes.FindRoute(route) + "/Subscribe";
+            var channel = _dynamicRoutes.GetRoute(route) + "/Subscribe";
             var isMatch = _allowMethods.Contains(httpContext.Request.Method) && _dynamicRoutes.IsMatch(route);
 
             var result = _next(httpContext);

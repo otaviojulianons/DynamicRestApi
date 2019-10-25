@@ -27,6 +27,9 @@ namespace Infrastructure.WebSockets
 
         private string FormatChannelName(string name) => $"/{name}/Subscribe";
 
+        public Type GetChannelType(string channelName) => 
+            _channels.TryGetValue(channelName, out Type type) ? type : null;
+
         public List<WebSocket> GetWebSockets(string channel)
         {
             return WebSockets.Where(x => x.Key.Channel == channel).Select(x => x.Value).ToList();
