@@ -6,10 +6,8 @@ COPY Api/*.csproj ./Api/
 COPY Application/*.csproj ./Application/
 COPY Domain/*.csproj ./Domain/
 COPY Domain.Core/*.csproj ./Domain.Core/
-COPY Infrastructure.Repository/*.csproj ./Infrastructure.Repository/
-COPY Infrastructure.Services/*.csproj ./Infrastructure.Services/
-COPY IoC/*.csproj ./IoC/
-COPY SharedKernel/*.csproj ./SharedKernel/
+COPY Infrastructure/*.csproj ./Infrastructure/
+COPY Common/*.csproj ./Common/
 
 # Copy everything else and build
 COPY . ./
