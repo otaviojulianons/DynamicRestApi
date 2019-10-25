@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
 using System.Text;
@@ -36,6 +37,12 @@ namespace Infrastructure.WebSockets
         {
             foreach (var webSocket in webSocketManager.GetAll(channel))
                 await webSocket.SendData(data);
+        }
+
+        public static IServiceCollection UseWebSocketService(this IServiceCollection services)
+        {
+            services.AddSingleton<WebSocketService>();
+            return services;
         }
 
     }

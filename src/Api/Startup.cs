@@ -1,8 +1,9 @@
 ﻿using Api.Examples;
-using Api.Middlewares;
 using Application.Services;
 using GraphiQl;
 using Infrastructure.DI;
+using Infrastructure.Dynamic;
+using Infrastructure.WebSockets;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +30,7 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddApplicationPart(typeof(Bootstrap).Assembly).AddControllersAsServices();
 
             services.AddSwaggerGen(c =>
             {
@@ -70,9 +71,7 @@ namespace Api
 
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
-
             app.UseStaticFiles();
-
 
             if (env.IsDevelopment())
             {
@@ -83,7 +82,6 @@ namespace Api
             app.UseMiddleware<WebSocketStartMiddleware>();
             app.UseMiddleware<WebSocketUpdateMiddleware>();
             app.UseMiddleware<DynamicRoutesMiddleware>();
-
 
             app.UseCors("CorsConfig");
             app.UseSwagger();

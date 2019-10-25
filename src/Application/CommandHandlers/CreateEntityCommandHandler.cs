@@ -2,6 +2,7 @@
 using AutoMapper;
 using Common.Extensions;
 using Common.Notifications;
+using Domain.Core.Implementation.Events;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Core.ValueObjects;
 using Domain.Entities.EntityAggregate;
@@ -15,14 +16,17 @@ namespace Application.CommandHandlers
     public class CreateEntityCommandHandler : IRequestHandler<CreateEntityCommand, bool>
     {
         private INotificationManager _notificationManager;
+        private IMediator _mediator;
         private IRepository<EntityDomain> _entityRepository;
 
         public CreateEntityCommandHandler(
             INotificationManager notificationManager,
+            IMediator mediator,
             IRepository<EntityDomain> entityRepository
             )
         {
             _notificationManager = notificationManager;
+            _mediator = mediator;
             _entityRepository = entityRepository;
         }
 
@@ -45,6 +49,7 @@ namespace Application.CommandHandlers
                 return false;
 
             _entityRepository.Insert(entityDomain);
+            await _mediator.Publish(new EntityInsertedDomaiEvent<EntityDomain>(entityDomain));
             return true;
         }
 

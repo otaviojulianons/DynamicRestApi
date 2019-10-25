@@ -6,10 +6,7 @@ namespace Infrastructure.Templates
 {
     public class AttributeTemplate
     {
-        public AttributeTemplate(
-            AttributeDomain attribute,
-            IDataType dataType
-            )
+        public AttributeTemplate(AttributeDomain attribute, IDataType dataType)
         {
             Name = attribute.Name;
             Length = attribute.Length;

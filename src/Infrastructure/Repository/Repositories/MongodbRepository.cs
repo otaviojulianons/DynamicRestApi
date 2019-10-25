@@ -45,7 +45,7 @@ namespace Infrastructure.Repository.Repositories
             try
             {
                 _collection.InsertOne(entity);
-                _mediator.Publish(new AfterInsertEntityEvent<T>(entity));
+                _mediator.Publish(new EntityInsertedDomaiEvent<T>(entity));
 
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace Infrastructure.Repository.Repositories
             try
             {
                 _collection.ReplaceOne(Builders<T>.Filter.Eq("_id", entity.Id), entity);
-                _mediator.Publish(new AfterUpdateEntityEvent<T>(entity));
+                _mediator.Publish(new EntityUpdatedDomainEvent<T>(entity));
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace Infrastructure.Repository.Repositories
                     ?? throw new Exception("Object not fount.");
 
                 _collection.DeleteOne(Builders<T>.Filter.Eq("_id", id));
-                _mediator.Publish(new AfterDeleteEntityEvent<T>(entity));
+                _mediator.Publish(new EntityDeletedDomainEvent<T>(entity));
             }
             catch (Exception ex)
             {

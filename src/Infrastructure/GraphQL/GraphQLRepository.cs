@@ -1,6 +1,6 @@
-﻿using Domain.Interfaces.Infrastructure;
-using GraphQL;
+﻿using GraphQL;
 using GraphQL.Types;
+using Infrastructure.Dynamic;
 using System;
 using System.Threading.Tasks;
 
@@ -9,9 +9,9 @@ namespace Infrastructure.GraphQL
     public class GraphQLRepository
     {
         private IServiceProvider _serviceProvider;
-        private IDynamicService _dynamicService;
+        private DynamicService _dynamicService;
 
-        public GraphQLRepository(IServiceProvider serviceProvider, IDynamicService dynamicService)
+        public GraphQLRepository(IServiceProvider serviceProvider, DynamicService dynamicService)
         {
             _serviceProvider = serviceProvider;
             _dynamicService = dynamicService;

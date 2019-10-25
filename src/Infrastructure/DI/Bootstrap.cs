@@ -1,14 +1,13 @@
-﻿using Domain.Core.Interfaces.Infrastructure;
+﻿using Common.Notifications;
+using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
-using Domain.Interfaces.Infrastructure;
-using Common.Notifications;
+using Domain.Services;
+using Infrastructure.Dynamic;
 using Infrastructure.GraphQL;
 using Infrastructure.Repository.Contexts;
 using Infrastructure.Repository.Repositories;
-using Infrastructure.Repository.Repositoritemplate;
-using Infrastructure.Services;
+using Infrastructure.Swagger;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Services;
 
 namespace Infrastructure.DI
 {
@@ -18,16 +17,17 @@ namespace Infrastructure.DI
         {
             //INFRA REPOSITORY
             services.AddSingleton<ContextMongodb>();
+            services.AddSingleton<DatabaseRepository>();
+            services.AddSingleton<SwaggerRepository>();
             services.AddScoped<GraphQLRepository>();
             services.AddScoped<IRepository<EntityDomain>, EntityRepository>();           
             services.AddScoped(typeof(IRepository<>), typeof(MongodbRepository<>));
 
             //INFRA SERVICES    
-            services.AddSingleton<IDynamicService,DynamicService>();
-            services.AddSingleton<IDynamicRoutesService,DynamicRoutesService>();
-            services.AddSingleton<IDocumentationRepository, DocumentationRepository>();
-            services.AddSingleton<IDatabaseService, DatabaseService>();
-
+            services.AddSingleton<IDynamicDomainService,DynamicService>();
+            services.AddSingleton<IDocumentationDomainService, SwaggerService>();
+            services.AddSingleton<DynamicRoutesService>();
+            
             //MESSAGING SERVICES
             services.AddScoped<INotificationManager, NotificationManager>();
 
