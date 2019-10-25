@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Domain.Core.ValueObjects;
 using Domain.Entities.EntityAggregate;
-using Infrastructure.Data.Repository.Serializers;
+using Infrastructure.Repository.Serializers;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -10,7 +10,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
-namespace Infrastructure.Data.Repository.Contexts
+namespace Infrastructure.Repository.Contexts
 {
     public class ContextMongodb : ContextMongodbAbstract
     {
@@ -37,7 +37,7 @@ namespace Infrastructure.Data.Repository.Contexts
                     cm.AutoMap();
                     cm.MapIdMember(c => c.Id).SetIdGenerator(GuidGenerator.Instance);
                     cm.GetMemberMap(x => x.Name).SetSerializer(new NameSerializer());
-                });                
+                });              
             }
         }
 

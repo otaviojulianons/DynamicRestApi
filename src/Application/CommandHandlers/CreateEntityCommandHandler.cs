@@ -1,11 +1,11 @@
 ﻿using Application.Commands;
 using AutoMapper;
+using Common.Extensions;
+using Common.Notifications;
+using Domain.Core.Implementation.Events;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Core.ValueObjects;
-using Domain.Entities;
 using Domain.Entities.EntityAggregate;
-using Domain.ValueObjects;
-using Infrastructure.CrossCutting.Extensions;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -15,19 +15,24 @@ namespace Application.CommandHandlers
 {
     public class CreateEntityCommandHandler : IRequestHandler<CreateEntityCommand, bool>
     {
+        private INotificationManager _notificationManager;
+        private IMediator _mediator;
         private IRepository<EntityDomain> _entityRepository;
 
         public CreateEntityCommandHandler(
+            INotificationManager notificationManager,
+            IMediator mediator,
             IRepository<EntityDomain> entityRepository
             )
         {
+            _notificationManager = notificationManager;
+            _mediator = mediator;
             _entityRepository = entityRepository;
         }
 
-        public Task<bool> Handle(CreateEntityCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateEntityCommand request, CancellationToken cancellationToken)
         {
             var entityDomain = Mapper.Map<EntityDomain>(request);
-
             request.Attributes.ForEach(attribute =>
             {
                 var attributeDomain = new AttributeDomain(
@@ -40,8 +45,12 @@ namespace Application.CommandHandlers
                 entityDomain.AddAttribute(attributeDomain);
             });
 
+            if (!entityDomain.IsValid(_notificationManager))
+                return false;
+
             _entityRepository.Insert(entityDomain);
-            return Task.FromResult(true);
+            await _mediator.Publish(new EntityInsertedDomaiEvent<EntityDomain>(entityDomain));
+            return true;
         }
 
  

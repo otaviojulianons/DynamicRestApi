@@ -6,7 +6,7 @@ using Domain.ValueObjects;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace Infrastructure.DataTypes
+namespace InfrastructureTypes
 {   
     public abstract class DataTypeAbstract : 
         AbstractValidator<DataTypeAbstract>, IValueObject<DataTypeAbstract> , IDataType

@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace Infrastructure.Data.Repository.Contexts
+namespace Infrastructure.Repository.Contexts
 {
     public abstract class ContextMongodbAbstract
     {

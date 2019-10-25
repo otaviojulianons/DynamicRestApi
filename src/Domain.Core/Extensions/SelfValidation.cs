@@ -1,6 +1,5 @@
-﻿using Infrastructure.CrossCutting.Notifications;
-using Domain.Core.Interfaces.Structure;
-using FluentValidation;
+﻿using FluentValidation;
+using Common.Notifications;
 
 namespace Domain.Core.Extensions
 {

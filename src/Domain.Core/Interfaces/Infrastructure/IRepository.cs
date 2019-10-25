@@ -11,9 +11,9 @@ namespace Domain.Core.Interfaces.Infrastructure
     {
         IQueryable<T> Queryble();
 
-        T GetById(Guid id);
-
         IEnumerable<T> GetAll();
+
+        T GetById(Guid id);
 
         IQueryable<T> QueryBy(Expression<Func<T, bool>> filter = null);
 

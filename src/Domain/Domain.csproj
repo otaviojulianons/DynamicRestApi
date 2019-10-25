@@ -1,15 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.0.100" />
@@ -18,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\Infrastructure.CrossCutting.csproj" />
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
   </ItemGroup>
 

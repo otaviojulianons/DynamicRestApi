@@ -3,7 +3,7 @@ using Domain.Core.ValueObjects;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace Infrastructure.Data.Repository.Serializers
+namespace Infrastructure.Repository.Serializers
 {
     public  class NameSerializer : SerializerBase<Name>
     {

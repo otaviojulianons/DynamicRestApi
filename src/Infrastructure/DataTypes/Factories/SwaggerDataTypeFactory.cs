@@ -1,9 +1,9 @@
 using System.Data.Common;
 using System;
 using Domain.ValueObjects;
-using Infrastructure.DataTypes.Swagger;
+using InfrastructureTypes.Swagger;
 
-namespace Infrastructure.DataTypes.Factories
+namespace InfrastructureTypes.Factories
 {
     public class SwaggerDataTypeFactory : IDataTypeFactory
     {

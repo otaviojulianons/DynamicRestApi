@@ -14,6 +14,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/Api",
             "stopAtEntry": false,
+            "console": "externalTerminal",
             "launchBrowser": {
                 "enabled": true
             },

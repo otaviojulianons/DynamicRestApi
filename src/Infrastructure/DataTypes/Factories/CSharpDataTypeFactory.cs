@@ -1,9 +1,9 @@
 using System.Data.Common;
 using System;
 using Domain.ValueObjects;
-using Infrastructure.DataTypes.CSharp;
+using InfrastructureTypes.CSharp;
 
-namespace Infrastructure.DataTypes.Factories
+namespace InfrastructureTypes.Factories
 {
     public class CSharpDataTypeFactory : IDataTypeFactory
     {

@@ -1,5 +1,5 @@
 ﻿using Domain.Entities.EntityAggregate;
-using Infrastructure.DataTypes;
+using InfrastructureTypes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,10 +7,7 @@ namespace Infrastructure.Templates
 {
     public class EntityTemplate
     {
-        public EntityTemplate(
-            EntityDomain entity,
-            IDataTypeFactory dataTypeFactory
-            )
+        public EntityTemplate(EntityDomain entity, IDataTypeFactory dataTypeFactory)
         {
             Name = entity.Name;
             var attributesTemplate = new List<AttributeTemplate>();

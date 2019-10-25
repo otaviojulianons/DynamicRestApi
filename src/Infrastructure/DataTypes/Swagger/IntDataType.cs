@@ -1,6 +1,6 @@
 using Domain.ValueObjects;
 
-namespace Infrastructure.DataTypes.Swagger
+namespace InfrastructureTypes.Swagger
 {
     public class IntDataType : DataTypeAbstract
     {

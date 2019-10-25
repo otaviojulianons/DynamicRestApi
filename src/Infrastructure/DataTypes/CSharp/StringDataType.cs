@@ -1,6 +1,6 @@
 using Domain.ValueObjects;
 
-namespace Infrastructure.DataTypes.CSharp
+namespace InfrastructureTypes.CSharp
 {
     public class StringDataType : DataTypeAbstract
     {

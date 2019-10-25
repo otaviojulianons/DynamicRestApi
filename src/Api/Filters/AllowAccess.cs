@@ -1,4 +1,4 @@
-﻿using Api.Models;
+﻿using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +17,7 @@ namespace Api.Filters
             if (!apiKey.Equals(configuration.GetValue<string>("Api:Key")))
             {
                 context.HttpContext.Response.StatusCode = 401;
-                context.Result = new JsonResult(new ResultApi<bool>() { Message = "Invalid API key." });
+                context.Result = new JsonResult(new ResultDto<bool>() { Message = "Invalid API key." });
             }
 
         }

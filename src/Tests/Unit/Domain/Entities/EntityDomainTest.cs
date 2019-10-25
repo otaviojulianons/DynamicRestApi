@@ -1,13 +1,9 @@
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
+using Common.Notifications;
+using Domain.Core.ValueObjects;
+using Domain.Entities.EntityAggregate;
+using Domain.ValueObjects;
 using Tests.Unit.Domain.Utils;
 using Xunit;
-using Domain.Entities.EntityAggregate;
-using Domain.Core.Extensions;
-using Domain.Entities;
-using Domain.Core.ValueObjects;
-using Infrastructure.CrossCutting.Notifications;
-using Domain.ValueObjects;
 
 namespace Tests.Unit.Domain.Entities
 {

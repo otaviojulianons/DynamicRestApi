@@ -3,7 +3,7 @@ using Domain.Core.Interfaces.Structure;
 using Domain.Core.ValueObjects;
 using Domain.ValueObjects;
 using FluentValidation;
-using Infrastructure.CrossCutting.Notifications;
+using Common.Notifications;
 using System;
 
 namespace Domain.Entities.EntityAggregate
