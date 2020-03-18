@@ -27,6 +27,7 @@ namespace Infrastructure.Swagger
             using (StreamReader reader = new StreamReader(Path.Combine(path, $"Templates{Path.DirectorySeparatorChar}Template.Swagger.mustache")))
                 _templateSwagger = reader.ReadToEnd();
         }
+
         public void GenerateDocumentation(IEnumerable<EntityDomain> entities)
         {
             var swaggerDataTypeFactory = new SwaggerDataTypeFactory();

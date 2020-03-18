@@ -20,7 +20,7 @@ namespace Infrastructure.WebSockets
         }
 
         public void AddChannel(string name, Type type) =>
-            _channels.Add(FormatChannelName(name), type);
+            _channels.TryAdd(FormatChannelName(name), type);
 
         public void RemoveChannel(string name) =>
             _channels.Remove(FormatChannelName(name));

@@ -13,6 +13,7 @@ namespace Infrastructure.GraphQL.Controllers
             _graphQLRepository = graphQLRepository;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody]GraphQLQuery query)
         {
             var result = await _graphQLRepository.Query(query);

@@ -16,6 +16,7 @@ namespace Application.Services
 
         private IServiceScope _serviceScope;
         private IDynamicDomainService _dynamicService;
+        private IDocumentationDomainService _documentationService;
         private ILogger<StartupService> _logger;
         private IRepository<EntityDomain> _entityRepository;
 
@@ -24,6 +25,7 @@ namespace Application.Services
             _serviceScope = serviceProvider.CreateScope();
             _entityRepository = _serviceScope.ServiceProvider.GetService<IRepository<EntityDomain>>();
             _dynamicService = _serviceScope.ServiceProvider.GetService<IDynamicDomainService>();
+            _documentationService = _serviceScope.ServiceProvider.GetService<IDocumentationDomainService>();
             _logger = _serviceScope.ServiceProvider.GetService<ILogger<StartupService>>();
         }
 
@@ -33,6 +35,7 @@ namespace Application.Services
             {
                 var entities = _entityRepository.GetAll();
                 _dynamicService.GenerateType(entities.ToArray());
+                _documentationService.GenerateDocumentation(entities);
             }
             catch(Exception ex)
             {
