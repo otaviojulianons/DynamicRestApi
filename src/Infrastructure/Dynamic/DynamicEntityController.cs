@@ -1,65 +1,52 @@
 using Common.Models;
 using Common.Notifications;
 using Domain.Core.Interfaces.Infrastructure;
+using Domain.Core.Interfaces.Structure;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Infrastructure.Dynamic
 {
     [Route("[controller]")]
-    [ApiExplorerSettings( IgnoreApi = true)]
-    public class DynamicEntityController : Controller
+    public class DynamicEntityController<TEntity, TId, TModel> : Controller 
+        where TEntity : IDynamicEntity<TId,TModel>, new()
+        where TId : struct
     {
         private INotificationManager _msgs;
+        private IGenericRepository<TEntity, TId> _genericRepository;
 
-        public DynamicEntityController(INotificationManager msgs)
+        public DynamicEntityController(
+            INotificationManager msgs,
+            IGenericRepository<TEntity, TId> genericRepository)
         {
             _msgs = msgs;
-        }
-
-        private dynamic GetRepository()
-        {
-            Type dynamicType = (Type) HttpContext.Items["DynamicType"];
-            var repositoryType = typeof(IRepository<>).MakeGenericType(dynamicType);
-            return HttpContext.RequestServices.GetService(repositoryType);
-        }
-
-        private dynamic GetEntityModel(dynamic json)
-        {
-            Type dynamicType = (Type) HttpContext.Items["DynamicType"];
-            var result = JsonConvert.DeserializeObject(json.ToString(), dynamicType);
-
-            if (result != null)
-                result.Id = Guid.Empty;
-
-            return result;
+            _genericRepository = genericRepository;
         }
 
         [HttpGet()]
-        public dynamic List()
+        public ResultDto<IEnumerable<TEntity>> List()
         {
             try
             {
-                var repository = GetRepository();
-                var entities = repository.GetAll();
+                var entities = _genericRepository.GetAll();
                 return FormatResult(entities);
             }
             catch (Exception ex)
             {
-                return FormatError<bool>(ex.Message);
+                return FormatError<IEnumerable<TEntity>>(ex.Message);
             }   
         }
 
         [HttpPost()]
-        public dynamic Post([FromBody]dynamic json)
+        public ResultDto<bool> Post([FromBody]TEntity entity)
         {
             try
             {
-                var repository = GetRepository();
-                var entity = GetEntityModel(json);
-                repository.Insert(entity);
+                if (Equals(entity.Id, Guid.Empty))
+                    entity.Id = (TId)Convert.ChangeType(Guid.NewGuid(), typeof(TId));
+                _genericRepository.Insert(entity);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -69,29 +56,27 @@ namespace Infrastructure.Dynamic
         }
 
         [HttpGet("{id}")]
-        public dynamic Get(Guid id)
+        public ResultDto<TEntity> Get([FromRoute] TId id)
         {
             try
             {
-                var repository = GetRepository();
-                var entity = repository.GetById(id);
+                var entity = _genericRepository.GetById(id);
                 return FormatResult(entity);
             }
             catch (Exception ex)
             {
-                return FormatError<bool>(ex.Message);
-            }            
+                return FormatError<TEntity>(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
-        public dynamic Put(Guid id, [FromBody]dynamic json)
+        public dynamic Put([FromRoute]TId id, [FromBody]TModel model)
         {
             try
             {
-                var repository = GetRepository();
-                var entity = GetEntityModel(json);
-                entity.Id = id;
-                repository.Update(entity);
+                TEntity entity = new TEntity();
+                entity.Map(id, model);
+                _genericRepository.Update(entity);
                 return FormatResult(true);
             }
             catch (Exception ex)
@@ -101,12 +86,11 @@ namespace Infrastructure.Dynamic
         }
 
         [HttpDelete("{id}")]
-        public dynamic Delete(Guid id)
+        public dynamic Delete(TId id)
         {
             try
             {
-                var repository = GetRepository();
-                repository.Delete(id);
+                _genericRepository.Delete(id);
                 return FormatResult(true);
             }
             catch (Exception ex)

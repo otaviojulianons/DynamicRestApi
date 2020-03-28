@@ -1,15 +1,15 @@
-﻿using Domain.Core.Extensions;
+﻿using Common.Notifications;
+using Domain.Core.Extensions;
 using Domain.Core.Interfaces.Structure;
 using Domain.Core.ValueObjects;
 using Domain.ValueObjects;
-using FluentValidation;
-using Common.Notifications;
 using System;
 
 namespace Domain.Entities.EntityAggregate
 {
     public class AttributeDomain : IEntity , ISelfValidation
     {
+        public const string AttributeIdentifierName = "Id";
 
         public AttributeDomain(Name name, EnumDataTypes dataType, bool allowNull = false, int? length = null)
         {
@@ -35,7 +35,7 @@ namespace Domain.Entities.EntityAggregate
 
         public EnumDataTypes DataType { get; private set; }
 
-        public bool IsIdentifier => DataType == EnumDataTypes.Identifier;
+        public bool IsIdentifier => Name == AttributeIdentifierName;
 
         public bool IsValid(INotificationManager notifications) =>
             new AttributeValidator().IsValid(this, notifications);

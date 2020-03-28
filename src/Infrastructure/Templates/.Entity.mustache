@@ -1,0 +1,30 @@
+﻿using System;
+using Domain.Core.Interfaces.Structure;
+using Infrastructure.Dynamic;
+
+namespace DynamicAssembly
+{
+    public class {{Name}}Entity : IDynamicEntity<{{IdenfierDataType.Format}}, {{Name}}Model>
+    {
+        public {{IdenfierDataType.Format}} Id { get; set; }
+
+    {{#each Attributes}}
+        public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
+    {{/each}}
+
+        public void Map({{IdenfierDataType.Format}} id, {{Name}}Model model)
+        {
+            this.Id = id;
+    {{#each Attributes}}
+            this.{{Item.Name}} = model.{{Item.Name}};
+    {{/each}}
+        }        
+    }
+
+    public class {{Name}}Model
+    {
+    {{#each Attributes}}
+        public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
+    {{/each}}
+    }
+}

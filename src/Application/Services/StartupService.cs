@@ -1,13 +1,10 @@
-﻿using Application.Commands;
-using Domain.Core.Interfaces.Infrastructure;
+﻿using Domain.Core.Interfaces.Infrastructure;
 using Domain.Entities.EntityAggregate;
 using Domain.Services;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -16,7 +13,6 @@ namespace Application.Services
 
         private IServiceScope _serviceScope;
         private IDynamicDomainService _dynamicService;
-        private IDocumentationDomainService _documentationService;
         private ILogger<StartupService> _logger;
         private IRepository<EntityDomain> _entityRepository;
 
@@ -25,17 +21,15 @@ namespace Application.Services
             _serviceScope = serviceProvider.CreateScope();
             _entityRepository = _serviceScope.ServiceProvider.GetService<IRepository<EntityDomain>>();
             _dynamicService = _serviceScope.ServiceProvider.GetService<IDynamicDomainService>();
-            _documentationService = _serviceScope.ServiceProvider.GetService<IDocumentationDomainService>();
-            _logger = _serviceScope.ServiceProvider.GetService<ILogger<StartupService>>();
+            _logger = _serviceScope.ServiceProvider.GetService<ILogger<StartupService>>();      
         }
 
-        public async Task Start()
+        public void Start()
         {
             try
             {
                 var entities = _entityRepository.GetAll();
-                _dynamicService.GenerateType(entities.ToArray());
-                _documentationService.GenerateDocumentation(entities);
+                _dynamicService.GenerateTypes(entities.ToArray());
             }
             catch(Exception ex)
             {

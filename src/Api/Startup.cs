@@ -2,8 +2,6 @@
 using Application.Services;
 using GraphiQl;
 using Infrastructure.DI;
-using Infrastructure.Dynamic;
-using Infrastructure.WebSockets;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +28,14 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddApplicationPart(typeof(Bootstrap).Assembly).AddControllersAsServices();
+            services.AddHttpContextAccessor();
+            services.AddMvc(options =>
+            {
+                //options.Conventions.Add(new DynamicControllerModelConvention());
+            })
+                //.ConfigureApplicationPartManager(p => p.FeatureProviders.Add(new RemoteControllerFeatureProvider(logger)))
+                .AddApplicationPart(typeof(Bootstrap).Assembly);
+                //.AddControllersAsServices();
 
             services.AddSwaggerGen(c =>
             {
@@ -63,7 +68,6 @@ namespace Api
             }));
 
             services.AddMediatR(Assembly.GetAssembly(typeof(StartupService)));
-            services.UseWebSocketService();
 
             Bootstrap.Run(services);
             Application.AutoMapper.Register();
@@ -78,11 +82,6 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseWebSockets();
-            app.UseMiddleware<WebSocketStartMiddleware>();
-            app.UseMiddleware<WebSocketUpdateMiddleware>();
-            app.UseMiddleware<DynamicRoutesMiddleware>();
-
             app.UseCors("CorsConfig");
             app.UseSwagger();
             
@@ -94,7 +93,7 @@ namespace Api
             app.UseGraphiQl("/graphql");
             app.UseMvc();
 
-            await new StartupService(serviceProvider).Start();
+            new StartupService(serviceProvider).Start();
         }
 
     }

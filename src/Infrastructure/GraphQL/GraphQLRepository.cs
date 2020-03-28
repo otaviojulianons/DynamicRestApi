@@ -22,8 +22,9 @@ namespace Infrastructure.GraphQL
             var inputs = query.Variables.ToInputs();
             var queryObject = new EntityDynamicQuery(_serviceProvider);
 
-            foreach (var type in _dynamicService.DynamicTypes)
-                queryObject.AddQuery(type);
+            //TODO: Percorrer todas entidades dinamicas
+            //foreach (var type in _dynamicService.DynamicTypes)
+            //    queryObject.AddQuery(type);
 
             var schema = new Schema()
             {

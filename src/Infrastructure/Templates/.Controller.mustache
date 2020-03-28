@@ -1,0 +1,21 @@
+﻿using Common.Notifications;
+using Domain.Core.Interfaces.Infrastructure;
+using Domain.Core.Interfaces.Structure;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using Infrastructure.Dynamic;
+using DynamicAssembly;
+
+namespace DynamicController
+{
+    [Route("[controller]")]
+    public class {{Name}}Controller : DynamicEntityController<{{Name}}Entity, {{IdenfierDataType.Format}}, {{Name}}Model>
+    {
+        public {{Name}}Controller(
+            INotificationManager msgs,
+            IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Format}}> genericRepository)
+        : base(msgs, genericRepository)
+        {
+        }
+    }
+}
