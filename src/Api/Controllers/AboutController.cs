@@ -4,8 +4,8 @@ using System.Reflection;
 
 namespace Api.Controllers
 {
-    [Produces("application/json")]
     [Route("/")]
+    [Produces("application/json")]
     public class AboutController : ControllerBase
     {
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -15,7 +15,7 @@ namespace Api.Controllers
             return new
             {
                 Application = "Dyra",
-                Version = Assembly.GetExecutingAssembly().GetName().Name
+                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
             };
         }
     }

@@ -20,6 +20,7 @@ namespace Api
     public class Startup
     {
         private IConfiguration _configuration { get; }
+        private readonly string _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public Startup(IConfiguration configuration)
         {
@@ -28,18 +29,12 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-            services.AddMvc(options =>
-            {
-                //options.Conventions.Add(new DynamicControllerModelConvention());
-            })
-                //.ConfigureApplicationPartManager(p => p.FeatureProviders.Add(new RemoteControllerFeatureProvider(logger)))
+            services.AddMvc()
                 .AddApplicationPart(typeof(Bootstrap).Assembly);
-                //.AddControllersAsServices();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v" + _version });
                 c.ExampleFilters();
                 c.DescribeAllEnumsAsStrings(); 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
@@ -73,7 +68,7 @@ namespace Api
             Application.AutoMapper.Register();
         }
 
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             app.UseStaticFiles();
 
@@ -87,7 +82,7 @@ namespace Api
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V" + _version);
             });
 
             app.UseGraphiQl("/graphql");

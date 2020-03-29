@@ -1,5 +1,7 @@
 ﻿using Mustache;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Infrastructure.Templates
@@ -10,14 +12,28 @@ namespace Infrastructure.Templates
         {
             Entity,
             Controller,
-            Swagger
+            Model
         }
 
-        public static string LoadTemplate(TemplateType type)
+        private static readonly string _templatePath = 
+            Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),"Templates");
+
+        public static IEnumerable<string> LoadTemplates()
+        {
+            return Directory.GetFiles(_templatePath, "*.mustache")
+                .Select(x => ReadTemplate(x))
+                .ToList();          
+        }
+
+        private static string GetTemplatePath(TemplateType type)
         {
             var templateName = type.ToString();
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            using (StreamReader reader = new StreamReader(Path.Combine(path, $".{Path.DirectorySeparatorChar}Template.{templateName}.mustache")))
+            return Path.Combine(_templatePath, $"Templates{Path.DirectorySeparatorChar}.{templateName}.mustache");
+        }
+
+        private static string ReadTemplate(string templatePath)
+        {
+            using (StreamReader reader = new StreamReader(templatePath))
                 return reader.ReadToEnd();
         }
 

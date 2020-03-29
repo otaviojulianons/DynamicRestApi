@@ -6,6 +6,8 @@ namespace Domain.Services
 {
     public interface IDynamicDomainService
     {
+        IEnumerable<Type> Controllers { get; }
+        IEnumerable<Type> Entities { get; }
 
         void GenerateTypes(params EntityDomain[] entities);
     }

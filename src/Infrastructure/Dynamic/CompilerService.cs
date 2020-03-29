@@ -1,6 +1,7 @@
 ﻿using Common.Notifications;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Core.Interfaces.Structure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.CodeAnalysis;
@@ -48,6 +49,7 @@ namespace Infrastructure.Dynamic
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(Controller).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(RouteAttribute).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
+            referencesBuild.Add(MetadataReference.CreateFromFile(typeof(HttpResponse).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "System.Runtime.dll"));
 
             var compilation = CSharpCompilation.Create("DynamicAssembly", 

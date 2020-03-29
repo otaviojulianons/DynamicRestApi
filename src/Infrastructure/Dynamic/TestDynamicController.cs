@@ -1,7 +1,6 @@
 using Common.Models;
 using Common.Notifications;
 using Domain.Core.Interfaces.Infrastructure;
-using Domain.Core.Interfaces.Structure;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,23 +9,31 @@ using System.Linq;
 namespace Infrastructure.Dynamic
 {
     [Route("[controller]")]
-    public class DynamicEntityController<TEntity, TId, TModel> : Controller 
-        where TEntity : IDynamicEntity<TId,TModel>, new()
-        where TId : struct
+    [Produces("application/json")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public class TestDynamicController : Controller
     {
-        private INotificationManager _msgs;
-        private IGenericRepository<TEntity, TId> _genericRepository;
+        protected INotificationManager _msgs;
+        protected IGenericRepository<TestEntity, Guid> _genericRepository;
 
-        public DynamicEntityController(
+        public TestDynamicController(
             INotificationManager msgs,
-            IGenericRepository<TEntity, TId> genericRepository)
+            IGenericRepository<TestEntity, Guid> genericRepository)
         {
             _msgs = msgs;
             _genericRepository = genericRepository;
         }
 
+        protected virtual TestEntity MapperToDomain(Guid id, TestModel model)
+        {
+            var entity = new TestEntity();
+            entity.Id = id;
+            entity.Name = model.Name;
+            return entity;
+        }
+
         [HttpGet()]
-        public ResultDto<IEnumerable<TEntity>> List()
+        public ResultDto<IEnumerable<TestEntity>> List()
         {
             try
             {
@@ -35,17 +42,16 @@ namespace Infrastructure.Dynamic
             }
             catch (Exception ex)
             {
-                return FormatError<IEnumerable<TEntity>>(ex.Message);
-            }   
+                return FormatError<IEnumerable<TestEntity>>(ex.Message);
+            }
         }
 
         [HttpPost()]
-        public ResultDto<bool> Post([FromBody]TEntity entity)
+        public ResultDto<bool> Post([FromBody]TestModel model)
         {
             try
             {
-                if (Equals(entity.Id, Guid.Empty))
-                    entity.Id = (TId)Convert.ChangeType(Guid.NewGuid(), typeof(TId));
+                var entity = MapperToDomain(Guid.NewGuid() ,model);
                 _genericRepository.Insert(entity);
                 return FormatResult(true);
             }
@@ -56,7 +62,7 @@ namespace Infrastructure.Dynamic
         }
 
         [HttpGet("{id}")]
-        public ResultDto<TEntity> Get([FromRoute] TId id)
+        public ResultDto<TestEntity> Get([FromRoute]Guid id)
         {
             try
             {
@@ -65,17 +71,16 @@ namespace Infrastructure.Dynamic
             }
             catch (Exception ex)
             {
-                return FormatError<TEntity>(ex.Message);
+                return FormatError<TestEntity>(ex.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public dynamic Put([FromRoute]TId id, [FromBody]TModel model)
+        public ResultDto<bool> Put([FromRoute]Guid id, [FromBody]TestModel model)
         {
             try
             {
-                TEntity entity = new TEntity();
-                entity.Map(id, model);
+                TestEntity entity = MapperToDomain(id, model);
                 _genericRepository.Update(entity);
                 return FormatResult(true);
             }
@@ -86,7 +91,7 @@ namespace Infrastructure.Dynamic
         }
 
         [HttpDelete("{id}")]
-        public dynamic Delete(TId id)
+        public ResultDto<bool> Delete(Guid id)
         {
             try
             {

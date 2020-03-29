@@ -5,17 +5,145 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Infrastructure.Dynamic;
 using DynamicAssembly;
+using Common.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DynamicController
 {
     [Route("[controller]")]
-    public class {{Name}}Controller : DynamicEntityController<{{Name}}Entity, {{IdenfierDataType.Format}}, {{Name}}Model>
+    [Produces("application/json")]
+    public class {{Name}}Controller : Controller
     {
+        private INotificationManager _msgs;
+        private IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Format}}> _genericRepository;
+
         public {{Name}}Controller(
             INotificationManager msgs,
             IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Format}}> genericRepository)
-        : base(msgs, genericRepository)
         {
+            _msgs = msgs;
+            _genericRepository = genericRepository;
+        }
+
+        private {{Name}}Entity MapperToDomain({{IdenfierDataType.Format}} id, {{Name}}Model model)
+        {
+            var entity = new {{Name}}Entity();
+            entity.Id = id;
+    {{#each Attributes}}
+            entity.{{Item.Name}} = model.{{Item.Name}};
+    {{/each}}
+            return entity;
+        }
+
+        [HttpGet()]
+        public ResultDto<IEnumerable<{{Name}}Entity>> List()
+        {
+            try
+            {
+                var entities = _genericRepository.GetAll();
+                return FormatResult(entities);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<IEnumerable<{{Name}}Entity>>(ex.Message);
+            }
+        }
+
+    {{#if IdenfierGuid}}
+        [HttpPost()]
+        public ResultDto<bool> Post([FromBody]{{Name}}Model model)
+        {
+            try
+            {
+                var entity = MapperToDomain(Guid.NewGuid(), model);
+                _genericRepository.Insert(entity);
+                return FormatResult(true);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<bool>(ex.Message);
+            }
+        }    
+    {{#else}}
+        [HttpPost()]
+        public ResultDto<bool> Post([FromBody]{{Name}}Entity entity)
+        {
+            try
+            {
+                _genericRepository.Insert(entity);
+                return FormatResult(true);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<bool>(ex.Message);
+            }
+        }
+    {{/if}}
+
+        [HttpGet("{id}")]
+        public ResultDto<{{Name}}Entity> Get([FromRoute] {{IdenfierDataType.Format}} id)
+        {
+            try
+            {
+                var entity = _genericRepository.GetById(id);
+                return FormatResult(entity);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<{{Name}}Entity>(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public ResultDto<bool> Put([FromRoute]{{IdenfierDataType.Format}} id, [FromBody]{{Name}}Model model)
+        {
+            try
+            {
+                {{Name}}Entity entity = MapperToDomain(id, model);
+                _genericRepository.Update(entity);
+                return FormatResult(true);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<bool>(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ResultDto<bool> Delete({{IdenfierDataType.Format}} id)
+        {
+            try
+            {
+                _genericRepository.Delete(id);
+                return FormatResult(true);
+            }
+            catch (Exception ex)
+            {
+                return FormatError<bool>(ex.Message);
+            }
+        }
+
+        private ResultDto<T> FormatResult<T>(T result)
+        {
+            if (_msgs.HasError)
+                return FormatError<T>(_msgs.Errors.FirstOrDefault().Message);
+
+            return new ResultDto<T>()
+            {
+                Result = result,
+                Message = "Method executed successfully."
+            };
+        }
+
+        private ResultDto<T> FormatError<T>(string message)
+        {
+            Response.StatusCode = 400;
+            return new ResultDto<T>()
+            {
+                Result = default(T),
+                Message = message
+            };
         }
     }
 }

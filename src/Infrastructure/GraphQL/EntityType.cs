@@ -4,13 +4,13 @@ using GraphQL.Types;
 
 namespace Infrastructure.GraphQL
 {
-    public class EntityType<T> : ObjectGraphType<T> where T : IEntity
+    public class EntityType<TGenericEntity, TId> : ObjectGraphType<TGenericEntity>
+        where TGenericEntity : IGenericEntity<TId>
     {
         public EntityType()
         {
-            Name = typeof(T).Name;
-
-            var type = typeof(T);
+            var type = typeof(TGenericEntity);
+            Name = type.Name;
             foreach (var property in type.GetProperties())
             {
                 var propertyType = GetPropertyType(property.PropertyType);

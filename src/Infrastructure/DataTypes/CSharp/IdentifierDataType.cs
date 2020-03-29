@@ -4,7 +4,7 @@ namespace InfrastructureTypes.CSharp
 {
     public class IdentifierDataType : DataTypeAbstract
     {
-        public IdentifierDataType() : base(EnumDataTypes.DateTime, "Guid")
+        public IdentifierDataType() : base(EnumDataTypes.Identifier, "Guid")
         {
         }     
     }
