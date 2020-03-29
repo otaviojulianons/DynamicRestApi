@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-    [Route("/Dynamic/[controller]")]
+    [Route("[controller]")]
     [Produces("application/json")]
     public class DynamicEntityController : Controller
     {
