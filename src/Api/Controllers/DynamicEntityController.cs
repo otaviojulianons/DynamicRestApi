@@ -1,6 +1,6 @@
 ﻿using Api.Filters;
 using Application.Commands;
-using Application.Models;
+using Application.Queries;
 using AutoMapper;
 using Common.Models;
 using Common.Notifications;
@@ -50,32 +50,32 @@ namespace Api.Controllers
         }
 
         [HttpGet()]
-        public ResultDto<IEnumerable<Entity>> List()
+        public ResultDto<IEnumerable<EntityQueryResult>> List()
         {
             try
             {
                 var entities = _entityRepository.GetAll();
-                var models = Mapper.Map<IEnumerable<Entity>>(entities);
+                var models = Mapper.Map<IEnumerable<EntityQueryResult>>(entities);
                 return FormatResult(models);
             }
             catch (Exception ex)
             {
-                return FormatError<IEnumerable<Entity>>(ex.Message);
+                return FormatError<IEnumerable<EntityQueryResult>>(ex.Message);
             }
         }
 
         [HttpGet("{id}")]
-        public ResultDto<Entity> Get(Guid id)
+        public ResultDto<EntityQueryResult> Get(Guid id)
         {
             try
             {
                 var entity = _entityRepository.GetById(id);
-                var models = Mapper.Map<Entity>(entity);
+                var models = Mapper.Map<EntityQueryResult>(entity);
                 return FormatResult(models);
             }
             catch (Exception ex)
             {
-                return FormatError<Entity>(ex.Message);
+                return FormatError<EntityQueryResult>(ex.Message);
             }
         }              
 

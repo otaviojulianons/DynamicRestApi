@@ -1,8 +1,8 @@
 ﻿using Domain.ValueObjects;
 
-namespace Application.Models
+namespace Application.Queries
 {
-    public class Attribute
+    public class AttributeQueryResult
     {
         public string Name { get; set; }
         public EnumDataTypes DataType { get; set; }
