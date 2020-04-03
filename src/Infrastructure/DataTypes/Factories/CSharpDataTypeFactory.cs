@@ -1,5 +1,3 @@
-using System.Data.Common;
-using System;
 using Domain.ValueObjects;
 using InfrastructureTypes.CSharp;
 
@@ -7,10 +5,10 @@ namespace InfrastructureTypes.Factories
 {
     public class CSharpDataTypeFactory : IDataTypeFactory
     {
-        public IDataType Make(EnumDataTypes dataType, bool nullable) =>
-            nullable ? MakeNullable(dataType) : Make(dataType);  
+        public IDataType MakeValueDataType(EnumDataTypes dataType, bool nullable) =>
+            nullable ? MakeNullableDataType(dataType) : MakeValueDataType(dataType);  
 
-        public IDataType Make(EnumDataTypes dataType)        
+        private IDataType MakeValueDataType(EnumDataTypes dataType)        
         {           
             switch (dataType)
             {
@@ -31,9 +29,9 @@ namespace InfrastructureTypes.Factories
                 default:
                     return null;
             }
-        }         
+        }
 
-        public IDataType MakeNullable(EnumDataTypes dataType)        
+        private IDataType MakeNullableDataType(EnumDataTypes dataType)        
         {
             switch (dataType)
             {
@@ -54,6 +52,19 @@ namespace InfrastructureTypes.Factories
                 default:
                     return null;
             }
-        }         
+        }
+
+        public IDataType MakeGenericDataType(EnumDataTypes dataType, string parameter)
+        {
+            switch (dataType)
+            {
+                case EnumDataTypes.Object:
+                    return new ObjectDataType(parameter);
+                case EnumDataTypes.Array:
+                    return new ArrayDataType(parameter);
+                default:
+                    return null;
+            }
+        }
     }
 }

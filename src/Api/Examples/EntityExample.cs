@@ -30,7 +30,7 @@ namespace Api.Examples
                 {
                     new ElementDto()
                     {
-                        DataType = EnumElementType.Object,
+                        DataType = EnumDataTypes.Object,
                         Entity =  new CreateEntityCommand()
                         {
                             Name = "Child",

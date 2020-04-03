@@ -1,11 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DynamicAssembly
 {
     public class {{Name}}Model
     {
-    {{#each Attributes}}
+{{#each Attributes}}
         public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
-    {{/each}}
+{{/each}}
+{{#each Elements}}
+        public {{Item.DataType.Name}} {{Item.Entity.Name}} { get; set; }
+{{/each}}
     }
+
+{{#each References}}
+{{#with Item}}
+    public class {{DataType.Parameter}}
+    {
+
+{{#each Entity.Attributes}}
+        public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
+{{/each}}
+{{#each Entity.Elements}}
+        public {{Item.DataType.Name}} {{Item.Entity.Name}} { get; set; }
+{{/each}}
+
+    }
+{{/with}}
+{{/each}}
 }

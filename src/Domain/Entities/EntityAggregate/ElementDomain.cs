@@ -1,18 +1,17 @@
-﻿using Domain.Core.ValueObjects;
-using Domain.ValueObjects;
+﻿using Domain.ValueObjects;
 
 namespace Domain.Entities.EntityAggregate
 {
     public class ElementDomain
     {
 
-        public ElementDomain(EntityDomain entity, EnumElementType type)
+        public ElementDomain(EntityDomain entity, EnumDataTypes dataType)
         {
             Entity = entity;
-            Type = type;
+            DataType = dataType;
         }
 
         public EntityDomain Entity { get; set; }
-        public EnumElementType Type { get; set; }
+        public EnumDataTypes DataType { get; set; }
     }
 }

@@ -16,22 +16,25 @@ namespace DynamicController
     public class {{Name}}Controller : Controller
     {
         private INotificationManager _msgs;
-        private IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Format}}> _genericRepository;
+        private IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Name}}> _genericRepository;
 
         public {{Name}}Controller(
             INotificationManager msgs,
-            IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Format}}> genericRepository)
+            IGenericRepository<{{Name}}Entity, {{IdenfierDataType.Name}}> genericRepository)
         {
             _msgs = msgs;
             _genericRepository = genericRepository;
         }
 
-        private {{Name}}Entity MapperToDomain({{IdenfierDataType.Format}} id, {{Name}}Model model)
+        private {{Name}}Entity MapperToDomain({{IdenfierDataType.Name}} id, {{Name}}Model model)
         {
             var entity = new {{Name}}Entity();
             entity.Id = id;
     {{#each Attributes}}
             entity.{{Item.Name}} = model.{{Item.Name}};
+    {{/each}}
+    {{#each Elements}}
+            entity.{{Item.Entity.Name}} = model.{{Item.Entity.Name}};
     {{/each}}
             return entity;
         }
@@ -82,7 +85,7 @@ namespace DynamicController
     {{/if}}
 
         [HttpGet("{id}")]
-        public ResultDto<{{Name}}Entity> Get([FromRoute] {{IdenfierDataType.Format}} id)
+        public ResultDto<{{Name}}Entity> Get([FromRoute] {{IdenfierDataType.Name}} id)
         {
             try
             {
@@ -96,7 +99,7 @@ namespace DynamicController
         }
 
         [HttpPut("{id}")]
-        public ResultDto<bool> Put([FromRoute]{{IdenfierDataType.Format}} id, [FromBody]{{Name}}Model model)
+        public ResultDto<bool> Put([FromRoute]{{IdenfierDataType.Name}} id, [FromBody]{{Name}}Model model)
         {
             try
             {
@@ -111,7 +114,7 @@ namespace DynamicController
         }
 
         [HttpDelete("{id}")]
-        public ResultDto<bool> Delete({{IdenfierDataType.Format}} id)
+        public ResultDto<bool> Delete({{IdenfierDataType.Name}} id)
         {
             try
             {

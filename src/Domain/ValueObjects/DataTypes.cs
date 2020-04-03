@@ -13,6 +13,8 @@ namespace Domain.ValueObjects
         Int,
         Long,
         Money,
-        DateTime
+        DateTime,
+        Object,
+        Array
     }
 }

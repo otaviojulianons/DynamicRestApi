@@ -7,6 +7,6 @@ namespace InfrastructureTypes
     {        
         EnumDataTypes DataType { get; } 
         string Name { get; }
-        string Format { get; }  
+        string Parameter { get; }  
     }
 }

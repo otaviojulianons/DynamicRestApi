@@ -36,7 +36,7 @@ namespace Tests.Unit.Mappers
             Assert.Equal(attributeDomain?.DataType, attributeDto.DataType);
             Assert.Equal(attributeDomain?.AllowNull, attributeDto.AllowNull);
             Assert.Equal(attributeDomain?.Length, attributeDto.Length);
-            Assert.Equal(elementDomain?.Type, elementDto?.DataType);
+            Assert.Equal(elementDomain?.DataType, elementDto?.DataType);
             Assert.Equal(elementEntityDomain?.Name, elementEntityDto?.Name);
             Assert.Equal(elementAttributeDomain?.Name, elementAttributeDto?.Name);
             Assert.Equal(elementAttributeDomain?.DataType, elementAttributeDto?.DataType);
@@ -65,7 +65,7 @@ namespace Tests.Unit.Mappers
             Assert.Equal(attributeDto?.DataType, attributeDomain.DataType);
             Assert.Equal(attributeDto?.AllowNull, attributeDomain.AllowNull);
             Assert.Equal(attributeDto?.Length, attributeDomain.Length);
-            Assert.Equal(elementDto?.Type, elementDomain?.Type);
+            Assert.Equal(elementDto?.DataType, elementDomain?.DataType);
             Assert.Equal(elementEntityDto?.Name, elementEntityDomain?.Name);
             Assert.Equal(elementAttributeDto?.Name, elementAttributeDomain?.Name);
             Assert.Equal(elementAttributeDto?.DataType, elementAttributeDomain?.DataType);
@@ -95,7 +95,7 @@ namespace Tests.Unit.Mappers
                 var elementDto = new ElementDto()
                 {
                     Entity = elementEntityCommand,
-                    DataType = EnumElementType.Object
+                    DataType = EnumDataTypes.Object
                 };
                 command.Elements = new List<ElementDto>() { elementDto };
             }
@@ -118,7 +118,7 @@ namespace Tests.Unit.Mappers
             if(addElement)
             {
                 var entityElementDomain = CreateEntityDomain("ElementChild", false);
-                var element = new ElementDomain(entityElementDomain, EnumElementType.Object);
+                var element = new ElementDomain(entityElementDomain, EnumDataTypes.Object);
                 entityDomain.AddElement(element);
             }
             return entityDomain;
