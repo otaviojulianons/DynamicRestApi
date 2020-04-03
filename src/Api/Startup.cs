@@ -2,8 +2,6 @@
 using Application.Services;
 using GraphiQl;
 using Infrastructure.DI;
-using Infrastructure.Dynamic;
-using Infrastructure.WebSockets;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +20,7 @@ namespace Api
     public class Startup
     {
         private IConfiguration _configuration { get; }
+        private readonly string _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public Startup(IConfiguration configuration)
         {
@@ -30,11 +29,12 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddApplicationPart(typeof(Bootstrap).Assembly).AddControllersAsServices();
+            services.AddMvc()
+                .AddApplicationPart(typeof(Bootstrap).Assembly);
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v" + _version });
                 c.ExampleFilters();
                 c.DescribeAllEnumsAsStrings(); 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
@@ -63,13 +63,12 @@ namespace Api
             }));
 
             services.AddMediatR(Assembly.GetAssembly(typeof(StartupService)));
-            services.UseWebSocketService();
 
             Bootstrap.Run(services);
             Application.AutoMapper.Register();
         }
 
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             app.UseStaticFiles();
 
@@ -78,23 +77,18 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseWebSockets();
-            app.UseMiddleware<WebSocketStartMiddleware>();
-            app.UseMiddleware<WebSocketUpdateMiddleware>();
-            app.UseMiddleware<DynamicRoutesMiddleware>();
-
             app.UseCors("CorsConfig");
             app.UseSwagger();
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V" + _version);
             });
 
             app.UseGraphiQl("/graphql");
             app.UseMvc();
 
-            await new StartupService(serviceProvider).Start();
+            new StartupService(serviceProvider).Start();
         }
 
     }

@@ -12,40 +12,41 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repository.Repositories
 {
-    public class MongodbRepository<T> : IRepository<T> where T : class, IEntity
+    public class MongodbGenericRepository<TEntity, TId> : 
+        IGenericRepository<TEntity, TId> where TEntity : class, IGenericEntity<TId>
     {
         private IMongoDatabase _database;
         private IMediator _mediator;
         private INotificationManager _msg;
-        protected IMongoCollection<T> _collection;
+        protected IMongoCollection<TEntity> _collection;
 
-        public MongodbRepository(MongodbContext context, IMediator mediator, INotificationManager msg)
+        public MongodbGenericRepository(MongodbContext context, IMediator mediator, INotificationManager msg)
         {
             _mediator = mediator;
             _msg = msg;
             _database = context.Database;
-            _collection = _database.GetCollection<T>(typeof(T).Name);
+            _collection = _database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
 
-        public virtual IQueryable<T> Queryble() => _collection.AsQueryable<T>();
+        public virtual IQueryable<TEntity> Queryble() => _collection.AsQueryable();
 
-        public virtual IEnumerable<T> GetAll() => Queryble();
+        public virtual IEnumerable<TEntity> GetAll() => Queryble();
 
-        public virtual IQueryable<T> QueryBy(Expression<Func<T, bool>> filter = null) =>
+        public virtual IQueryable<TEntity> QueryBy(Expression<Func<TEntity, bool>> filter = null) =>
             filter != null ? Queryble().Where(filter) : Queryble();
 
-        public virtual IQueryable<T> QueryById(Guid id) =>
-            Queryble().Where(x => x.Id == id);
+        public virtual IQueryable<TEntity> QueryById(TId id) =>
+            Queryble().Where(x => Equals(x.Id, id));
 
-        public virtual T GetById(Guid id) =>
+        public virtual TEntity GetById(TId id) =>
             Queryble().FirstOrDefault(x => x.Id.Equals(id));
 
-        public virtual void Insert(T entity)
+        public virtual void Insert(TEntity entity)
         {
             try
             {
                 _collection.InsertOne(entity);
-                _mediator.Publish(new EntityInsertedDomaiEvent<T>(entity));
+                //_mediator.Publish(new EntityInsertedDomaiEvent<TEntity>(entity));
 
             }
             catch (Exception ex)
@@ -54,12 +55,12 @@ namespace Infrastructure.Repository.Repositories
             }
         }
 
-        public virtual void Update( T entity)
+        public virtual void Update(TEntity entity)
         {
             try
             {
-                _collection.ReplaceOne(Builders<T>.Filter.Eq("_id", entity.Id), entity);
-                _mediator.Publish(new EntityUpdatedDomainEvent<T>(entity));
+                _collection.ReplaceOne(Builders<TEntity>.Filter.Eq("_id", entity.Id), entity);
+                //_mediator.Publish(new EntityUpdatedDomainEvent<TEntity>(entity));
             }
             catch (Exception ex)
             {
@@ -67,15 +68,15 @@ namespace Infrastructure.Repository.Repositories
             }
         }
 
-        public virtual void Delete(Guid id)
+        public virtual void Delete(TId id)
         {
             try
             {
                 var entity = QueryBy(x => x.Id.Equals(id)).FirstOrDefault()
                     ?? throw new Exception("Object not fount.");
 
-                _collection.DeleteOne(Builders<T>.Filter.Eq("_id", id));
-                _mediator.Publish(new EntityDeletedDomainEvent<T>(entity));
+                _collection.DeleteOne(Builders<TEntity>.Filter.Eq("_id", id));
+                //_mediator.Publish(new EntityDeletedDomainEvent<T>(entity));
             }
             catch (Exception ex)
             {

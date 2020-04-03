@@ -1,0 +1,11 @@
+﻿using System;
+
+namespace DynamicAssembly
+{
+    public class {{Name}}Model
+    {
+    {{#each Attributes}}
+        public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
+    {{/each}}
+    }
+}

@@ -4,7 +4,7 @@ namespace InfrastructureTypes.CSharp
 {
     public class LongDataType : DataTypeAbstract
     {
-        public LongDataType() : base(EnumDataTypes.Bool, "long")
+        public LongDataType() : base(EnumDataTypes.Long, "long")
         {
         }
     }

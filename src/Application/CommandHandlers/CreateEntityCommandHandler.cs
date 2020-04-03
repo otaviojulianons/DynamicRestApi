@@ -49,7 +49,6 @@ namespace Application.CommandHandlers
                 return false;
 
             _entityRepository.Insert(entityDomain);
-            await _mediator.Publish(new EntityInsertedDomaiEvent<EntityDomain>(entityDomain));
             return true;
         }
 

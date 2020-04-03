@@ -4,9 +4,9 @@ namespace Infrastructure.Repository.Repositories
 {
     public class DatabaseRepository
     {
-        private ContextMongodb _context;
+        private MongodbContext _context;
 
-        public DatabaseRepository(ContextMongodb context)
+        public DatabaseRepository(MongodbContext context)
         {
             _context = context;
         }

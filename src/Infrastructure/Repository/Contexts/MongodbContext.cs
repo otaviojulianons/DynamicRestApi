@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
-using Domain.Core.ValueObjects;
-using Domain.Entities.EntityAggregate;
+﻿using Domain.Entities.EntityAggregate;
 using Infrastructure.Repository.Serializers;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.IdGenerators;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace Infrastructure.Repository.Contexts
 {
-    public class ContextMongodb : ContextMongodbAbstract
+    public class MongodbContext
     {
-        public ContextMongodb(IConfiguration configuration)
+        public IMongoDatabase Database { get; protected set; }
+
+        public MongodbContext(IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("Database:Mongodb:ConnectionString");
             var databaseName = configuration.GetValue<string>("Database:Mongodb:DatabaseName");

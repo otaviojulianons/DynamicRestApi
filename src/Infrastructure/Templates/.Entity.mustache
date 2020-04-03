@@ -1,0 +1,15 @@
+﻿using System;
+using Domain.Core.Interfaces.Structure;
+
+namespace DynamicAssembly
+{
+    public class {{Name}}Entity : IGenericEntity<{{IdenfierDataType.Format}}>
+    {
+
+        public {{IdenfierDataType.Format}} Id { get; set; }
+
+    {{#each Attributes}}
+        public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
+    {{/each}}      
+    }
+}

@@ -10,29 +10,35 @@ namespace Infrastructure.GraphQL
     {
         private IServiceProvider _serviceProvider;
         private IDynamicDomainService _dynamicService;
+        private Schema _schema;
 
         public GraphQLRepository(IServiceProvider serviceProvider, IDynamicDomainService dynamicService)
         {
             _serviceProvider = serviceProvider;
             _dynamicService = dynamicService;
+
+            CreateGraphQLSchema();
+        }
+
+        private void CreateGraphQLSchema()
+        {
+            var queryObject = new EntityDynamicQuery(_serviceProvider);
+            foreach (var type in _dynamicService.Entities)
+                queryObject.AddQuery(type);
+
+            _schema = new Schema()
+            {
+                Query = queryObject
+            };
         }
 
         public async Task<ExecutionResult> Query(GraphQLQuery query)
         {
             var inputs = query.Variables.ToInputs();
-            var queryObject = new EntityDynamicQuery(_serviceProvider);
-
-            foreach (var type in _dynamicService.DynamicTypes)
-                queryObject.AddQuery(type);
-
-            var schema = new Schema()
-            {
-                Query = queryObject
-            };
 
             return await new DocumentExecuter().ExecuteAsync(_ =>
             {
-                _.Schema = schema;
+                _.Schema = _schema;
                 _.Query = query.Query;
                 _.OperationName = query.OperationName;
                 _.Inputs = inputs;

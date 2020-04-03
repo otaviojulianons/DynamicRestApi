@@ -10,7 +10,7 @@ namespace Infrastructure.Repository.Repositories
 {
     public class EntityRepository : MongodbRepository<EntityDomain>, IRepository<EntityDomain>
     {
-        public EntityRepository(ContextMongodb context, IMediator mediator, INotificationManager msg) : base(context,mediator, msg)
+        public EntityRepository(MongodbContext context, IMediator mediator, INotificationManager msg) : base(context,mediator, msg)
         {
         }
 

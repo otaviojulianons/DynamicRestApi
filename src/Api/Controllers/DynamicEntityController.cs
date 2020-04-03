@@ -15,16 +15,15 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-    [Route("/Dynamic/[controller]")]
+    [Route("[controller]")]
     [Produces("application/json")]
-    [Consumes("application/json")]
-    public class EntityController : Controller
+    public class DynamicEntityController : Controller
     {
         private IRepository<EntityDomain> _entityRepository;
         private IMediator _mediator;
         private INotificationManager _msgs;
 
-        public EntityController(
+        public DynamicEntityController(
             IMediator mediator,
             IRepository<EntityDomain> entityRepository,
             INotificationManager msgs

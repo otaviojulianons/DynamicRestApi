@@ -1,6 +1,8 @@
+using Common.Extensions;
 using Domain.Core.Interfaces.Infrastructure;
 using Domain.Core.Interfaces.Structure;
 using GraphQL.Types;
+using Infrastructure.Dynamic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +23,16 @@ namespace Infrastructure.GraphQL
 
         public void AddQuery(Type type)
         {
-            if (!type.GetInterfaces().Contains(typeof(IEntity)))
-                throw new Exception($"Type {type.Name} not implemented IEntity interface.");
+            if (!type.ImplementsGericType(typeof(IGenericEntity<>)))
+                throw new Exception($"Type {type.Name} not implemented IGenericEntity interface.");
 
-            dynamic repositoryType = typeof(IRepository<>).MakeGenericType(type);
-            var repository = ServiceProvider.GetService(repositoryType);
-
-            var entityGraphType = typeof(EntityType<>).MakeGenericType(type);
+            var interfaceType = type.GetInterfaces().FirstOrDefault();
+            var typeId = interfaceType.GetGenericArguments().FirstOrDefault();
+            var repositoryType = typeof(IGenericRepository<,>).MakeGenericType(type, typeId);
+            var entityGraphType = typeof(EntityType<,>).MakeGenericType(type, typeId);
             var typeResult = typeof(ListGraphType<>).MakeGenericType(entityGraphType);
+
+            dynamic repository = ServiceProvider.GetService(repositoryType);
 
             this.Field(typeResult, type.Name,
                 arguments: new QueryArguments(new QueryArgument<IdGraphType> { Name = "id" }),

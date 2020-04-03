@@ -4,7 +4,7 @@ namespace InfrastructureTypes.CSharp
 {
     public class LongNullableDataType : DataTypeAbstract
     {
-        public LongNullableDataType() : base(EnumDataTypes.Bool, "long?")
+        public LongNullableDataType() : base(EnumDataTypes.Long, "long?")
         {
         }
     }

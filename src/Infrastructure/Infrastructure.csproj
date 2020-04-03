@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
@@ -31,10 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Templates\Template.Domain.mustache">
+    <None Update="Templates\.Controller.mustache">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Templates\Template.Swagger.mustache">
+    <None Update="Templates\.Entity.mustache">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\.Model.mustache">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

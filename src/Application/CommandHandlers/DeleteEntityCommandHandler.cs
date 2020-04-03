@@ -36,7 +36,6 @@ namespace Application.CommandHandlers
             }
 
             _entityRepository.Delete(request.Id);
-            await _mediator.Publish(new EntityDeletedDomainEvent<EntityDomain>(entity));
             return true;
         }
     }
