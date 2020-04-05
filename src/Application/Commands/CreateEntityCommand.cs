@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Application.Models;
-using MediatR;
+﻿using MediatR;
+using System.Collections.Generic;
 
 namespace Application.Commands
 {
@@ -9,7 +8,9 @@ namespace Application.Commands
 
         public string Name { get; set; }
         
-        public IEnumerable<Attribute> Attributes { get; set; }        
+        public IEnumerable<AttributeDto> Attributes { get; set; }
+
+        public IEnumerable<ElementDto> Elements { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ namespace InfrastructureTypes
 {
     public interface IDataTypeFactory
     {
-         IDataType Make(EnumDataTypes dataType, bool nullable);
+        IDataType MakeValueDataType(EnumDataTypes dataType, bool nullable = false);
+        IDataType MakeGenericDataType(EnumDataTypes dataType, string parameter);
     }
 }

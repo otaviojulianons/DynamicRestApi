@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain.Core.Interfaces.Structure;
 
 namespace DynamicAssembly
 {
-    public class {{Name}}Entity : IGenericEntity<{{IdenfierDataType.Format}}>
+    public class {{Name}}Entity : IGenericEntity<{{IdenfierDataType.Name}}>
     {
 
-        public {{IdenfierDataType.Format}} Id { get; set; }
+        public {{IdenfierDataType.Name}} Id { get; set; }
 
-    {{#each Attributes}}
+{{#each Attributes}}
         public {{Item.DataType.Name}} {{Item.Name}} { get; set; }
-    {{/each}}      
+{{/each}}
+{{#each Elements}}
+        public {{Item.DataType.Name}} {{Item.Entity.Name}} { get; set; }
+{{/each}} 
     }
 }

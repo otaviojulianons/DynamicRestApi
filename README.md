@@ -11,17 +11,17 @@ Generate Rest API from Dynamic Entities
 
 ## Getting Started
 
-From the mapping of relational entities DyRA is able to generate dynamic endpoints and [OpenAPI Specification](https://www.openapis.org).
+Dyra is an API capable of generating a dynamic resource list. During application initialization, the API infrastructure (_Controllers, Entities and Models_) is compiled at runtime through an entities register.
 
 ## Features
 
-* REST operations (GET \ POST \ UPDATE \ DELETE)
-* Dynamic Documentation by Swagger
-* GraphQL Integration
+* Generate REST API (GET \ POST \ UPDATE \ DELETE)
+* Generate Dynamic Documentation by Swagger
+* Generate GraphQL Integration
+* Mapping Complex Objects
 
 ## Next Features
 
-* Mapping Complex Objects
 * SignalR Integration
 * gRPC Integration
 

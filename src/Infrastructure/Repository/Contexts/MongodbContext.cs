@@ -27,6 +27,7 @@ namespace Infrastructure.Repository.Contexts
                     cm.MapIdMember(c => c.Id).SetIdGenerator(GuidGenerator.Instance);
                     cm.GetMemberMap(x => x.Name).SetSerializer(new NameSerializer());
                     cm.MapField("_attributes").SetElementName("Attributes");
+                    cm.MapField("_elements").SetElementName("Elements");
                 });
 
                 BsonClassMap.RegisterClassMap<AttributeDomain>(cm =>
@@ -34,7 +35,12 @@ namespace Infrastructure.Repository.Contexts
                     cm.AutoMap();
                     cm.MapIdMember(c => c.Id).SetIdGenerator(GuidGenerator.Instance);
                     cm.GetMemberMap(x => x.Name).SetSerializer(new NameSerializer());
-                });              
+                });
+
+                BsonClassMap.RegisterClassMap<ElementDomain>(cm =>
+                {
+                    cm.AutoMap();
+                });
             }
         }
 

@@ -33,17 +33,6 @@ namespace Application.CommandHandlers
         public async Task<bool> Handle(CreateEntityCommand request, CancellationToken cancellationToken)
         {
             var entityDomain = Mapper.Map<EntityDomain>(request);
-            request.Attributes.ForEach(attribute =>
-            {
-                var attributeDomain = new AttributeDomain(
-                    new Name(attribute.Name),
-                    attribute.DataType,
-                    attribute.AllowNull,
-                    attribute.Length
-                );
-                
-                entityDomain.AddAttribute(attributeDomain);
-            });
 
             if (!entityDomain.IsValid(_notificationManager))
                 return false;

@@ -7,7 +7,7 @@ namespace Common.Extensions
     {
         public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
         {
-            foreach (var item in list) 
+            foreach (var item in list ?? new List<T>()) 
                 action(item);
         }
 
