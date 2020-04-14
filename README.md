@@ -19,6 +19,8 @@ Dyra is an API capable of generating a dynamic resource list. During application
 * Generate Dynamic Documentation by Swagger
 * Generate GraphQL Integration
 * Mapping Complex Objects
+* Pagination
+* Dynamic filter with LINQ
 
 ## Next Features
 
@@ -31,6 +33,11 @@ Dyra is an API capable of generating a dynamic resource list. During application
 * [MongoDB](https://www.mongodb.com/)
 * [Mustache](http://mustache.github.io/)
 * [Swagger](https://swagger.io/)
+* [System.Linq.Dynamic.Core](https://github.com/StefH/System.Linq.Dynamic.Core)
+* [MediatR](https://github.com/jbogard/MediatR)
+* [AutoMapper](https://github.com/AutoMapper/AutoMapper)
+* [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+* [GraphQL for .NET](https://github.com/graphql-dotnet/graphql-dotnet)
 
 ## Author
 

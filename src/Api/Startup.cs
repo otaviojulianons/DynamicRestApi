@@ -38,7 +38,7 @@ namespace Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("api", new Info { Title = _apiName, Version = "v" + _apiVersion });
+                c.SwaggerDoc("v1", new Info { Title = _apiName, Version = "v" + _apiVersion });
                 c.ExampleFilters();
                 c.DescribeAllEnumsAsStrings(); 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
@@ -86,7 +86,7 @@ namespace Api
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "api");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
 
             app.UseGraphiQl("/graphql");

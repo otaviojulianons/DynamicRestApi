@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -42,16 +43,15 @@ namespace Infrastructure.Dynamic
             var coreDir = Directory.GetParent(typeof(Guid).Assembly.Location).FullName;
             var netstandardLocation = Assembly.Load("netstandard").Location;
 
-            logger.LogInformation("Core Location: " + coreDir);
-            logger.LogInformation("Netstandard Location: " + netstandardLocation);
-
             referencesBuild.Add(MetadataReference.CreateFromFile(GetPathAssemblyFromNamespace(coreDir, "System.Runtime")));
             referencesBuild.Add(MetadataReference.CreateFromFile(netstandardLocation));
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(Controller).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(RouteAttribute).Assembly.Location));
-            referencesBuild.Add(MetadataReference.CreateFromFile(typeof(IQueryable).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(typeof(HttpResponse).Assembly.Location));
+            referencesBuild.Add(MetadataReference.CreateFromFile(typeof(IQueryable).Assembly.Location));
+            referencesBuild.Add(MetadataReference.CreateFromFile(typeof(Queryable).Assembly.Location));
+            referencesBuild.Add(MetadataReference.CreateFromFile(typeof(DynamicClass).Assembly.Location));
             referencesBuild.Add(MetadataReference.CreateFromFile(GetPathAssemblyFromType(coreDir, typeof(object))));
             referencesBuild.Add(MetadataReference.CreateFromFile(GetPathAssemblyFromType(coreDir, typeof(Enumerable))));
             referencesBuild.Add(MetadataReference.CreateFromFile(GetPathAssemblyFromType(coreDir, typeof(Task))));
@@ -83,9 +83,6 @@ namespace Infrastructure.Dynamic
         public static Task<Func<T, bool>> CompileWhere<T>(string where)
         {
             Type type = typeof(T);
-
-            where = regexOperatorAnd.Replace(where, "&&");
-            where = regexOperatorOr.Replace(where, "||");
 
             var options = ScriptOptions.Default
                 .AddReferences(type.Assembly, typeof(Enumerable).Assembly)

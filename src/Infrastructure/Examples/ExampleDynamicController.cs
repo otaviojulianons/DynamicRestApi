@@ -1,19 +1,20 @@
 using Common.Models;
 using Common.Notifications;
 using Domain.Core.Interfaces.Infrastructure;
-using Infrastructure.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace Infrastructure.Examples
 {
-    
+
     [Route("[controller]")]
     [Produces("application/json")]
-
-    [ApiExplorerSettings(IgnoreApi = false)]
+#if RELEASE
+    [ApiExplorerSettings(IgnoreApi = true)]
+#endif
     public class ExampleDynamicController : Controller
     {
 
@@ -45,30 +46,23 @@ namespace Infrastructure.Examples
         [HttpGet("/teste2")]
         public ResultDto<bool> Teste2(string where)
         {
-            var filter = CompilerService.CompileWhere<ExampleEntity>(where).Result;
+            var entities = _genericRepository.Queryble().Where(where);
             return FormatResult(true);
         }
 
         [HttpGet()]
-        public ResultDto<IEnumerable<ExampleEntity>> List(string where, int limit = 1000, int offset = 0)
+        public ResultDto<IEnumerable<ExampleEntity>> List(string where, string order = "Id", int limit = 1000, int offset = 0)
         {
             IEnumerable<ExampleEntity> entities;
             try
             {
-                if(string.IsNullOrEmpty(where))
-                {
-                    entities = _genericRepository.Queryble()
-                                                 .Skip(offset * limit)
-                                                 .Take(limit);
-                }
-                else
-                {
-                    var filter = CompilerService.CompileWhere<ExampleEntity>(where).Result;
-                    entities = _genericRepository.Queryble()
-                                                 .Where(filter)
-                                                 .Skip(offset * limit)
-                                                 .Take(limit);
-                }
+                var query = string.IsNullOrEmpty(where) ?
+                    _genericRepository.Queryble() :
+                    _genericRepository.Queryble().Where(where);
+
+                entities = query.OrderBy(order)
+                                .Skip(offset * limit)
+                                .Take(limit);
                 return FormatResult(entities);
             }
             catch (Exception ex)

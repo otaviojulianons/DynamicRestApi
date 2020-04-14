@@ -8,6 +8,7 @@ using DynamicAssembly;
 using Common.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace DynamicController
 {
@@ -40,25 +41,18 @@ namespace DynamicController
         }
 
         [HttpGet()]
-        public ResultDto<IEnumerable<{{Name}}Entity>> List(string where, int limit = 1000, int offset = 0)
+        public ResultDto<IEnumerable<{{Name}}Entity>> List(string where, string order = "Id", int limit = 1000, int offset = 0)
         {
             IEnumerable<{{Name}}Entity> entities;
             try
             {
-                if(string.IsNullOrEmpty(where))
-                {
-                    entities = _genericRepository.Queryble()
-                                                 .Skip(offset * limit)
-                                                 .Take(limit);
-                }
-                else
-                {
-                    var filter = CompilerService.CompileWhere<{{Name}}Entity>(where).Result;
-                    entities = _genericRepository.Queryble()
-                                                 .Where(filter)
-                                                 .Skip(offset * limit)
-                                                 .Take(limit);
-                }
+                var query = string.IsNullOrEmpty(where) ?
+                    _genericRepository.Queryble() :
+                    _genericRepository.Queryble().Where(where);
+
+                entities = query.OrderBy(order)
+                                .Skip(offset * limit)
+                                .Take(limit);
                 return FormatResult(entities);
             }
             catch (Exception ex)
