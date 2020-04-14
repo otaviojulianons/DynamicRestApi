@@ -1,9 +1,9 @@
 ﻿using Domain.Core.Interfaces.Structure;
 using System;
 
-namespace Infrastructure.Dynamic
+namespace Infrastructure.Examples
 {
-    public class TestEntity : IGenericEntity<Guid>
+    public class ExampleEntity : IGenericEntity<Guid>
     {
         public Guid Id { get; set; }
 
