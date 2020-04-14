@@ -20,7 +20,9 @@ RUN dotnet publish Api/Api.csproj -c Release -o out
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
 COPY --from=build-env /app/Api/out .
+
+#RUN mkdir Dynamic
 ENTRYPOINT ["dotnet", "Api.dll"]
 
 # docker build -t dyraapi .
-# docker run -d -p 8081:80 --name dyra-local dyraapi
+# docker run -d -p 8081:80 -e Database__Mongodb__ConnectionString=mongodb://host.docker.internal:27017 --name dyra-local dyraapi

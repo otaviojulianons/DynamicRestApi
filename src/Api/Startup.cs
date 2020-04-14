@@ -20,11 +20,15 @@ namespace Api
     public class Startup
     {
         private IConfiguration _configuration { get; }
-        private readonly string _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        private readonly string _apiVersion;
+        private readonly string _apiName;
 
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
+            _apiName = configuration.GetValue<string>("Api:Name");
+            _apiVersion = configuration.GetValue<string>("Api:Version");
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -34,7 +38,7 @@ namespace Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "DynamicRestApi", Version = "v" + _version });
+                c.SwaggerDoc("v1", new Info { Title = _apiName, Version = "v" + _apiVersion });
                 c.ExampleFilters();
                 c.DescribeAllEnumsAsStrings(); 
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml");
@@ -42,7 +46,7 @@ namespace Api
 
                 c.AddSecurityDefinition("apikey", new ApiKeyScheme
                 {
-                    Description = "Authorization key to access Dynamic Rest API",
+                    Description = $"Authorization key to access {_apiName}",
                     Name = "ApiKey",
                     In = "header",
                     Type = "apiKey"
@@ -82,7 +86,7 @@ namespace Api
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V" + _version);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
 
             app.UseGraphiQl("/graphql");

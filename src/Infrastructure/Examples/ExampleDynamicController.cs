@@ -5,49 +5,74 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 
-namespace Infrastructure.Dynamic
+namespace Infrastructure.Examples
 {
+
     [Route("[controller]")]
     [Produces("application/json")]
+#if RELEASE
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class TestDynamicController : Controller
+#endif
+    public class ExampleDynamicController : Controller
     {
-        protected INotificationManager _msgs;
-        protected IGenericRepository<TestEntity, Guid> _genericRepository;
 
-        public TestDynamicController(
+        protected INotificationManager _msgs;
+        protected IGenericRepository<ExampleEntity, Guid> _genericRepository;
+
+        public ExampleDynamicController(
             INotificationManager msgs,
-            IGenericRepository<TestEntity, Guid> genericRepository)
+            IGenericRepository<ExampleEntity, Guid> genericRepository)
         {
             _msgs = msgs;
             _genericRepository = genericRepository;
         }
 
-        protected virtual TestEntity MapperToDomain(Guid id, TestModel model)
+        protected virtual ExampleEntity MapperToDomain(Guid id, ExampleModel model)
         {
-            var entity = new TestEntity();
+            var entity = new ExampleEntity();
             entity.Id = id;
             entity.Name = model.Name;
             return entity;
         }
 
-        [HttpGet()]
-        public ResultDto<IEnumerable<TestEntity>> List()
+        [HttpGet("/teste1")]
+        public ResultDto<bool> Teste1()
         {
+            return FormatResult(true);
+        }
+
+        [HttpGet("/teste2")]
+        public ResultDto<bool> Teste2(string where)
+        {
+            var entities = _genericRepository.Queryble().Where(where);
+            return FormatResult(true);
+        }
+
+        [HttpGet()]
+        public ResultDto<IEnumerable<ExampleEntity>> List(string where, string order = "Id", int limit = 1000, int offset = 0)
+        {
+            IEnumerable<ExampleEntity> entities;
             try
             {
-                var entities = _genericRepository.GetAll();
+                var query = string.IsNullOrEmpty(where) ?
+                    _genericRepository.Queryble() :
+                    _genericRepository.Queryble().Where(where);
+
+                entities = query.OrderBy(order)
+                                .Skip(offset * limit)
+                                .Take(limit);
                 return FormatResult(entities);
             }
             catch (Exception ex)
             {
-                return FormatError<IEnumerable<TestEntity>>(ex.Message);
+                return FormatError<IEnumerable<ExampleEntity>>(ex.Message);
             }
         }
 
         [HttpPost()]
-        public ResultDto<bool> Post([FromBody]TestModel model)
+        public ResultDto<bool> Post([FromBody]ExampleModel model)
         {
             try
             {
@@ -62,7 +87,7 @@ namespace Infrastructure.Dynamic
         }
 
         [HttpGet("{id}")]
-        public ResultDto<TestEntity> Get([FromRoute]Guid id)
+        public ResultDto<ExampleEntity> Get([FromRoute]Guid id)
         {
             try
             {
@@ -71,16 +96,16 @@ namespace Infrastructure.Dynamic
             }
             catch (Exception ex)
             {
-                return FormatError<TestEntity>(ex.Message);
+                return FormatError<ExampleEntity>(ex.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public ResultDto<bool> Put([FromRoute]Guid id, [FromBody]TestModel model)
+        public ResultDto<bool> Put([FromRoute]Guid id, [FromBody]ExampleModel model)
         {
             try
             {
-                TestEntity entity = MapperToDomain(id, model);
+                ExampleEntity entity = MapperToDomain(id, model);
                 _genericRepository.Update(entity);
                 return FormatResult(true);
             }
