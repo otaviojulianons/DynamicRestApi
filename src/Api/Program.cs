@@ -16,7 +16,7 @@ namespace Api
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration( config =>
                 {
-                    config.AddJsonFile("swaggerSettings.json", true, reloadOnChange: true);
+                    config.AddEnvironmentVariables();
                 })
                 .Build();
     }
