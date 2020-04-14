@@ -40,11 +40,25 @@ namespace DynamicController
         }
 
         [HttpGet()]
-        public ResultDto<IEnumerable<{{Name}}Entity>> List()
+        public ResultDto<IEnumerable<{{Name}}Entity>> List(string where, int limit = 1000, int offset = 0)
         {
+            IEnumerable<{{Name}}Entity> entities;
             try
             {
-                var entities = _genericRepository.GetAll();
+                if(string.IsNullOrEmpty(where))
+                {
+                    entities = _genericRepository.Queryble()
+                                                 .Skip(offset * limit)
+                                                 .Take(limit);
+                }
+                else
+                {
+                    var filter = CompilerService.CompileWhere<{{Name}}Entity>(where).Result;
+                    entities = _genericRepository.Queryble()
+                                                 .Where(filter)
+                                                 .Skip(offset * limit)
+                                                 .Take(limit);
+                }
                 return FormatResult(entities);
             }
             catch (Exception ex)

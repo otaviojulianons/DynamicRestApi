@@ -42,7 +42,7 @@ namespace Infrastructure.Dynamic
                 foreach (var entityTemplate in entitiesTemplates)
                     classCode.Add(TemplateService.Generate(template, entityTemplate));
 
-            Assembly dynamicAssembly = CompilerService.GenerateAssemblyFromCode(classCode.ToArray());
+            Assembly dynamicAssembly = CompilerService.GenerateAssemblyFromCode(_logger, classCode.ToArray());
 
             var types = dynamicAssembly.GetTypes();
             Controllers = types.Where(type => type.BaseType == typeof(Controller));
